@@ -7,6 +7,7 @@ add_library(${TARGET_NAME}
   base/beast_req.cpp
   base/reqresp.cpp
   connections/server_connection.cpp
+  sessions/completition_decorator.cpp
   sessions/echo_session.cpp
   sessions/http_session.cpp
   coroutines_support/read_awaiter.cpp

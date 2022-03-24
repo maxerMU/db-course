@@ -1,7 +1,9 @@
 #include "server_connection.h"
 
+#include "completition_decorator.h"
 #include "echo_session.h"
-#include <boost/bind.hpp>
+#include "std_future.hpp"
+#include <chrono>
 #include <iostream>
 
 ServerConnection::ServerConnection(
@@ -36,14 +38,29 @@ ServerConnection::ServerConnection(
   }
 }
 
+void ServerConnection::clear_expired_connections() {
+  using namespace std::chrono_literals;
+
+  for (size_t i = 0; i < coroutine_sessions_.size(); i++) {
+    if (coroutine_sessions_[i].second.wait_for(0s) ==
+        std::future_status::ready) {
+      coroutine_sessions_.erase(coroutine_sessions_.begin() + i);
+    }
+  }
+}
+
 void ServerConnection::run() {
+  clear_expired_connections();
+
   acceptor_.async_accept([this](error_code ec, tcp::socket sock) {
     if (ec) {
       fail(ec, "accept");
       return;
     }
     std::cout << "start new session" << std::endl;
-    session_creator_->create_session()->run(std::move(sock));
+    auto session = session_creator_->create_session();
+    auto fut = session->run(std::move(sock));
+    coroutine_sessions_.push_back(coroutine_session_t(session, std::move(fut)));
 
     run();
   });

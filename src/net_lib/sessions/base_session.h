@@ -13,6 +13,11 @@ public:
 
   virtual std::future<void> run(tcp::socket sock) = 0;
 
+  bool is_completed() const { return completed; }
+
+protected:
+  bool completed = false;
+
 protected:
   void fail(const error_code &ec, const std::string &desc) {
     std::cerr << "error code: " << ec.message() << " description: " << desc

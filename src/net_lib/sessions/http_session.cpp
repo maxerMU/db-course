@@ -8,14 +8,21 @@ HttpServerSession::HttpServerSession(
     const std::shared_ptr<ServerReqHandler> &handler)
     : handler_(handler) {}
 
+HttpServerSession::~HttpServerSession() {
+  std::cout << "destructor" << std::endl;
+}
+
 HttpServerSessionCreator::HttpServerSessionCreator(
     const std::shared_ptr<ServerReqHandler> &handler)
     : handler_(handler) {}
 
 std::future<void> HttpServerSession::run(tcp::socket sock) {
+  std::cout << "use count1: " << handler_.use_count() << std::endl;
   http::request<http::string_body> req = co_await HttpAsyncRead(sock);
+  std::cout << "use count2: " << handler_.use_count() << std::endl;
 
   std::shared_ptr<Request> req_ptr(new BeastReq(req));
+  std::cout << "use count3: " << handler_.use_count() << std::endl;
   handler_->handle_request(req_ptr);
 
   auto resp = handler_->get_response();

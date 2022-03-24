@@ -10,7 +10,7 @@ int main(int argc, char *argv[]) {
   io_context ioc;
   ip::tcp::endpoint ep(ip::address_v4(), 8001); // TODO
 
-  std::shared_ptr<ApiGatewayHandler> handler(new ApiGatewayHandler(ioc));
+  std::shared_ptr<ServerReqHandler> handler(new ApiGatewayHandler(ioc));
 
   std::shared_ptr<ServerSessionCreator> creator(
       new HttpServerSessionCreator(handler));

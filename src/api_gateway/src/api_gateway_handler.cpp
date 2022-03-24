@@ -12,7 +12,7 @@ void ApiGatewayHandler::handle_request(const std::shared_ptr<Request> &req) {
 std::shared_ptr<Response> ApiGatewayHandler::get_response() {
   std::shared_ptr<Response> res = std::make_shared<Response>();
 
-  res->set_body("{\"name\": \"Max\"}");
+  res->set_body("{\"name\": \"Deniska\"}");
 
   return res;
 }

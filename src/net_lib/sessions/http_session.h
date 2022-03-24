@@ -7,6 +7,7 @@
 class HttpServerSession : public BaseServerSession {
 public:
   HttpServerSession(const std::shared_ptr<ServerReqHandler> &handler);
+  ~HttpServerSession();
 
   virtual std::future<void> run(tcp::socket sock) override;
 
