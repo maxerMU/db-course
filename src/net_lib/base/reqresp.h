@@ -6,7 +6,7 @@
 
 typedef std::vector<std::pair<std::string, std::string>> headers_t;
 
-enum method_t { GET, POST, DELETE, CREATE, PUT, EDIT, PATCH, UNDEFINED };
+enum method_t { GET, POST, DELETE, PUT, PATCH, UNDEFINED };
 
 class Request {
 public:
@@ -16,23 +16,23 @@ public:
   virtual std::string get_target() = 0;
   virtual headers_t get_headers() = 0;
   virtual method_t get_method() = 0;
+
+  virtual void set_body(const std::string &body) = 0;
+  virtual void set_headers(const headers_t &headers) = 0;
+  virtual void set_target(const std::string &target) = 0;
+  virtual void set_method(const method_t &method) = 0;
 };
 
 class Response {
 public:
-  std::string get_body() const;
-  void set_body(const std::string &body);
+  virtual std::string get_body() const = 0;
+  virtual void set_body(const std::string &body) = 0;
 
-  headers_t get_headers() const;
-  void set_headers(const headers_t &headers);
+  virtual headers_t get_headers() const = 0;
+  virtual void set_headers(const headers_t &headers) = 0;
 
-  int get_status() const;
-  void set_status(int status);
-
-private:
-  std::string body_;
-  headers_t headers_;
-  int status_ = 200;
+  virtual int get_status() const = 0;
+  virtual void set_status(int status) = 0;
 };
 
 #endif // REQRESP_H

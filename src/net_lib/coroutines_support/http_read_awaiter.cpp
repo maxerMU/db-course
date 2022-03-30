@@ -1,13 +1,17 @@
 #include "http_read_awaiter.h"
 #include <iostream>
 
-HttpReadAwaiter HttpAsyncRead(tcp::socket &socket) {
-  return HttpReadAwaiter{socket};
+HttpReadRequestAwaiter HttpAsyncReadRequest(tcp::socket &socket) {
+  return HttpReadRequestAwaiter{socket};
 }
 
-bool HttpReadAwaiter::await_ready() { return false; }
+HttpReadResponseAwaiter HttpAsyncReadResponse(tcp::socket &socket) {
+  return HttpReadResponseAwaiter{socket};
+}
 
-void HttpReadAwaiter::await_suspend(std::coroutine_handle<> h) {
+bool HttpReadRequestAwaiter::await_ready() { return false; }
+
+void HttpReadRequestAwaiter::await_suspend(std::coroutine_handle<> h) {
   http::async_read(sock_, buf_, req_,
                    [this, h](auto ec, auto bytes_read) mutable {
                      ec_ = ec;
@@ -16,9 +20,27 @@ void HttpReadAwaiter::await_suspend(std::coroutine_handle<> h) {
                    });
 }
 
-http::request<http::string_body> HttpReadAwaiter::await_resume() {
+http::request<http::string_body> HttpReadRequestAwaiter::await_resume() {
   if (ec_) {
     throw std::system_error(ec_);
   }
   return req_;
+}
+
+bool HttpReadResponseAwaiter::await_ready() { return false; }
+
+void HttpReadResponseAwaiter::await_suspend(std::coroutine_handle<> h) {
+  http::async_read(sock_, buf_, resp_,
+                   [this, h](auto ec, auto bytes_read) mutable {
+                     ec_ = ec;
+                     bytes_read_ = bytes_read;
+                     h.resume();
+                   });
+}
+
+http::response<http::string_body> HttpReadResponseAwaiter::await_resume() {
+  if (ec_) {
+    throw std::system_error(ec_);
+  }
+  return resp_;
 }

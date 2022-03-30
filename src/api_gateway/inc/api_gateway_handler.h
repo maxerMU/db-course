@@ -9,7 +9,7 @@ public:
   ApiGatewayHandler(net::io_context &context_);
 
   virtual void handle_request(const std::shared_ptr<Request> &req) override;
-  virtual std::shared_ptr<Response> get_response() override;
+  virtual void make_response(const std::shared_ptr<Response> &resp) override;
 
 private:
   net::io_context &ioc;

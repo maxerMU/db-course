@@ -6,12 +6,19 @@
 #include <chrono>
 #include <iostream>
 
+const std::string ServerSection = "Server";
+const std::string PortSection = "Port";
+
 ServerConnection::ServerConnection(
     net::io_context &context,
     const std::shared_ptr<ServerSessionCreator> &creator,
-    const tcp::endpoint &ep)
+    const std::shared_ptr<BaseConfig> &config)
     : session_creator_(creator), acceptor_(context), context_(context) {
   error_code ec;
+
+  int port = config->get_int_field({ServerSection, PortSection});
+
+  tcp::endpoint ep(net::ip::address_v4(), port);
 
   acceptor_.open(ep.protocol(), ec);
   if (ec) {
@@ -50,6 +57,11 @@ void ServerConnection::clear_expired_connections() {
 }
 
 void ServerConnection::run() {
+  accept_new();
+  context_.run();
+}
+
+void ServerConnection::accept_new() {
   clear_expired_connections();
 
   acceptor_.async_accept([this](error_code ec, tcp::socket sock) {
@@ -62,7 +74,7 @@ void ServerConnection::run() {
     auto fut = session->run(std::move(sock));
     coroutine_sessions_.push_back(coroutine_session_t(session, std::move(fut)));
 
-    run();
+    accept_new();
   });
 }
 

@@ -1,0 +1,4 @@
+Server:
+        Port: 8001
+
+AppendString: "dummy1"

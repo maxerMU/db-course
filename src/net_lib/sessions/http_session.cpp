@@ -1,5 +1,6 @@
 #include "http_session.h"
 #include "beast_req.h"
+#include "beast_resp.h"
 #include "http_read_awaiter.h"
 #include "http_write_awaiter.h"
 #include "std_future.hpp"
@@ -17,24 +18,14 @@ HttpServerSessionCreator::HttpServerSessionCreator(
     : handler_(handler) {}
 
 std::future<void> HttpServerSession::run(tcp::socket sock) {
-  std::cout << "use count1: " << handler_.use_count() << std::endl;
-  http::request<http::string_body> req = co_await HttpAsyncRead(sock);
-  std::cout << "use count2: " << handler_.use_count() << std::endl;
+  http::request<http::string_body> req = co_await HttpAsyncReadRequest(sock);
 
   std::shared_ptr<Request> req_ptr(new BeastReq(req));
-  std::cout << "use count3: " << handler_.use_count() << std::endl;
   handler_->handle_request(req_ptr);
 
-  auto resp = handler_->get_response();
+  std::shared_ptr<Response> resp(new BeastResp());
+  handler_->make_response(resp);
 
-  http::response<http::string_body> res(http::status(resp->get_status()), 11);
-  res.set(http::field::server, BOOST_BEAST_VERSION_STRING);
-  res.set(http::field::content_type, "text/html");
-  res.keep_alive(req_.keep_alive());
-  res.body() = std::string{resp->get_body()};
-  res.prepare_payload();
-
-  std::cout << "ready" << std::endl;
-
-  size_t bytes_read = co_await HttpAsyncWrite(sock, res);
+  auto res = make_beast_resp(resp);
+  size_t bytes_read = co_await HttpAsyncWriteResponse(sock, res);
 }

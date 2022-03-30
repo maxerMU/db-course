@@ -16,6 +16,8 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fcoroutines")
 set(CMAKE_INCLUDE_PATH /usr/include/c++/10/)
 
 find_package(Boost COMPONENTS system thread REQUIRED)
+find_package(yaml-cpp)
 
 add_subdirectory(net_lib)
+add_subdirectory(dummy_server/)
 add_subdirectory(api_gateway)

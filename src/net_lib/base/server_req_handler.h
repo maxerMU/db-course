@@ -10,7 +10,7 @@ public:
   ~ServerReqHandler() = default;
 
   virtual void handle_request(const std::shared_ptr<Request> &req) = 0;
-  virtual std::shared_ptr<Response> get_response() = 0;
+  virtual void make_response(const std::shared_ptr<Response> &resp) = 0;
 };
 
 #endif // SERVERREQHANDLER_H
