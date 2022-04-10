@@ -1,0 +1,14 @@
+Clients:
+        - dummy1
+        - dummy2
+
+dummy1:
+        Host: "127.0.0.1"
+        Port: 8001
+
+dummy2:
+        Host: "127.0.0.1"
+        Port: 8002
+
+Server:
+        Port: 8003

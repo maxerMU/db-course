@@ -1,16 +1,20 @@
 cmake_minimum_required(VERSION 3.12)
 
-set(TARGET_NAME "api_gateway")
+set(TARGET_NAME "details")
 
 add_executable(${TARGET_NAME}
   main.cpp
-  src/api_gateway_handler.cpp
-  src/details_adapter.cpp
-  src/api_gateway_router.cpp
+  src/details_handler.cpp
+  src/producer.cpp
+  src/detail.cpp
+  src/details_facade.cpp
+  src/commands.cpp
+  src/details_router.cpp
 )
 
 target_include_directories(${TARGET_NAME} PUBLIC
                            ${CMAKE_CURRENT_SOURCE_DIR}/inc/
                            )
 
-target_link_libraries(${TARGET_NAME} net_lib)
+target_link_libraries(${TARGET_NAME} net_lib
+    jsoncpp_lib)

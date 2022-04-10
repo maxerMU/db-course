@@ -1,4 +1,4 @@
-#include "dummy_server_handler.h"
+#include "details_handler.h"
 #include "echo_session.h"
 #include "http_session.h"
 #include "server_connection.h"
@@ -11,7 +11,7 @@ int main(int argc, char *argv[]) {
   std::shared_ptr<BaseConfig> config(new YamlCppConfig(argv[1]));
 
   auto handler_creator = std::shared_ptr<BaseServerReqHandlerCreator>(
-      new ServerReqHandlerCreator<DummyServerHandler>(config));
+      new ServerReqHandlerCreator<DetailsHandler>(config));
 
   std::shared_ptr<ServerSessionCreator> creator(
       new HttpServerSessionCreator(handler_creator));

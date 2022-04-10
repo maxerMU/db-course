@@ -1,13 +1,11 @@
 #include "server_connection.h"
 
+#include "base_sections.h"
 #include "completition_decorator.h"
 #include "echo_session.h"
 #include "std_future.hpp"
 #include <chrono>
 #include <iostream>
-
-const std::string ServerSection = "Server";
-const std::string PortSection = "Port";
 
 ServerConnection::ServerConnection(
     net::io_context &context,

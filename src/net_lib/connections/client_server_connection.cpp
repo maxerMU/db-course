@@ -1,12 +1,7 @@
 #include "client_server_connection.h"
+#include "base_sections.h"
 #include <chrono>
 #include <iostream>
-
-const std::string ServerSection = "Server";
-const std::string PortSection = "Port";
-const std::string ClientsSection = "Clients";
-const std::string ClientHostSection = "Host";
-const std::string ClientPortSection = "Port";
 
 ClientServerConnection::ClientServerConnection(
     net::io_context &context,

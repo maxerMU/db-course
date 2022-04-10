@@ -7,14 +7,12 @@
 
 class DummyServerHandler : public ServerReqHandler {
 public:
-  DummyServerHandler(net::io_context &context_,
-                     const std::shared_ptr<BaseConfig> &config);
+  DummyServerHandler(const std::shared_ptr<BaseConfig> &config);
 
   virtual void handle_request(const std::shared_ptr<Request> &req) override;
   virtual void make_response(const std::shared_ptr<Response> &resp) override;
 
 private:
-  net::io_context &ioc;
   std::string req_body;
   std::string append_string;
 };

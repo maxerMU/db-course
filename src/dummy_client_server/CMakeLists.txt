@@ -1,12 +1,10 @@
 cmake_minimum_required(VERSION 3.12)
 
-set(TARGET_NAME "api_gateway")
+set(TARGET_NAME "dummy_client_server")
 
 add_executable(${TARGET_NAME}
   main.cpp
-  src/api_gateway_handler.cpp
-  src/details_adapter.cpp
-  src/api_gateway_router.cpp
+  src/dummy_client_server_handler.cpp
 )
 
 target_include_directories(${TARGET_NAME} PUBLIC

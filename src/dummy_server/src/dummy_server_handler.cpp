@@ -2,8 +2,7 @@
 #include <iostream>
 
 DummyServerHandler::DummyServerHandler(
-    net::io_context &context_, const std::shared_ptr<BaseConfig> &config)
-    : ioc(context_) {
+    const std::shared_ptr<BaseConfig> &config) {
   append_string = config->get_string_field({"AppendString"});
 }
 

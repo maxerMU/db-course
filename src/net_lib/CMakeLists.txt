@@ -3,7 +3,6 @@ cmake_minimum_required(VERSION 3.12)
 set(TARGET_NAME "net_lib")
 
 add_library(${TARGET_NAME}
-  # main.cpp
   base/beast_req.cpp
   base/beast_resp.cpp
   connections/server_connection.cpp
@@ -20,6 +19,7 @@ add_library(${TARGET_NAME}
 
 target_include_directories(${TARGET_NAME} PUBLIC
                            ${CMAKE_CURRENT_SOURCE_DIR}/base/
+                           ${CMAKE_CURRENT_SOURCE_DIR}/exceptions/
                            ${CMAKE_CURRENT_SOURCE_DIR}/coroutines_support/
                            ${CMAKE_CURRENT_SOURCE_DIR}/net_headers/
                            ${CMAKE_CURRENT_SOURCE_DIR}/sessions/

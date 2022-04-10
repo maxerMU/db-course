@@ -10,7 +10,6 @@ using coroutine_cssession_t =
 
 class ClientServerConnection {
 public:
-  ClientServerConnection();
   ClientServerConnection(
       net::io_context &context,
       const std::shared_ptr<ClientServerSessionCreator> &creator,

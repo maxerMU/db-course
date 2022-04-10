@@ -17,7 +17,13 @@ set(CMAKE_INCLUDE_PATH /usr/include/c++/10/)
 
 find_package(Boost COMPONENTS system thread REQUIRED)
 find_package(yaml-cpp)
+find_package(jsoncpp CONFIG REQUIRED)
+get_target_property(JSON_INC_PATH jsoncpp_lib INTERFACE_INCLUDE_DIRECTORIES)
+include_directories(${JSON_INC_PATH})
+
 
 add_subdirectory(net_lib)
-add_subdirectory(dummy_server/)
 add_subdirectory(api_gateway)
+add_subdirectory(details)
+# add_subdirectory(dummy_server)
+# add_subdirectory(dummy_client_server)
