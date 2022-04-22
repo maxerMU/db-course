@@ -10,11 +10,16 @@ add_executable(${TARGET_NAME}
   src/details_facade.cpp
   src/commands.cpp
   src/details_router.cpp
+  src/postgres_producers_repository.cpp
+  src/postgres_details_repository.cpp
 )
 
 target_include_directories(${TARGET_NAME} PUBLIC
                            ${CMAKE_CURRENT_SOURCE_DIR}/inc/
                            )
 
-target_link_libraries(${TARGET_NAME} net_lib
-    jsoncpp_lib)
+target_link_libraries(${TARGET_NAME}
+    net_lib
+    jsoncpp_lib
+    pq
+    pqxx)

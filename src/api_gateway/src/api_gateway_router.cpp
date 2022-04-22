@@ -35,13 +35,32 @@ ApiGatewayRouter::ApiGatewayRouter() {
 
   tmp.push_back(std::shared_ptr<BaseApiGatewayAdapterCreator>(
       new ApiGatewayAdapterCreator<DetailsAdapter>()));
-  static_routes["/details_in_stock"] = tmp;
+  static_routes["/producers"] = tmp;
   tmp.clear();
 
   tmp.push_back(std::shared_ptr<BaseApiGatewayAdapterCreator>(
       new ApiGatewayAdapterCreator<DetailsAdapter>()));
-  std::regex detail_swaps_regex("/detail_swaps\\?part_number=(.*)");
+  static_routes["/details?in_stock=1"] = tmp;
+  tmp.clear();
+
+  tmp.push_back(std::shared_ptr<BaseApiGatewayAdapterCreator>(
+      new ApiGatewayAdapterCreator<DetailsAdapter>()));
+  std::regex detail_swaps_regex("/details/([a-zA-Z0-9]*)/swaps");
   dynamic_routes.push_back(
       std::pair<std::regex, creators_t>(detail_swaps_regex, tmp));
+  tmp.clear();
+
+  tmp.push_back(std::shared_ptr<BaseApiGatewayAdapterCreator>(
+      new ApiGatewayAdapterCreator<DetailsAdapter>()));
+  std::regex detail_regex("/details/([a-zA-Z0-9\\-]+)");
+  dynamic_routes.push_back(
+      std::pair<std::regex, creators_t>(detail_regex, tmp));
+  tmp.clear();
+
+  tmp.push_back(std::shared_ptr<BaseApiGatewayAdapterCreator>(
+      new ApiGatewayAdapterCreator<DetailsAdapter>()));
+  std::regex producer_by_id_regex("/producers/([a-zA-Z0-9]*)");
+  dynamic_routes.push_back(
+      std::pair<std::regex, creators_t>(producer_by_id_regex, tmp));
   tmp.clear();
 }

@@ -52,6 +52,30 @@ class DetailsForAllTimeCommand : public BaseCommand {
   details_t details;
 };
 
+class GetDetailsCommand : public BaseCommand {
+ public:
+  virtual void handle_request(const std::shared_ptr<Request>& req) override;
+  virtual void get_response(const std::shared_ptr<Response>& resp) override;
+
+ private:
+  details_t details_;
+};
+
+class GetDetailByNameCommand : public BaseCommand {
+ public:
+  GetDetailByNameCommand(const std::regex& expr, size_t part_number_group_index)
+      : regexpr_(expr), part_number_group_index_(part_number_group_index) {}
+  virtual void handle_request(const std::shared_ptr<Request>& req) override;
+  virtual void get_response(const std::shared_ptr<Response>& resp) override;
+
+ private:
+  std::regex regexpr_;
+  size_t part_number_group_index_;
+  std::string part_number_;
+
+  Detail detail_;
+};
+
 class DetailsInStockCommand : public BaseCommand {
  public:
   virtual void handle_request(const std::shared_ptr<Request>& req) override;
@@ -80,6 +104,77 @@ class AddDetailCommand : public BaseCommand {
  public:
   virtual void handle_request(const std::shared_ptr<Request>& req) override;
   virtual void get_response(const std::shared_ptr<Response>& resp) override;
+};
+
+class AddDetailSwapsCommand : public BaseCommand {
+ public:
+  AddDetailSwapsCommand(const std::regex& expr, size_t part_number_group_index)
+      : regexpr_(expr), part_number_group_index_(part_number_group_index) {}
+  virtual void handle_request(const std::shared_ptr<Request>& req) override;
+  virtual void get_response(const std::shared_ptr<Response>& resp) override;
+
+ private:
+  std::regex regexpr_;
+  size_t part_number_group_index_;
+  std::string part_number_;
+
+  std::vector<std::string> swaps_part_numbers_;
+};
+
+class GetProducersCommand : public BaseCommand {
+ public:
+  virtual void handle_request(const std::shared_ptr<Request>& req) override;
+  virtual void get_response(const std::shared_ptr<Response>& resp) override;
+
+ private:
+  producers_t producers_;
+};
+
+class GetProducerByIdCommand : public BaseCommand {
+ public:
+  GetProducerByIdCommand(const std::regex& expr, size_t producer_id_group_index)
+      : regexpr_(expr), producer_id_group_index_(producer_id_group_index) {}
+  virtual void handle_request(const std::shared_ptr<Request>& req) override;
+  virtual void get_response(const std::shared_ptr<Response>& resp) override;
+
+ private:
+  std::regex regexpr_;
+  size_t producer_id_group_index_;
+  DetailsProducer producer_;
+};
+
+class DeleteProducerCommand : public BaseCommand {
+ public:
+  DeleteProducerCommand(const std::regex& expr, size_t producer_id_group_index)
+      : regexpr_(expr), producer_id_group_index_(producer_id_group_index) {}
+  virtual void handle_request(const std::shared_ptr<Request>& req) override;
+  virtual void get_response(const std::shared_ptr<Response>& resp) override;
+
+ private:
+  std::regex regexpr_;
+  size_t producer_id_group_index_;
+};
+
+class UpdateProducerCommand : public BaseCommand {
+ public:
+  UpdateProducerCommand(const std::regex& expr, size_t producer_id_group_index)
+      : regexpr_(expr), producer_id_group_index_(producer_id_group_index) {}
+  virtual void handle_request(const std::shared_ptr<Request>& req) override;
+  virtual void get_response(const std::shared_ptr<Response>& resp) override;
+
+ private:
+  std::regex regexpr_;
+  size_t producer_id_group_index_;
+};
+
+class AddProducerCommand : public BaseCommand {
+ public:
+  virtual void handle_request(const std::shared_ptr<Request>& req) override;
+  virtual void get_response(const std::shared_ptr<Response>& resp) override;
+
+ private:
+  producers_t producers_;
+  size_t id_;
 };
 
 #endif  // BASECOMMAND_H

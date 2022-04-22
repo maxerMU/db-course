@@ -1,14 +1,27 @@
+#include <boost/asio.hpp>
+#include <memory>
+#include "details_facade.h"
 #include "details_handler.h"
 #include "echo_session.h"
 #include "http_session.h"
 #include "server_connection.h"
 #include "yamlcpp_config.h"
-#include <boost/asio.hpp>
-#include <memory>
 
-int main(int argc, char *argv[]) {
+// #include <iostream>
+// #include <pqxx/pqxx>
+
+int main(int argc, char* argv[]) {
+  // pqxx::connection con(
+  //     "dbname = stock_db user = producers_integrator password = "
+  //     "producers_integrator "
+  //     "hostaddr = 127.0.0.1 port = 5432");
+
+  // if (con.is_open())
+  //   std::cout << "connected" << std::endl;
   net::io_context ioc;
   std::shared_ptr<BaseConfig> config(new YamlCppConfig(argv[1]));
+
+  DetailsFacade::instanse().init(config);
 
   auto handler_creator = std::shared_ptr<BaseServerReqHandlerCreator>(
       new ServerReqHandlerCreator<DetailsHandler>(config));

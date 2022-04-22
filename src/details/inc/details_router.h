@@ -12,12 +12,8 @@ struct RequestParams {
   method_t method;
 
   bool operator<(const RequestParams& params) const {
-    if (this->target < params.target)
-      return true;
-    if (this->method < params.method)
-      return true;
-
-    return false;
+    return target < params.target ||
+           (target == params.target && method < params.method);
   }
 };
 

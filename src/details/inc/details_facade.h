@@ -3,10 +3,13 @@
 
 #include <memory>
 #include <vector>
+#include "base_config.h"
 #include "detail.h"
+#include "postgres_details_repository.h"
+#include "postgres_producers_repository.h"
 
-typedef std::vector<Detail> details_t;
-typedef std::vector<DetailsProducer> producers_t;
+const std::string DbProducersSection = "DB_PRODUCERS";
+const std::string DbDetailsSection = "DB_DETAILS";
 
 class DetailsFacade {
  private:
@@ -19,16 +22,32 @@ class DetailsFacade {
     return facade;
   }
 
+  void init(const std::shared_ptr<BaseConfig>& conf);
+
+  /*details branch */
+  details_t get_details();
+  Detail get_detail(const std::string& part_name);
+
   details_t get_details_for_all_time();
   details_t get_details_in_stock();
   details_t get_detail_swaps(const std::string& part_number);
 
   void add_detail(const Detail& detail);
-  void add_detail_swap(const Detail& detail, const Detail& swap);
-  void add_details(const details_t& details);
+  void add_detail_swaps(const std::string& part_number,
+                        const std::vector<std::string>& swaps);
+  // void add_details(const details_t& details);
 
-  void add_producer(const DetailsProducer& producer);
+  /* producers branch */
+  size_t add_producer(const DetailsProducerData& producer);
   producers_t get_producers();
+  DetailsProducer get_producer(size_t id);
+  void delete_producer(size_t id);
+  void update_producer(const DetailsProducer& producer);
+
+ private:
+  std::shared_ptr<BaseConfig> config_;
+  std::shared_ptr<BaseProducersRepository> producers_db_;
+  std::shared_ptr<BaseDetailsRepository> details_db_;
 };
 
 #endif  // DETAILSFACADE_H
