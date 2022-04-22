@@ -39,20 +39,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+                
   /details:
     get:
-      summary: 'Sample endpoint: Returns details for all time or just in stock'
+      summary: 'Sample endpoint: Returns details for all time'
       operationId: listDetails
       tags:
         - details
-      parameters:
-        - name: in_stock
-          in: query
-          description: is in stock
-          required: false
-          schema:
-            type: integer
-            example: 1
 
       responses:
         '200':
