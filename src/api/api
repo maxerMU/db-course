@@ -39,7 +39,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-                
+
   /details:
     get:
       summary: 'Sample endpoint: Returns details for all time'
@@ -83,6 +83,25 @@ paths:
       responses:
         '200':
           description: Detail was added.
+
+
+  '/details/{part_number}':
+    get:
+      summary: Get detail by part_number
+      description: Retrieves a detail's swaps.
+      tags:
+        - details
+      parameters:
+        - name: part_number
+          in: path
+          description: Detail's part number.
+          required: true
+          schema:
+            type: string
+            example: b95c2b97-8b7c-4a50-9837-eea4e689a126
+      responses:
+        '200':
+          description: Detail.
 
   /producers:
     get:
