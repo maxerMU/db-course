@@ -1,0 +1,312 @@
+openapi: 3.0.0
+info:
+  version: '1.0'
+  title: 'db-course'
+  license:
+    name: MIT
+servers:
+  - url: 'localhost:8001'
+paths:
+  /user:
+    get:
+      summary: 'Sample endpoint: Returns details about a particular user'
+      operationId: listUser
+      tags:
+        - user
+      parameters:
+        - name: id
+          in: query
+          description: ID of the user
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: 'Sample response: Details about a user by ID'
+          headers:
+            x-next:
+              description: A link to the next page of responses
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /details:
+    get:
+      summary: 'Sample endpoint: Returns details for all time or just in stock'
+      operationId: listDetails
+      tags:
+        - details
+      parameters:
+        - name: in_stock
+          in: query
+          description: is in stock
+          required: false
+          schema:
+            type: integer
+            example: 1
+
+      responses:
+        '200':
+          description: 'Sample response: Details for all time or in stock'
+          headers:
+            x-next:
+              description: A link to the next page of responses
+              schema:
+                type: string
+
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    post:
+      summary: Add detail
+      description: Creates a new detail.
+      tags:
+        - details
+
+      requestBody:
+        description: A detail schema.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Detail'
+            example:
+              part_number: abcd123
+              name_rus: 'Форд'
+              name_eng: Ford
+              producer_id: 1
+      responses:
+        '200':
+          description: Detail was added.
+
+  /producers:
+    get:
+      summary: 'Sample endpoint: Returns producers'
+      operationId: listProducers
+      tags:
+        - producers
+
+      responses:
+        '200':
+          description: 'Sample response: All known producers'
+          headers:
+            x-next:
+              description: A link to the next page of responses
+              schema:
+                type: string
+
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    post:
+      summary: Add producer
+      description: Creates a new producer.
+      tags:
+        - producers
+
+      requestBody:
+        description: A producer schema.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProducerPost'
+            example:
+              name: 'Форд'
+              country: 'USA'
+      responses:
+        '200':
+          description: Detail was added.
+
+  '/details/{part_number}/swaps':
+    get:
+      summary: Get detail swaps
+      description: Retrieves a detail's swaps.
+      tags:
+        - details
+      parameters:
+        - name: part_number
+          in: path
+          description: The detail's part number.
+          required: true
+          schema:
+            type: string
+            example: abcd123
+      responses:
+        '200':
+          description: Detail's swaps.
+
+    post:
+      summary: Add detail's swaps
+      description: Creates a new detail swaps.
+      tags:
+        - details
+      parameters:
+        - name: part_number
+          in: path
+          description: The detail's part number.
+          required: true
+          schema:
+            type: string
+            example: abcd123
+      requestBody:
+        description: A product schema.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Swaps'
+            example:
+              swaps_part_numbers: ["abcde", "123avfe"]
+      responses:
+        '200':
+          description: Detail's swaps.
+
+
+  '/producers/{producer_id}':
+    get:
+      summary: Get producer by id
+      description: Retrieves a detail's swaps.
+      tags:
+        - producers
+      parameters:
+        - name: producer_id
+          in: path
+          description: Producer id.
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: Detail's swaps.
+
+    delete:
+      summary: delete producer by id
+      description: Retrieves a detail's swaps.
+      tags:
+        - producers
+      parameters:
+        - name: producer_id
+          in: path
+          description: Producer id.
+          required: true
+          schema:
+            type: integer
+            example: 1001
+      responses:
+        '200':
+          description: Detail's swaps.
+
+    put:
+      summary: update producer by id
+      description: Retrieves a detail's swaps.
+      tags:
+        - producers
+      parameters:
+        - name: producer_id
+          in: path
+          description: Producer id.
+          required: true
+          schema:
+            type: integer
+            example: 512
+        
+      requestBody:
+        description: A producer schema.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProducerPost'
+            example:
+              name: 'Форд'
+              country: 'USA'
+
+      responses:
+        '200':
+          description: Detail's swaps.
+
+components:
+  schemas:
+    User:
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        tag:
+          type: string
+
+    Detail:
+      type: object
+      required:
+        - part_number
+        - name_rus
+        - name_eng
+        - producer_id
+      properties:
+        part_number:
+          type: string
+        name_rus:
+          type: string
+        name_eng:
+          type: string
+        producer_id:
+          type: integer
+
+    ProducerPost:
+      type: object
+      required:
+        - name
+        - country
+      properties:
+        name:
+          type: string
+        country:
+          type: string
+
+
+    Swaps:
+      type: object
+      required:
+        - swaps_part_numbers
+      properties:
+        swaps_part_numbers:
+          type: array
+
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
+security:
+  - BasicAuth: []
