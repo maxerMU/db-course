@@ -76,7 +76,7 @@ paths:
             schema:
               $ref: '#/components/schemas/Detail'
             example:
-              part_number: abcd123
+              part_number: abcd123-1324abc
               name_rus: 'Форд'
               name_eng: Ford
               producer_id: 1
