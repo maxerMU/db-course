@@ -101,7 +101,7 @@ void DetailSwapsCommand::get_response(const std::shared_ptr<Response>& resp) {
 void AddDetailCommand::handle_request(const std::shared_ptr<Request>& req) {
   auto detail = Detail(req->get_body());
 
-  // DetailsFacade::instanse().add_detail(detail);
+  DetailsFacade::instanse().add_detail(detail);
 }
 
 void AddDetailCommand::get_response(const std::shared_ptr<Response>& resp) {

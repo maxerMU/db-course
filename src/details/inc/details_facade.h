@@ -27,12 +27,12 @@ class DetailsFacade {
   /*details branch */
   details_t get_details();
   Detail get_detail(const std::string& part_name);
+  void add_detail(const Detail& detail);
 
   details_t get_details_for_all_time();
   details_t get_details_in_stock();
   details_t get_detail_swaps(const std::string& part_number);
 
-  void add_detail(const Detail& detail);
   void add_detail_swaps(const std::string& part_number,
                         const std::vector<std::string>& swaps);
   // void add_details(const details_t& details);

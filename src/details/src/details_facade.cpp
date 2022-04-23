@@ -20,6 +20,10 @@ Detail DetailsFacade::get_detail(const std::string& part_name) {
   return details_db_->read(part_name);
 }
 
+void DetailsFacade::add_detail(const Detail& detail) {
+  details_db_->create(detail);
+}
+
 size_t DetailsFacade::add_producer(const DetailsProducerData& producer) {
   return producers_db_->create(producer);
 }

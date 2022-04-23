@@ -44,8 +44,8 @@ void PostgresDetailsRepository::connect() {
 }
 
 void PostgresDetailsRepository::add_prepare_statements() {
-  // connection_->prepare(requests_names[CREATE],
-  //                      "SELECT FN_ADD_PRODUCER($1, $2)");
+  connection_->prepare(requests_names[CREATE],
+                       "CALL PR_ADD_DETAIL($1, $2, $3, $4)");
   connection_->prepare(requests_names[READ_ALL],
                        "SELECT * FROM FN_GET_ALL_DETAILS()");
   connection_->prepare(requests_names[READ_BY_ID],
@@ -56,7 +56,13 @@ void PostgresDetailsRepository::add_prepare_statements() {
   // PR_DELETE_PRODUCER($1)");
 }
 
-void PostgresDetailsRepository::create(const Detail& detail) {}
+void PostgresDetailsRepository::create(const Detail& detail) {
+  pqxx::work w(*connection_);
+  pqxx::result res = w.exec_prepared(requests_names[CREATE],
+                                     detail.part_number(), detail.name_rus(),
+                                     detail.name_eng(), detail.producer_id());
+  w.commit();
+}
 
 Detail PostgresDetailsRepository::read(const std::string& part_name) {
   pqxx::work w(*connection_);
