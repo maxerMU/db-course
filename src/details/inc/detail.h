@@ -12,6 +12,7 @@ class Detail {
          const std::string& part_number,
          size_t producer_id);
   Detail(const std::string& json_str);
+  Detail(const std::string& part_number, const std::string& json_data);
 
   std::string name_rus() const;
   void set_name_rus(const std::string& name_rus);

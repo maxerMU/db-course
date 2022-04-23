@@ -28,6 +28,8 @@ class DetailsFacade {
   details_t get_details();
   Detail get_detail(const std::string& part_name);
   void add_detail(const Detail& detail);
+  void update_detail(const Detail& detail);
+  void delete_detail(const std::string& part_name);
 
   details_t get_details_for_all_time();
   details_t get_details_in_stock();

@@ -50,17 +50,15 @@ void PostgresDetailsRepository::add_prepare_statements() {
                        "SELECT * FROM FN_GET_ALL_DETAILS()");
   connection_->prepare(requests_names[READ_BY_ID],
                        "SELECT * FROM FN_GET_DETAIL_BY_ID($1)");
-  // connection_->prepare(requests_names[UPDATE],
-  //                      "CALL PR_UPDATE_PRODUCER($1, $2, $3)");
-  // connection_->prepare(requests_names[DELETE], "CALL
-  // PR_DELETE_PRODUCER($1)");
+  connection_->prepare(requests_names[UPDATE],
+                       "CALL PR_UPDATE_DETAIL($1, $2, $3, $4)");
+  connection_->prepare(requests_names[DELETE], "CALL PR_DELETE_DETAIL($1)");
 }
 
 void PostgresDetailsRepository::create(const Detail& detail) {
   pqxx::work w(*connection_);
-  pqxx::result res = w.exec_prepared(requests_names[CREATE],
-                                     detail.part_number(), detail.name_rus(),
-                                     detail.name_eng(), detail.producer_id());
+  w.exec_prepared(requests_names[CREATE], detail.part_number(),
+                  detail.name_rus(), detail.name_eng(), detail.producer_id());
   w.commit();
 }
 
@@ -92,6 +90,15 @@ details_t PostgresDetailsRepository::read_all() {
   return details;
 }
 
-void PostgresDetailsRepository::update(const Detail& detail) {}
+void PostgresDetailsRepository::update(const Detail& detail) {
+  pqxx::work w(*connection_);
+  w.exec_prepared(requests_names[UPDATE], detail.part_number(),
+                  detail.name_rus(), detail.name_eng(), detail.producer_id());
+  w.commit();
+}
 
-void PostgresDetailsRepository::delete_(const std::string& part_name) {}
+void PostgresDetailsRepository::delete_(const std::string& part_name) {
+  pqxx::work w(*connection_);
+  w.exec_prepared(requests_names[DELETE], part_name);
+  w.commit();
+}

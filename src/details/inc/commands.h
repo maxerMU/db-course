@@ -43,15 +43,6 @@ class CommandCreator : public BaseCommandCreator {
   std::function<std::shared_ptr<BaseCommand>()> create_func_;
 };
 
-class DetailsForAllTimeCommand : public BaseCommand {
- public:
-  virtual void handle_request(const std::shared_ptr<Request>& req) override;
-  virtual void get_response(const std::shared_ptr<Response>& resp) override;
-
- private:
-  details_t details;
-};
-
 class GetDetailsCommand : public BaseCommand {
  public:
   virtual void handle_request(const std::shared_ptr<Request>& req) override;
@@ -76,6 +67,48 @@ class GetDetailByNameCommand : public BaseCommand {
   Detail detail_;
 };
 
+class AddDetailCommand : public BaseCommand {
+ public:
+  virtual void handle_request(const std::shared_ptr<Request>& req) override;
+  virtual void get_response(const std::shared_ptr<Response>& resp) override;
+};
+
+class UpdateDetailCommand : public BaseCommand {
+ public:
+  UpdateDetailCommand(const std::regex& expr, size_t part_number_group_index)
+      : regexpr_(expr), part_number_group_index_(part_number_group_index) {}
+  virtual void handle_request(const std::shared_ptr<Request>& req) override;
+  virtual void get_response(const std::shared_ptr<Response>& resp) override;
+
+ private:
+  std::regex regexpr_;
+  size_t part_number_group_index_;
+  std::string part_number_;
+
+  Detail detail_;
+};
+
+class DeleteDetailCommand : public BaseCommand {
+ public:
+  DeleteDetailCommand(const std::regex& expr, size_t part_number_group_index)
+      : regexpr_(expr), part_number_group_index_(part_number_group_index) {}
+  virtual void handle_request(const std::shared_ptr<Request>& req) override;
+  virtual void get_response(const std::shared_ptr<Response>& resp) override;
+
+ private:
+  std::regex regexpr_;
+  size_t part_number_group_index_;
+};
+
+class DetailsForAllTimeCommand : public BaseCommand {
+ public:
+  virtual void handle_request(const std::shared_ptr<Request>& req) override;
+  virtual void get_response(const std::shared_ptr<Response>& resp) override;
+
+ private:
+  details_t details;
+};
+
 class DetailsInStockCommand : public BaseCommand {
  public:
   virtual void handle_request(const std::shared_ptr<Request>& req) override;
@@ -98,12 +131,6 @@ class DetailSwapsCommand : public BaseCommand {
   std::string part_number_;
 
   details_t details;
-};
-
-class AddDetailCommand : public BaseCommand {
- public:
-  virtual void handle_request(const std::shared_ptr<Request>& req) override;
-  virtual void get_response(const std::shared_ptr<Response>& resp) override;
 };
 
 class AddDetailSwapsCommand : public BaseCommand {

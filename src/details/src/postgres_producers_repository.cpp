@@ -95,13 +95,13 @@ producers_t PostgresProducersRepository::read_all() {
 
 void PostgresProducersRepository::update(const DetailsProducer& producer) {
   pqxx::work w(*connection_);
-  pqxx::result res = w.exec_prepared(requests_names[UPDATE], producer.id(),
-                                     producer.name(), producer.country());
+  w.exec_prepared(requests_names[UPDATE], producer.id(), producer.name(),
+                  producer.country());
   w.commit();
 }
 
 void PostgresProducersRepository::delete_(size_t producer_id) {
   pqxx::work w(*connection_);
-  pqxx::result res = w.exec_prepared(requests_names[DELETE], producer_id);
+  w.exec_prepared(requests_names[DELETE], producer_id);
   w.commit();
 }

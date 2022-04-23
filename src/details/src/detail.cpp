@@ -28,6 +28,22 @@ Detail::Detail(const std::string& json_str) {
   producer_id_ = value["producer_id"].asUInt64();
 }
 
+Detail::Detail(const std::string& part_number, const std::string& json_data) {
+  Json::Value value;
+  Json::Reader reader;
+
+  bool parse_successfull = reader.parse(json_data, value);
+
+  if (!parse_successfull) {
+    throw JsonParserException("can't parse Detail object");
+  }
+
+  name_rus_ = value["name_rus"].asString();
+  name_eng_ = value["name_eng"].asString();
+  producer_id_ = value["producer_id"].asUInt64();
+  part_number_ = part_number;
+}
+
 std::string Detail::name_rus() const {
   return name_rus_;
 }

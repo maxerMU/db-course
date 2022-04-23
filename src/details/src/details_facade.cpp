@@ -24,6 +24,14 @@ void DetailsFacade::add_detail(const Detail& detail) {
   details_db_->create(detail);
 }
 
+void DetailsFacade::update_detail(const Detail& detail) {
+  details_db_->update(detail);
+}
+
+void DetailsFacade::delete_detail(const std::string& part_name) {
+  details_db_->delete_(part_name);
+}
+
 size_t DetailsFacade::add_producer(const DetailsProducerData& producer) {
   return producers_db_->create(producer);
 }

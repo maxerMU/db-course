@@ -30,6 +30,10 @@ DetailsRouter::DetailsRouter() {
   static_routes[tmp] = std::shared_ptr<BaseCommandCreator>(
       new CommandCreator<GetDetailsCommand>());
 
+  RequestParams tmp1{"/details", POST};
+  static_routes[tmp1] = std::shared_ptr<BaseCommandCreator>(
+      new CommandCreator<AddDetailCommand>());
+
   std::regex detail_regex("/details/([a-zA-Z0-9\\-]+)");
   RequestParamsRegEx detail_get_req{detail_regex, GET};
   dynamic_routes.push_back(dynamic_route_t(
@@ -37,13 +41,21 @@ DetailsRouter::DetailsRouter() {
       std::shared_ptr<BaseCommandCreator>(
           new CommandCreator<GetDetailByNameCommand>(detail_regex, 1))));
 
-  RequestParams tmp1{"/details", POST};
-  static_routes[tmp1] = std::shared_ptr<BaseCommandCreator>(
-      new CommandCreator<AddDetailCommand>());
+  RequestParamsRegEx detail_update_req{detail_regex, PUT};
+  dynamic_routes.push_back(dynamic_route_t(
+      detail_update_req,
+      std::shared_ptr<BaseCommandCreator>(
+          new CommandCreator<UpdateDetailCommand>(detail_regex, 1))));
 
-  RequestParams tmp2{"/details?in_stock=1", GET};
-  static_routes[tmp2] = std::shared_ptr<BaseCommandCreator>(
-      new CommandCreator<DetailsInStockCommand>());
+  RequestParamsRegEx detail_delete_req{detail_regex, DELETE};
+  dynamic_routes.push_back(dynamic_route_t(
+      detail_delete_req,
+      std::shared_ptr<BaseCommandCreator>(
+          new CommandCreator<DeleteDetailCommand>(detail_regex, 1))));
+
+  // RequestParams tmp2{"/details?in_stock=1", GET};
+  // static_routes[tmp2] = std::shared_ptr<BaseCommandCreator>(
+  //     new CommandCreator<DetailsInStockCommand>());
 
   RequestParams tmp3{"/producers", GET};
   static_routes[tmp3] = std::shared_ptr<BaseCommandCreator>(
@@ -53,18 +65,19 @@ DetailsRouter::DetailsRouter() {
   static_routes[tmp4] = std::shared_ptr<BaseCommandCreator>(
       new CommandCreator<AddProducerCommand>());
 
-  std::regex detail_swaps_regex("/details/([a-zA-Z0-9]*)/swaps");
-  RequestParamsRegEx tmpregex{detail_swaps_regex, GET};
-  dynamic_routes.push_back(dynamic_route_t(
-      tmpregex,
-      std::shared_ptr<BaseCommandCreator>(
-          new CommandCreator<DetailSwapsCommand>(detail_swaps_regex, 1))));
+  // std::regex detail_swaps_regex("/details/([a-zA-Z0-9]*)/swaps");
+  // RequestParamsRegEx tmpregex{detail_swaps_regex, GET};
+  // dynamic_routes.push_back(dynamic_route_t(
+  //     tmpregex,
+  //     std::shared_ptr<BaseCommandCreator>(
+  //         new CommandCreator<DetailSwapsCommand>(detail_swaps_regex, 1))));
 
-  RequestParamsRegEx tmpregex1{detail_swaps_regex, POST};
-  dynamic_routes.push_back(dynamic_route_t(
-      tmpregex1,
-      std::shared_ptr<BaseCommandCreator>(
-          new CommandCreator<AddDetailSwapsCommand>(detail_swaps_regex, 1))));
+  // RequestParamsRegEx tmpregex1{detail_swaps_regex, POST};
+  // dynamic_routes.push_back(dynamic_route_t(
+  //     tmpregex1,
+  //     std::shared_ptr<BaseCommandCreator>(
+  //         new CommandCreator<AddDetailSwapsCommand>(detail_swaps_regex,
+  //         1))));
 
   std::regex producer_by_id_regex("/producers/([a-zA-Z0-9]*)");
   RequestParamsRegEx tmpregex2{producer_by_id_regex, GET};

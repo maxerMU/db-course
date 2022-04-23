@@ -280,3 +280,25 @@ void GetDetailByNameCommand::get_response(
   resp->set_body(writer.write(root));
   resp->set_status(RESP_OK);
 }
+
+void UpdateDetailCommand::handle_request(const std::shared_ptr<Request>& req) {
+  auto part_number_ = get_part_number_from_regex(req->get_target(), regexpr_,
+                                                 part_number_group_index_);
+  detail_ = Detail(part_number_, req->get_body());
+  DetailsFacade::instanse().update_detail(detail_);
+}
+
+void UpdateDetailCommand::get_response(const std::shared_ptr<Response>& resp) {
+  resp->set_status(RESP_OK);
+}
+
+void DeleteDetailCommand::handle_request(const std::shared_ptr<Request>& req) {
+  auto part_name = get_part_number_from_regex(req->get_target(), regexpr_,
+                                              part_number_group_index_);
+
+  DetailsFacade::instanse().delete_detail(part_name);
+}
+
+void DeleteDetailCommand::get_response(const std::shared_ptr<Response>& resp) {
+  resp->set_status(RESP_OK);
+}
