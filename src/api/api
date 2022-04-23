@@ -7,38 +7,38 @@ info:
 servers:
   - url: 'localhost:8001'
 paths:
-#  /user:
-#    get:
-#      summary: 'Sample endpoint: Returns details about a particular user'
-#      operationId: listUser
-#      tags:
-#        - user
-#      parameters:
-#        - name: id
-#          in: query
-#          description: ID of the user
-#          required: true
-#          schema:
-#            type: integer
-#            format: int32
-#      responses:
-#        '200':
-#          description: 'Sample response: Details about a user by ID'
-#          headers:
-#            x-next:
-#              description: A link to the next page of responses
-#              schema:
-#                type: string
-#          content:
-#            application/json:
-#              schema:
-#                $ref: '#/components/schemas/User'
-#        default:
-#          description: Unexpected error
-#          content:
-#            application/json:
-#              schema:
-#                $ref: '#/components/schemas/Error'
+  /user:
+    get:
+      summary: 'Sample endpoint: Returns details about a particular user'
+      operationId: listUser
+      tags:
+        - user
+      parameters:
+        - name: id
+          in: query
+          description: ID of the user
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: 'Sample response: Details about a user by ID'
+          headers:
+            x-next:
+              description: A link to the next page of responses
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
 
   /details:
     get:
@@ -76,7 +76,7 @@ paths:
             schema:
               $ref: '#/components/schemas/Detail'
             example:
-              part_number: abcd123-1324abc
+              part_number: b95c2b97-8b7c-4a50-9837-eea4e689a126
               name_rus: 'Рулевая рейка'
               name_eng: 'steering rack'
               producer_id: 1
@@ -102,6 +102,54 @@ paths:
       responses:
         '200':
           description: Detail.
+
+    put:
+      summary: update detail
+      description: Retrieves a detail's swaps.
+      tags:
+        - details
+      parameters:
+        - name: part_number
+          in: path
+          description: Detail's part number.
+          required: true
+          schema:
+            type: string
+            example: b95c2b97-8b7c-4a50-9837-eea4e689a126
+        
+      requestBody:
+        description: A detail schema.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DetailUpdate'
+            example:
+              name_rus: 'Рулевая рейка'
+              name_eng: 'steering rack'
+              producer_id: 1
+
+      responses:
+        '200':
+          description: Detail's swaps.
+
+    delete:
+      summary: Delete detail by part_number
+      description: Retrieves a detail's swaps.
+      tags:
+        - details
+      parameters:
+        - name: part_number
+          in: path
+          description: Detail's part number.
+          required: true
+          schema:
+            type: string
+            example: b95c2b97-8b7c-4a50-9837-eea4e689a126
+      responses:
+        '200':
+          description: Detail.
+
+
 
   /producers:
     get:
@@ -278,6 +326,20 @@ components:
       properties:
         part_number:
           type: string
+        name_rus:
+          type: string
+        name_eng:
+          type: string
+        producer_id:
+          type: integer
+
+    DetailUpdate:
+      type: object
+      required:
+        - name_rus
+        - name_eng
+        - producer_id
+      properties:
         name_rus:
           type: string
         name_eng:
