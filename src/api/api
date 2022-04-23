@@ -76,7 +76,7 @@ paths:
             schema:
               $ref: '#/components/schemas/Detail'
             example:
-              part_number: abcd123-1324abc
+              part_number: b95c2b97-8b7c-4a50-9837-eea4e689a126
               name_rus: 'Рулевая рейка'
               name_eng: 'steering rack'
               producer_id: 1
