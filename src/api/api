@@ -132,6 +132,24 @@ paths:
         '200':
           description: Detail's swaps.
 
+    delete:
+      summary: Delete detail by part_number
+      description: Retrieves a detail's swaps.
+      tags:
+        - details
+      parameters:
+        - name: part_number
+          in: path
+          description: Detail's part number.
+          required: true
+          schema:
+            type: string
+            example: b95c2b97-8b7c-4a50-9837-eea4e689a126
+      responses:
+        '200':
+          description: Detail.
+
+
 
   /producers:
     get:
