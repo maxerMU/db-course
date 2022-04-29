@@ -223,7 +223,7 @@ paths:
           required: true
           schema:
             type: string
-            example: abcd123
+            example: "73c02635-641e-412b-aa62-08124cff24c8"
       requestBody:
         description: A product schema.
         content:
@@ -231,7 +231,7 @@ paths:
             schema:
               $ref: '#/components/schemas/Swaps'
             example:
-              swaps_part_numbers: ["abcde", "123avfe"]
+              swap_part_numbers: "b95c2b97-8b7c-4a50-9837-eea4e689a126"
       responses:
         '200':
           description: Detail's swaps.
@@ -362,10 +362,10 @@ components:
     Swaps:
       type: object
       required:
-        - swaps_part_numbers
+        - swap_part_numbers
       properties:
         swaps_part_numbers:
-          type: array
+          type: string
 
     Error:
       type: object
