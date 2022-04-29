@@ -236,6 +236,31 @@ paths:
         '200':
           description: Detail's swaps.
 
+    delete:
+      summary: Add detail's swaps
+      description: Creates a new detail swaps.
+      tags:
+        - details
+      parameters:
+        - name: part_number
+          in: path
+          description: The detail's part number.
+          required: true
+          schema:
+            type: string
+            example: "73c02635-641e-412b-aa62-08124cff24c8"
+      requestBody:
+        description: A product schema.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Swaps'
+            example:
+              swap_part_numbers: "b95c2b97-8b7c-4a50-9837-eea4e689a126"
+      responses:
+        '200':
+          description: Detail's swaps.
+
 
   '/producers/{producer_id}':
     get:
