@@ -223,7 +223,7 @@ paths:
           required: true
           schema:
             type: string
-            example: "73c02635-641e-412b-aa62-08124cff24c8"
+            example: "75fde07b-e86f-4535-bd03-fbfd03353a5e"
       requestBody:
         description: A product schema.
         content:
@@ -231,7 +231,7 @@ paths:
             schema:
               $ref: '#/components/schemas/Swaps'
             example:
-              swap_part_numbers: "b95c2b97-8b7c-4a50-9837-eea4e689a126"
+              swap_part_numbers: "a7a30935-a5c2-49ef-8700-84b39a0bbc3c"
       responses:
         '200':
           description: Detail's swaps.
@@ -248,7 +248,7 @@ paths:
           required: true
           schema:
             type: string
-            example: "73c02635-641e-412b-aa62-08124cff24c8"
+            example: "75fde07b-e86f-4535-bd03-fbfd03353a5e"
       requestBody:
         description: A product schema.
         content:
@@ -256,7 +256,7 @@ paths:
             schema:
               $ref: '#/components/schemas/Swaps'
             example:
-              swap_part_numbers: "b95c2b97-8b7c-4a50-9837-eea4e689a126"
+              swap_part_numbers: "a7a30935-a5c2-49ef-8700-84b39a0bbc3c"
       responses:
         '200':
           description: Detail's swaps.
