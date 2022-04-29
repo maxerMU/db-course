@@ -206,7 +206,7 @@ paths:
           required: true
           schema:
             type: string
-            example: abcd123
+            example: "75fde07b-e86f-4535-bd03-fbfd03353a5e"
       responses:
         '200':
           description: Detail's swaps.
