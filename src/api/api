@@ -346,6 +346,26 @@ paths:
         '200':
           description: Detail was added.
 
+    delete:
+      summary: Remove detail from stock
+      description: Remove detail from stock
+      tags:
+        - stock
+
+      requestBody:
+        description: A stock request schema.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StockPost'
+            example:
+              part_number: 'd1c1991a-89e2-4dd4-a132-cb58ebe7def0'
+              worker_id: 5
+              quantity: 2
+      responses:
+        '200':
+          description: Detail was removed.
+
 components:
   schemas:
     User:
