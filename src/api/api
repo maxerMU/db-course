@@ -366,6 +366,24 @@ paths:
         '200':
           description: Detail was removed.
 
+  '/stock?part_number={part_number}':
+    get:
+      summary: Get quantity by part_number
+      description: stock inf.
+      tags:
+        - stock
+      parameters:
+        - name: part_number
+          in: path
+          description: part number.
+          required: true
+          schema:
+            type: string
+            example: 'd1c1991a-89e2-4dd4-a132-cb58ebe7def0'
+      responses:
+        '200':
+          description: quantity.
+
 components:
   schemas:
     User:
@@ -427,11 +445,11 @@ components:
     StockPost:
       type: object
       required:
-        - part_name
+        - part_number
         - worker_id
         - quantity
       properties:
-        part_name:
+        part_number:
           type: string
         worker_id:
           type: integer
