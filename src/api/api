@@ -366,7 +366,6 @@ paths:
         '200':
           description: Detail was removed.
 
-  '/stock?part_number={part_number}':
     get:
       summary: Get quantity by part_number
       description: stock inf.
@@ -374,7 +373,7 @@ paths:
         - stock
       parameters:
         - name: part_number
-          in: path
+          in: query
           description: part number.
           required: true
           schema:
