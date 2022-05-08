@@ -375,7 +375,7 @@ paths:
         - name: part_number
           in: query
           description: part number.
-          required: true
+          required: false
           schema:
             type: string
             example: 'd1c1991a-89e2-4dd4-a132-cb58ebe7def0'
