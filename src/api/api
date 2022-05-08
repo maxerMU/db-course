@@ -339,7 +339,7 @@ paths:
             schema:
               $ref: '#/components/schemas/StockPost'
             example:
-              part_name: 'd1c1991a-89e2-4dd4-a132-cb58ebe7def0'
+              part_number: 'd1c1991a-89e2-4dd4-a132-cb58ebe7def0'
               worker_id: 5
               quantity: 2
       responses:
