@@ -379,9 +379,16 @@ paths:
           schema:
             type: string
             example: 'd1c1991a-89e2-4dd4-a132-cb58ebe7def0'
+        - name: previous_details
+          in: query
+          description: previous_details.
+          required: false
+          schema:
+            type: integer
+            example: 1
       responses:
         '200':
-          description: quantity.
+          description: details.
 
 components:
   schemas:
