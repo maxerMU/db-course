@@ -206,7 +206,7 @@ paths:
           required: true
           schema:
             type: string
-            example: abcd123
+            example: "75fde07b-e86f-4535-bd03-fbfd03353a5e"
       responses:
         '200':
           description: Detail's swaps.
@@ -223,7 +223,7 @@ paths:
           required: true
           schema:
             type: string
-            example: abcd123
+            example: "75fde07b-e86f-4535-bd03-fbfd03353a5e"
       requestBody:
         description: A product schema.
         content:
@@ -231,7 +231,32 @@ paths:
             schema:
               $ref: '#/components/schemas/Swaps'
             example:
-              swaps_part_numbers: ["abcde", "123avfe"]
+              swap_part_numbers: "a7a30935-a5c2-49ef-8700-84b39a0bbc3c"
+      responses:
+        '200':
+          description: Detail's swaps.
+
+    delete:
+      summary: Add detail's swaps
+      description: Creates a new detail swaps.
+      tags:
+        - details
+      parameters:
+        - name: part_number
+          in: path
+          description: The detail's part number.
+          required: true
+          schema:
+            type: string
+            example: "75fde07b-e86f-4535-bd03-fbfd03353a5e"
+      requestBody:
+        description: A product schema.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Swaps'
+            example:
+              swap_part_numbers: "a7a30935-a5c2-49ef-8700-84b39a0bbc3c"
       responses:
         '200':
           description: Detail's swaps.
@@ -300,6 +325,71 @@ paths:
         '200':
           description: Detail's swaps.
 
+  /stock:
+    post:
+      summary: Add detail to stock
+      description: Add detail to stock.
+      tags:
+        - stock
+
+      requestBody:
+        description: A producer schema.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StockPost'
+            example:
+              part_number: 'd1c1991a-89e2-4dd4-a132-cb58ebe7def0'
+              worker_id: 5
+              quantity: 2
+      responses:
+        '200':
+          description: Detail was added.
+
+    delete:
+      summary: Remove detail from stock
+      description: Remove detail from stock
+      tags:
+        - stock
+
+      requestBody:
+        description: A stock request schema.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StockPost'
+            example:
+              part_number: 'd1c1991a-89e2-4dd4-a132-cb58ebe7def0'
+              worker_id: 5
+              quantity: 2
+      responses:
+        '200':
+          description: Detail was removed.
+
+    get:
+      summary: Get quantity by part_number
+      description: stock inf.
+      tags:
+        - stock
+      parameters:
+        - name: part_number
+          in: query
+          description: part number.
+          required: false
+          schema:
+            type: string
+            example: 'd1c1991a-89e2-4dd4-a132-cb58ebe7def0'
+        - name: previous_details
+          in: query
+          description: previous_details.
+          required: false
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: details.
+
 components:
   schemas:
     User:
@@ -358,14 +448,28 @@ components:
         country:
           type: string
 
+    StockPost:
+      type: object
+      required:
+        - part_number
+        - worker_id
+        - quantity
+      properties:
+        part_number:
+          type: string
+        worker_id:
+          type: integer
+        quantity:
+          type: integer
+
 
     Swaps:
       type: object
       required:
-        - swaps_part_numbers
+        - swap_part_numbers
       properties:
         swaps_part_numbers:
-          type: array
+          type: string
 
     Error:
       type: object
