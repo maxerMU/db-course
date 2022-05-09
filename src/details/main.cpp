@@ -7,17 +7,7 @@
 #include "server_connection.h"
 #include "yamlcpp_config.h"
 
-// #include <iostream>
-// #include <pqxx/pqxx>
-
 int main(int argc, char* argv[]) {
-  // pqxx::connection con(
-  //     "dbname = stock_db user = producers_integrator password = "
-  //     "producers_integrator "
-  //     "hostaddr = 127.0.0.1 port = 5432");
-
-  // if (con.is_open())
-  //   std::cout << "connected" << std::endl;
   net::io_context ioc;
   std::shared_ptr<BaseConfig> config(new YamlCppConfig(argv[1]));
 

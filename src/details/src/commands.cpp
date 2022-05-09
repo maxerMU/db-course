@@ -45,14 +45,17 @@ std::string get_part_number_from_regex(const std::string& target,
 
 void DetailsForAllTimeCommand::handle_request(
     const std::shared_ptr<Request>& req) {
-  // details = DetailsFacade::instanse().get_details_for_all_time();
+  details_names_ = DetailsFacade::instanse().get_prev_details_in_stock();
 }
 
 void DetailsForAllTimeCommand::get_response(
     const std::shared_ptr<Response>& resp) {
   Json::Value arr = Json::arrayValue;
-  arr.append("1");
-  arr.append("2");
+  for (auto name : details_names_) {
+    Json::Value root;
+    root["part_number"] = name;
+    arr.append(root);
+  }
 
   Json::Value root;
   root["details"] = arr;
@@ -64,31 +67,18 @@ void DetailsForAllTimeCommand::get_response(
 
 void DetailsInStockCommand::handle_request(
     const std::shared_ptr<Request>& req) {
-  // details = DetailsFacade::instanse().get_details_in_stock();
+  details_quantities_ = DetailsFacade::instanse().get_details_in_stock();
 }
 
 void DetailsInStockCommand::get_response(
     const std::shared_ptr<Response>& resp) {
   Json::Value arr = Json::arrayValue;
-  arr.append("3");
-  arr.append("4");
-
-  Json::Value root;
-  root["details"] = arr;
-
-  Json::FastWriter writer;
-  resp->set_body(writer.write(root));
-  resp->set_status(RESP_OK);
-}
-
-void DetailSwapsCommand::handle_request(const std::shared_ptr<Request>& req) {
-  // details = DetailsFacade::instanse().get_detail_swaps(part_number_);
-}
-
-void DetailSwapsCommand::get_response(const std::shared_ptr<Response>& resp) {
-  Json::Value arr = Json::arrayValue;
-  arr.append("5");
-  arr.append("6");
+  for (auto detail_quantity : details_quantities_) {
+    Json::Value root;
+    root["part_number"] = detail_quantity.first;
+    root["quantity"] = std::to_string(detail_quantity.second);
+    arr.append(root);
+  }
 
   Json::Value root;
   root["details"] = arr;
@@ -108,18 +98,9 @@ void AddDetailCommand::get_response(const std::shared_ptr<Response>& resp) {
   resp->set_status(RESP_OK);
 }
 
-void AddDetailSwapsCommand::handle_request(
-    const std::shared_ptr<Request>& req) {
-  std::smatch match;
-
-  auto target = req->get_target();
-  if (std::regex_search(target, match, regexpr_)) {
-    part_number_ = match.str(part_number_group_index_);
-    std::cout << part_number_ << std::endl;
-  } else {
-    throw RegExpParserException(
-        "couldn't parse regexpr for DetailSwapsCommand");
-  }
+void AddDetailSwapCommand::handle_request(const std::shared_ptr<Request>& req) {
+  part_number_ = get_part_number_from_regex(req->get_target(), regexpr_,
+                                            part_number_group_index_);
 
   Json::Value val;
   Json::Reader reader;
@@ -130,20 +111,12 @@ void AddDetailSwapsCommand::handle_request(
     throw JsonParserException("can't parse add detail swaps request");
   }
 
-  // part_number_ = val["part_number"].asString();
+  auto part_dst = val["swap_part_numbers"].asString();
 
-  const auto swaps = val["swaps_part_numbers"];
-  for (int i = 0; i < swaps.size(); i++) {
-    std::cout << swaps[i].asString() << std::endl;
-    swaps_part_numbers_.push_back(swaps[i].asString());
-  }
-
-  // DetailsFacade::instanse().add_detail_swaps(part_number_,
-  // swaps_part_numbers_);
+  DetailsFacade::instanse().add_detail_swap(part_number_, part_dst);
 }
 
-void AddDetailSwapsCommand::get_response(
-    const std::shared_ptr<Response>& resp) {
+void AddDetailSwapCommand::get_response(const std::shared_ptr<Response>& resp) {
   resp->set_status(RESP_OK);
 }
 
@@ -300,5 +273,125 @@ void DeleteDetailCommand::handle_request(const std::shared_ptr<Request>& req) {
 }
 
 void DeleteDetailCommand::get_response(const std::shared_ptr<Response>& resp) {
+  resp->set_status(RESP_OK);
+}
+
+void DeleteDetailSwapCommand::handle_request(
+    const std::shared_ptr<Request>& req) {
+  part_number_ = get_part_number_from_regex(req->get_target(), regexpr_,
+                                            part_number_group_index_);
+
+  Json::Value val;
+  Json::Reader reader;
+
+  bool parse_successfull = reader.parse(req->get_body(), val);
+
+  if (!parse_successfull) {
+    throw JsonParserException("can't parse add detail swaps request");
+  }
+
+  auto part_dst = val["swap_part_numbers"].asString();
+
+  DetailsFacade::instanse().delete_detail_swap(part_number_, part_dst);
+}
+
+void DeleteDetailSwapCommand::get_response(
+    const std::shared_ptr<Response>& resp) {
+  resp->set_status(RESP_OK);
+}
+
+void GetDetailSwapsCommand::handle_request(
+    const std::shared_ptr<Request>& req) {
+  auto part_number = get_part_number_from_regex(req->get_target(), regexpr_,
+                                                part_number_group_index_);
+
+  details_ = DetailsFacade::instanse().get_detail_swaps(part_number);
+}
+
+void GetDetailSwapsCommand::get_response(
+    const std::shared_ptr<Response>& resp) {
+  Json::Value arr = Json::arrayValue;
+
+  for (auto detail : details_) {
+    Json::Value root;
+    root["part_number"] = detail.part_number();
+    root["name_rus"] = detail.name_rus();
+    root["name_eng"] = detail.name_eng();
+    root["producer_id"] = std::to_string(detail.producer_id());
+    arr.append(root);
+  }
+
+  Json::Value root;
+  root["details"] = arr;
+
+  Json::FastWriter writer;
+  resp->set_body(writer.write(root));
+  resp->set_status(RESP_OK);
+}
+
+void AddDetailToStockCommand::handle_request(
+    const std::shared_ptr<Request>& req) {
+  Json::Value value;
+  Json::Reader reader;
+
+  bool parse_successfull = reader.parse(req->get_body(), value);
+
+  if (!parse_successfull) {
+    throw JsonParserException("can't parse request data");
+  }
+
+  std::string part_number = value["part_number"].asString();
+  size_t worker_id = value["worker_id"].asUInt64();
+  size_t quantity = value["quantity"].asUInt64();
+
+  DetailsFacade::instanse().add_detail_to_stock(part_number, worker_id,
+                                                quantity);
+}
+
+void AddDetailToStockCommand::get_response(
+    const std::shared_ptr<Response>& resp) {
+  resp->set_status(RESP_OK);
+}
+
+void RemoveDetailFromStockCommand::handle_request(
+    const std::shared_ptr<Request>& req) {
+  Json::Value value;
+  Json::Reader reader;
+
+  bool parse_successfull = reader.parse(req->get_body(), value);
+
+  if (!parse_successfull) {
+    throw JsonParserException("can't parse request data");
+  }
+
+  std::string part_number = value["part_number"].asString();
+  size_t worker_id = value["worker_id"].asUInt64();
+  size_t quantity = value["quantity"].asUInt64();
+
+  DetailsFacade::instanse().remove_detail_from_stock(part_number, worker_id,
+                                                     quantity);
+}
+
+void RemoveDetailFromStockCommand::get_response(
+    const std::shared_ptr<Response>& resp) {
+  resp->set_status(RESP_OK);
+}
+
+void DetailQuantityCommand::handle_request(
+    const std::shared_ptr<Request>& req) {
+  auto part_number = get_part_number_from_regex(req->get_target(), regexpr_,
+                                                part_number_group_index_);
+
+  res = DetailsFacade::instanse().get_detail_in_stock(part_number);
+}
+
+void DetailQuantityCommand::get_response(
+    const std::shared_ptr<Response>& resp) {
+  Json::Value root;
+  root["part_number"] = res.first;
+  root["quantity"] = std::to_string(res.second);
+
+  Json::FastWriter writer;
+  resp->set_body(writer.write(root));
   resp->set_status(RESP_OK);
 }

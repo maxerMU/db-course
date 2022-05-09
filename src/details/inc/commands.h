@@ -43,6 +43,7 @@ class CommandCreator : public BaseCommandCreator {
   std::function<std::shared_ptr<BaseCommand>()> create_func_;
 };
 
+/* ================== DETAILS ========================= */
 class GetDetailsCommand : public BaseCommand {
  public:
   virtual void handle_request(const std::shared_ptr<Request>& req) override;
@@ -100,54 +101,8 @@ class DeleteDetailCommand : public BaseCommand {
   size_t part_number_group_index_;
 };
 
-class DetailsForAllTimeCommand : public BaseCommand {
- public:
-  virtual void handle_request(const std::shared_ptr<Request>& req) override;
-  virtual void get_response(const std::shared_ptr<Response>& resp) override;
-
- private:
-  details_t details;
-};
-
-class DetailsInStockCommand : public BaseCommand {
- public:
-  virtual void handle_request(const std::shared_ptr<Request>& req) override;
-  virtual void get_response(const std::shared_ptr<Response>& resp) override;
-
- private:
-  details_t details;
-};
-
-class DetailSwapsCommand : public BaseCommand {
- public:
-  DetailSwapsCommand(const std::regex& expr, size_t part_number_group_index)
-      : regexpr_(expr), part_number_group_index_(part_number_group_index) {}
-  virtual void handle_request(const std::shared_ptr<Request>& req) override;
-  virtual void get_response(const std::shared_ptr<Response>& resp) override;
-
- private:
-  std::regex regexpr_;
-  size_t part_number_group_index_;
-  std::string part_number_;
-
-  details_t details;
-};
-
-class AddDetailSwapsCommand : public BaseCommand {
- public:
-  AddDetailSwapsCommand(const std::regex& expr, size_t part_number_group_index)
-      : regexpr_(expr), part_number_group_index_(part_number_group_index) {}
-  virtual void handle_request(const std::shared_ptr<Request>& req) override;
-  virtual void get_response(const std::shared_ptr<Response>& resp) override;
-
- private:
-  std::regex regexpr_;
-  size_t part_number_group_index_;
-  std::string part_number_;
-
-  std::vector<std::string> swaps_part_numbers_;
-};
-
+/* ================== DETAILS END ========================= */
+/* ================== PRODUCERS ===================== */
 class GetProducersCommand : public BaseCommand {
  public:
   virtual void handle_request(const std::shared_ptr<Request>& req) override;
@@ -202,6 +157,96 @@ class AddProducerCommand : public BaseCommand {
  private:
   producers_t producers_;
   size_t id_;
+};
+/* ==================== PRODUCERS END ===================== */
+/* ==================== SWAPS ===================== */
+class AddDetailSwapCommand : public BaseCommand {
+ public:
+  AddDetailSwapCommand(const std::regex& expr, size_t part_number_group_index)
+      : regexpr_(expr), part_number_group_index_(part_number_group_index) {}
+  virtual void handle_request(const std::shared_ptr<Request>& req) override;
+  virtual void get_response(const std::shared_ptr<Response>& resp) override;
+
+ private:
+  std::regex regexpr_;
+  size_t part_number_group_index_;
+  std::string part_number_;
+};
+
+class GetDetailSwapsCommand : public BaseCommand {
+ public:
+  GetDetailSwapsCommand(const std::regex& expr, size_t part_number_group_index)
+      : regexpr_(expr), part_number_group_index_(part_number_group_index) {}
+  virtual void handle_request(const std::shared_ptr<Request>& req) override;
+  virtual void get_response(const std::shared_ptr<Response>& resp) override;
+
+ private:
+  std::regex regexpr_;
+  size_t part_number_group_index_;
+
+  details_t details_;
+};
+
+class DeleteDetailSwapCommand : public BaseCommand {
+ public:
+  DeleteDetailSwapCommand(const std::regex& expr,
+                          size_t part_number_group_index)
+      : regexpr_(expr), part_number_group_index_(part_number_group_index) {}
+  virtual void handle_request(const std::shared_ptr<Request>& req) override;
+  virtual void get_response(const std::shared_ptr<Response>& resp) override;
+
+ private:
+  std::regex regexpr_;
+  size_t part_number_group_index_;
+  std::string part_number_;
+};
+/* ==================== END SWAPS ===================== */
+/* ==================== STOCK ===================== */
+
+class AddDetailToStockCommand : public BaseCommand {
+ public:
+  virtual void handle_request(const std::shared_ptr<Request>& req) override;
+  virtual void get_response(const std::shared_ptr<Response>& resp) override;
+};
+
+class RemoveDetailFromStockCommand : public BaseCommand {
+ public:
+  virtual void handle_request(const std::shared_ptr<Request>& req) override;
+  virtual void get_response(const std::shared_ptr<Response>& resp) override;
+};
+
+class DetailQuantityCommand : public BaseCommand {
+ public:
+  DetailQuantityCommand(const std::regex& expr, size_t part_number_group_index)
+      : regexpr_(expr), part_number_group_index_(part_number_group_index) {}
+
+  virtual void handle_request(const std::shared_ptr<Request>& req) override;
+  virtual void get_response(const std::shared_ptr<Response>& resp) override;
+
+ private:
+  std::regex regexpr_;
+  size_t part_number_group_index_;
+  std::string part_number_;
+
+  detail_quantity_t res;
+};
+
+class DetailsForAllTimeCommand : public BaseCommand {
+ public:
+  virtual void handle_request(const std::shared_ptr<Request>& req) override;
+  virtual void get_response(const std::shared_ptr<Response>& resp) override;
+
+ private:
+  details_names_t details_names_;
+};
+
+class DetailsInStockCommand : public BaseCommand {
+ public:
+  virtual void handle_request(const std::shared_ptr<Request>& req) override;
+  virtual void get_response(const std::shared_ptr<Response>& resp) override;
+
+ private:
+  details_quantities_t details_quantities_;
 };
 
 #endif  // BASECOMMAND_H

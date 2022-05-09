@@ -8,10 +8,13 @@ add_executable(${TARGET_NAME}
   src/producer.cpp
   src/detail.cpp
   src/details_facade.cpp
+  src/swaps_controller.cpp
   src/commands.cpp
   src/details_router.cpp
   src/postgres_producers_repository.cpp
   src/postgres_details_repository.cpp
+  src/postgres_swaps_repository.cpp
+  src/postgres_stock_repository.cpp
 )
 
 target_include_directories(${TARGET_NAME} PUBLIC

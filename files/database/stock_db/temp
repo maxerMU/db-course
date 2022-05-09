@@ -1,0 +1,2 @@
+\c stock_db
+select part_name from t_details;

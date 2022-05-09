@@ -53,10 +53,6 @@ DetailsRouter::DetailsRouter() {
       std::shared_ptr<BaseCommandCreator>(
           new CommandCreator<DeleteDetailCommand>(detail_regex, 1))));
 
-  // RequestParams tmp2{"/details?in_stock=1", GET};
-  // static_routes[tmp2] = std::shared_ptr<BaseCommandCreator>(
-  //     new CommandCreator<DetailsInStockCommand>());
-
   RequestParams tmp3{"/producers", GET};
   static_routes[tmp3] = std::shared_ptr<BaseCommandCreator>(
       new CommandCreator<GetProducersCommand>());
@@ -64,20 +60,6 @@ DetailsRouter::DetailsRouter() {
   RequestParams tmp4{"/producers", POST};
   static_routes[tmp4] = std::shared_ptr<BaseCommandCreator>(
       new CommandCreator<AddProducerCommand>());
-
-  // std::regex detail_swaps_regex("/details/([a-zA-Z0-9]*)/swaps");
-  // RequestParamsRegEx tmpregex{detail_swaps_regex, GET};
-  // dynamic_routes.push_back(dynamic_route_t(
-  //     tmpregex,
-  //     std::shared_ptr<BaseCommandCreator>(
-  //         new CommandCreator<DetailSwapsCommand>(detail_swaps_regex, 1))));
-
-  // RequestParamsRegEx tmpregex1{detail_swaps_regex, POST};
-  // dynamic_routes.push_back(dynamic_route_t(
-  //     tmpregex1,
-  //     std::shared_ptr<BaseCommandCreator>(
-  //         new CommandCreator<AddDetailSwapsCommand>(detail_swaps_regex,
-  //         1))));
 
   std::regex producer_by_id_regex("/producers/([a-zA-Z0-9]*)");
   RequestParamsRegEx tmpregex2{producer_by_id_regex, GET};
@@ -97,4 +79,46 @@ DetailsRouter::DetailsRouter() {
       tmpregex4,
       std::shared_ptr<BaseCommandCreator>(
           new CommandCreator<UpdateProducerCommand>(producer_by_id_regex, 1))));
+
+  std::regex detail_swaps_regex("/details/([a-zA-Z0-9\\-]+)/swaps");
+  RequestParamsRegEx swap_post_req{detail_swaps_regex, POST};
+  dynamic_routes.push_back(dynamic_route_t(
+      swap_post_req,
+      std::shared_ptr<BaseCommandCreator>(
+          new CommandCreator<AddDetailSwapCommand>(detail_swaps_regex, 1))));
+
+  RequestParamsRegEx swap_get_req{detail_swaps_regex, GET};
+  dynamic_routes.push_back(dynamic_route_t(
+      swap_get_req,
+      std::shared_ptr<BaseCommandCreator>(
+          new CommandCreator<GetDetailSwapsCommand>(detail_swaps_regex, 1))));
+
+  RequestParamsRegEx swap_delete_req{detail_swaps_regex, DELETE};
+  dynamic_routes.push_back(dynamic_route_t(
+      swap_delete_req,
+      std::shared_ptr<BaseCommandCreator>(
+          new CommandCreator<DeleteDetailSwapCommand>(detail_swaps_regex, 1))));
+
+  RequestParams stock_post{"/stock", POST};
+  static_routes[stock_post] = std::shared_ptr<BaseCommandCreator>(
+      new CommandCreator<AddDetailToStockCommand>());
+
+  RequestParams stock_get{"/stock", GET};
+  static_routes[stock_get] = std::shared_ptr<BaseCommandCreator>(
+      new CommandCreator<DetailsInStockCommand>());
+
+  RequestParams stock_prev{"/stock?previous_details=1", GET};
+  static_routes[stock_prev] = std::shared_ptr<BaseCommandCreator>(
+      new CommandCreator<DetailsForAllTimeCommand>());
+
+  RequestParams stock_delete{"/stock", DELETE};
+  static_routes[stock_delete] = std::shared_ptr<BaseCommandCreator>(
+      new CommandCreator<RemoveDetailFromStockCommand>());
+
+  std::regex detail_stock_regex("/stock\\?part_number=([a-zA-Z0-9\\-]+)");
+  RequestParamsRegEx stock_read_qty{detail_stock_regex, GET};
+  dynamic_routes.push_back(dynamic_route_t(
+      stock_read_qty,
+      std::shared_ptr<BaseCommandCreator>(
+          new CommandCreator<DetailQuantityCommand>(detail_stock_regex, 1))));
 }

@@ -40,12 +40,23 @@ ApiGatewayRouter::ApiGatewayRouter() {
 
   tmp.push_back(std::shared_ptr<BaseApiGatewayAdapterCreator>(
       new ApiGatewayAdapterCreator<DetailsAdapter>()));
-  static_routes["/details?in_stock=1"] = tmp;
+  static_routes["/stock"] = tmp;
   tmp.clear();
 
   tmp.push_back(std::shared_ptr<BaseApiGatewayAdapterCreator>(
       new ApiGatewayAdapterCreator<DetailsAdapter>()));
-  std::regex detail_swaps_regex("/details/([a-zA-Z0-9]*)/swaps");
+  static_routes["/stock?previous_details=1"] = tmp;
+  tmp.clear();
+
+  tmp.push_back(std::shared_ptr<BaseApiGatewayAdapterCreator>(
+      new ApiGatewayAdapterCreator<DetailsAdapter>()));
+  std::regex stock_regex("/stock\\?.*");
+  dynamic_routes.push_back(std::pair<std::regex, creators_t>(stock_regex, tmp));
+  tmp.clear();
+
+  tmp.push_back(std::shared_ptr<BaseApiGatewayAdapterCreator>(
+      new ApiGatewayAdapterCreator<DetailsAdapter>()));
+  std::regex detail_swaps_regex("/details/([a-zA-Z0-9\\-]+)/swaps");
   dynamic_routes.push_back(
       std::pair<std::regex, creators_t>(detail_swaps_regex, tmp));
   tmp.clear();

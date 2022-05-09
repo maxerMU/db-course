@@ -34,5 +34,8 @@ class Detail {
 };
 
 typedef std::vector<Detail> details_t;
+typedef std::pair<std::string, size_t> detail_quantity_t;
+typedef std::vector<std::string> details_names_t;
+typedef std::vector<detail_quantity_t> details_quantities_t;
 
 #endif  // DETAIL_H
