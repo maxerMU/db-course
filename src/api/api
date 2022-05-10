@@ -30,6 +30,26 @@ paths:
         '200':
           description: Worker was added.
 
+  /auth/login:
+    post:
+      summary: Login
+      description: Login.
+      tags:
+        - auth
+
+      requestBody:
+        description: A worker auth schema.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WorkerAuth'
+            example:
+              username: "maxermu"
+              password: "123456"
+      responses:
+        '200':
+          description: access token.
+
 
   /details:
     get:
@@ -398,6 +418,17 @@ components:
           type: string        
         birthdate:
           type: string
+        username:
+          type: string
+        password:
+          type: string
+
+    WorkerAuth:
+      type: object
+      required:
+        - username
+        - password
+      properties:
         username:
           type: string
         password:
