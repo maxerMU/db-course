@@ -30,6 +30,18 @@ paths:
         '200':
           description: Worker was added.
 
+  /auth:
+    get:
+      summary: Auth data
+      description: Auth data.
+      tags:
+        - auth
+      security:
+        - api_key: []
+      responses:
+        '200':
+          description: access token.
+
   /auth/login:
     post:
       summary: Login
@@ -511,8 +523,9 @@ components:
         message:
           type: string
   securitySchemes:
-    BasicAuth:
-      type: http
-      scheme: basic
+    api_key:
+      type: apiKey
+      name: Autharization
+      in: header
 security:
   - BasicAuth: []
