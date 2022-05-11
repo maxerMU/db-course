@@ -15,4 +15,8 @@ const std::string DbPortSection = "DB_PORT";
 const std::string DbUserSection = "DB_USER";
 const std::string DbUserPasswordSection = "DB_USER_PASSWORD";
 
+const std::string SaltSection = "SALT";
+const std::string MinsExpSection = "MINUTES_TO_EXPIRE";
+const std::string SecretWordSection = "SECRET_WORD";
+
 #endif  // BASE_SECTIONS_H

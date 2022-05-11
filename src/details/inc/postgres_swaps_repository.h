@@ -12,8 +12,7 @@ class PostgresSwapsRepository : public BaseSwapsRepository {
                           const std::string& connection_section);
 
  public:
-  virtual size_t create(const std::string& src,
-                        const std::string& dst) override;
+  virtual void create(const std::string& src, const std::string& dst) override;
   virtual std::vector<std::string> read(const std::string& src) override;
   virtual void delete_(const std::string& src, const std::string& dst) override;
 

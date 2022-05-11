@@ -1,6 +1,7 @@
 #include "api_gateway_router.h"
 #include <iostream>
 #include "details_adapter.h"
+#include "workers_adapter.h"
 
 adapters_t ApiGatewayRouter::route_req(const std::string& target) {
   creators_t creators;
@@ -41,6 +42,16 @@ ApiGatewayRouter::ApiGatewayRouter() {
   tmp.push_back(std::shared_ptr<BaseApiGatewayAdapterCreator>(
       new ApiGatewayAdapterCreator<DetailsAdapter>()));
   static_routes["/stock"] = tmp;
+  tmp.clear();
+
+  tmp.push_back(std::shared_ptr<BaseApiGatewayAdapterCreator>(
+      new ApiGatewayAdapterCreator<WorkersAdapter>()));
+  static_routes["/workers"] = tmp;
+  tmp.clear();
+
+  tmp.push_back(std::shared_ptr<BaseApiGatewayAdapterCreator>(
+      new ApiGatewayAdapterCreator<WorkersAdapter>()));
+  static_routes["/auth/login"] = tmp;
   tmp.clear();
 
   tmp.push_back(std::shared_ptr<BaseApiGatewayAdapterCreator>(

@@ -32,6 +32,7 @@ class Request {
 };
 
 #define RESP_OK 200
+#define RESP_UNAUTHIRIZED 401
 #define RESP_NOT_FOUND 404
 #define RESP_INTERNAL_SERVER_ERROR 503
 

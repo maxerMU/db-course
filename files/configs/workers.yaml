@@ -1,0 +1,23 @@
+Server:
+        Port: 8003
+
+DB_WORKERS:
+        DB_NAME: "stock_db"
+        DB_USER: "workers_integrator"
+        DB_USER_PASSWORD: "workers_integrator"
+        DB_HOST: "127.0.0.1"
+        DB_PORT: 5432
+
+DB_AUTH:
+        DB_NAME: "stock_db"
+        DB_USER: "auth_integrator"
+        DB_USER_PASSWORD: "auth_integrator"
+        DB_HOST: "127.0.0.1"
+        DB_PORT: 5432
+
+ENCRYPT:
+        SALT: "Manchester United"
+
+AUTH:
+        MINUTES_TO_EXPIRE: 5
+        SECRET_WORD: "Manchester United"

@@ -14,9 +14,12 @@ class DatabaseException : public BaseException {
 class DatabaseConnectException : public DatabaseException {
  public:
   DatabaseConnectException() = default;
-  DatabaseConnectException(const std::string& message) : DatabaseException(message) {}
+  DatabaseConnectException(const std::string& message)
+      : DatabaseException(message) {}
 
-  const char* what() const noexcept override { return "Can't connect to database."; }
+  const char* what() const noexcept override {
+    return "Can't connect to database.";
+  }
 };
 
-#endif // DATABASE_EXCEPTIONS_H
+#endif  // DATABASE_EXCEPTIONS_H

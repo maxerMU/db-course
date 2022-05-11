@@ -7,6 +7,7 @@ add_executable(${TARGET_NAME}
   src/api_gateway_handler.cpp
   src/details_adapter.cpp
   src/api_gateway_router.cpp
+  src/workers_adapter.cpp
 )
 
 target_include_directories(${TARGET_NAME} PUBLIC

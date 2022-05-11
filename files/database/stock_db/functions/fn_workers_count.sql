@@ -1,0 +1,17 @@
+
+\c stock_db
+
+CREATE OR REPLACE FUNCTION FN_WORKERS_COUNT()
+RETURNS int4
+AS $$
+DECLARE 
+    res int4 := 0;
+BEGIN
+    SELECT count(*) INTO res
+    FROM t_workers;
+
+    RETURN res;
+END
+$$ LANGUAGE PLPGSQL;
+
+GRANT EXECUTE ON FUNCTION FN_WORKERS_COUNT() TO workers_integrator;

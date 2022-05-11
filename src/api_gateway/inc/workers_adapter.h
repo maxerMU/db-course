@@ -1,11 +1,12 @@
-#ifndef DETAILSADAPTER_H
-#define DETAILSADAPTER_H
+#ifndef WORKERSADAPTER_H
+#define WORKERSADAPTER_H
 
 #include <map>
 #include <string>
 #include "base_api_gateway_adapter.h"
 
-class DetailsAdapter : public BaseApiGatewayAdapter {
+class WorkersAdapter : public BaseApiGatewayAdapter
+{
  public:
   virtual void init(
       const std::shared_ptr<Request>& req,
@@ -22,4 +23,4 @@ class DetailsAdapter : public BaseApiGatewayAdapter {
   std::map<std::string, size_t> client_indexes_;
 };
 
-#endif  // DETAILSADAPTER_H
+#endif // WORKERSADAPTER_H

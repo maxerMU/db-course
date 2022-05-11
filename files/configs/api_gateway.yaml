@@ -1,9 +1,14 @@
 Clients:
-        - Details
+        #- Details
+        - Workers
 
 Details:
         Host: "127.0.0.1"
         Port: 8002
+
+Workers:
+        Host: "127.0.0.1"
+        Port: 8003
 
 Server:
         Port: 8001

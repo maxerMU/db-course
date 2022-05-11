@@ -4,5 +4,6 @@
 #include <string>
 
 const std::string DetailsServerName = "Details";
+const std::string WorkersServerName = "Workers";
 
-#endif // API_GATEWAY_CLIENTS_H
+#endif  // API_GATEWAY_CLIENTS_H
