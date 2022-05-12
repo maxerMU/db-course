@@ -36,6 +36,10 @@ paths:
       description: Auth data.
       tags:
         - auth
+      
+      security:
+          - TokenAuth: []
+      
       responses:
         '200':
           description: access token.
@@ -521,9 +525,13 @@ components:
         message:
           type: string
   securitySchemes:
-    api_key:
+    BasicAuth:
+      type: http
+      scheme: basic
+    TokenAuth:
       type: apiKey
       name: Autharization
       in: header
 security:
   - BasicAuth: []
+  - TokenAuth: []
