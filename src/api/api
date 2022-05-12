@@ -36,8 +36,6 @@ paths:
       description: Auth data.
       tags:
         - auth
-      security:
-        - api_key: []
       responses:
         '200':
           description: access token.
