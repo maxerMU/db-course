@@ -72,6 +72,9 @@ paths:
       tags:
         - details
 
+      security:
+          - TokenAuth: []
+
       responses:
         '200':
           description: 'Sample response: Details for all time or in stock'
@@ -93,6 +96,9 @@ paths:
       description: Creates a new detail.
       tags:
         - details
+
+      security:
+          - TokenAuth: []
 
       requestBody:
         description: A detail schema.
@@ -116,6 +122,10 @@ paths:
       description: Retrieves a detail's swaps.
       tags:
         - details
+
+      security:
+          - TokenAuth: []
+
       parameters:
         - name: part_number
           in: path
@@ -133,6 +143,10 @@ paths:
       description: Retrieves a detail's swaps.
       tags:
         - details
+
+      security:
+          - TokenAuth: []
+
       parameters:
         - name: part_number
           in: path
@@ -162,6 +176,10 @@ paths:
       description: Retrieves a detail's swaps.
       tags:
         - details
+
+      security:
+          - TokenAuth: []
+
       parameters:
         - name: part_number
           in: path
@@ -175,13 +193,15 @@ paths:
           description: Detail.
 
 
-
   /producers:
     get:
       summary: 'Sample endpoint: Returns producers'
       operationId: listProducers
       tags:
         - producers
+
+      security:
+          - TokenAuth: []
 
       responses:
         '200':
@@ -205,6 +225,9 @@ paths:
       tags:
         - producers
 
+      security:
+          - TokenAuth: []
+
       requestBody:
         description: A producer schema.
         content:
@@ -224,6 +247,10 @@ paths:
       description: Retrieves a detail's swaps.
       tags:
         - details
+
+      security:
+          - TokenAuth: []
+
       parameters:
         - name: part_number
           in: path
@@ -241,6 +268,10 @@ paths:
       description: Creates a new detail swaps.
       tags:
         - details
+
+      security:
+          - TokenAuth: []
+
       parameters:
         - name: part_number
           in: path
@@ -266,6 +297,10 @@ paths:
       description: Creates a new detail swaps.
       tags:
         - details
+
+      security:
+          - TokenAuth: []
+
       parameters:
         - name: part_number
           in: path
@@ -293,6 +328,10 @@ paths:
       description: Retrieves a detail's swaps.
       tags:
         - producers
+
+      security:
+          - TokenAuth: []
+
       parameters:
         - name: producer_id
           in: path
@@ -310,6 +349,10 @@ paths:
       description: Retrieves a detail's swaps.
       tags:
         - producers
+
+      security:
+          - TokenAuth: []
+
       parameters:
         - name: producer_id
           in: path
@@ -327,6 +370,10 @@ paths:
       description: Retrieves a detail's swaps.
       tags:
         - producers
+
+      security:
+          - TokenAuth: []
+
       parameters:
         - name: producer_id
           in: path
@@ -357,6 +404,9 @@ paths:
       tags:
         - stock
 
+      security:
+          - TokenAuth: []
+
       requestBody:
         description: A producer schema.
         content:
@@ -377,6 +427,9 @@ paths:
       tags:
         - stock
 
+      security:
+          - TokenAuth: []
+
       requestBody:
         description: A stock request schema.
         content:
@@ -396,6 +449,10 @@ paths:
       description: stock inf.
       tags:
         - stock
+
+      security:
+          - TokenAuth: []
+
       parameters:
         - name: part_number
           in: query
