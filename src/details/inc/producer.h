@@ -16,6 +16,8 @@ class DetailsProducerData {
   std::string country() const;
   void set_country(const std::string& country);
 
+  bool operator==(const DetailsProducerData& data) const;
+
  private:
   std::string name_;
   std::string country_;
@@ -31,6 +33,8 @@ class DetailsProducer : public DetailsProducerData {
 
   size_t id() const;
   void set_id(const size_t& id);
+
+  bool operator==(const DetailsProducer& producer) const;
 
  private:
   size_t id_;

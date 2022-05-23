@@ -22,4 +22,37 @@ class DatabaseConnectException : public DatabaseException {
   }
 };
 
+class DatabaseExecutionException : public DatabaseException {
+ public:
+  DatabaseExecutionException() = default;
+  DatabaseExecutionException(const std::string& message)
+      : DatabaseException(message) {}
+
+  const char* what() const noexcept override {
+    return "Can't execute prepared statement.";
+  }
+};
+
+class DatabaseNotFoundException : public DatabaseException {
+ public:
+  DatabaseNotFoundException() = default;
+  DatabaseNotFoundException(const std::string& message)
+      : DatabaseException(message) {}
+
+  const char* what() const noexcept override {
+    return "Can't find in database";
+  }
+};
+
+class DatabaseIncorrectAnswerException : public DatabaseException {
+ public:
+  DatabaseIncorrectAnswerException() = default;
+  DatabaseIncorrectAnswerException(const std::string& message)
+      : DatabaseException(message) {}
+
+  const char* what() const noexcept override {
+    return "Incorrect answer from database";
+  }
+};
+
 #endif  // DATABASE_EXCEPTIONS_H

@@ -51,15 +51,24 @@ void PostgresSwapsRepository::add_prepare_statements() {
 
 void PostgresSwapsRepository::create(const std::string& src,
                                      const std::string& dst) {
-  pqxx::work w(*connection_);
-  w.exec_prepared(requests_names[CREATE], src, dst);
-  w.commit();
+  try {
+    pqxx::work w(*connection_);
+    w.exec_prepared(requests_names[CREATE], src, dst);
+    w.commit();
+  } catch (...) {
+    throw DatabaseExecutionException("can't execute prepared");
+  }
 }
 
 std::vector<std::string> PostgresSwapsRepository::read(const std::string& src) {
-  pqxx::work w(*connection_);
-  pqxx::result res = w.exec_prepared(requests_names[READ], src);
-  w.commit();
+  pqxx::result res;
+  try {
+    pqxx::work w(*connection_);
+    res = w.exec_prepared(requests_names[READ], src);
+    w.commit();
+  } catch (...) {
+    throw DatabaseExecutionException("can't execute prepared");
+  }
 
   std::vector<std::string> part_names;
   for (auto const& row : res) {
@@ -71,7 +80,11 @@ std::vector<std::string> PostgresSwapsRepository::read(const std::string& src) {
 
 void PostgresSwapsRepository::delete_(const std::string& src,
                                       const std::string& dst) {
-  pqxx::work w(*connection_);
-  w.exec_prepared(requests_names[DELETE], src, dst);
-  w.commit();
+  try {
+    pqxx::work w(*connection_);
+    w.exec_prepared(requests_names[DELETE], src, dst);
+    w.commit();
+  } catch (...) {
+    throw DatabaseExecutionException("can't execute prepared");
+  }
 }

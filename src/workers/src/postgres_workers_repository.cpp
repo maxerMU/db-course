@@ -1,4 +1,5 @@
 #include "postgres_workers_repository.h"
+#include <time.h>
 #include "base_sections.h"
 #include "database_exceptions.h"
 #include "iostream"
@@ -49,6 +50,8 @@ void PostgresWorkersRepository::add_prepare_statements() {
   connection_->prepare(requests_names[READ_COUNT], "SELECT FN_WORKERS_COUNT()");
   connection_->prepare(requests_names[READ_PASSWORD],
                        "SELECT * FROM FN_GET_PASSWORD($1)");
+  connection_->prepare(requests_names[READ_BASE_INF],
+                       "SELECT * FROM FN_GET_WORKER_BY_ID($1)");
 }
 
 int PostgresWorkersRepository::create(const WorkerPost& worker) {
@@ -70,6 +73,30 @@ size_t PostgresWorkersRepository::workers_count() {
   w.commit();
 
   return res[0][0].as<size_t>();
+}
+
+WorkerBaseInf PostgresWorkersRepository::read(size_t worker_id) {
+  pqxx::work w(*connection_);
+  pqxx::result res = w.exec_prepared(requests_names[READ_BASE_INF], worker_id);
+  w.commit();
+
+  if (res.size() == 0)
+    throw DatabaseNotFoundException("can't find user");
+
+  WorkerBaseInf worker;
+
+  worker.setName(res[0][0].as<std::string>());
+  worker.setSurname(res[0][1].as<std::string>());
+
+  auto birthdate_str = res[0][2].as<std::string>();
+  tm birthdate;
+  if (!strptime(birthdate_str.c_str(), "%Y-%m-%d", &birthdate))
+    throw DatabaseIncorrectAnswerException("can't parse datetime");
+
+  worker.setBirthdate(birthdate);
+  worker.setPrivilege(static_cast<PrivilegeLevel>(res[0][3].as<int>()));
+
+  return worker;
 }
 
 void PostgresWorkersRepository::update(const WorkerUpdate& worker) {}

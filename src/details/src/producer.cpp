@@ -27,12 +27,21 @@ void DetailsProducerData::set_country(const std::string& country) {
   country_ = country;
 }
 
+bool DetailsProducerData::operator==(const DetailsProducerData& data) const {
+  return (name_ == data.name_) && (country_ == data.country_);
+}
+
 size_t DetailsProducer::id() const {
   return id_;
 }
 
 void DetailsProducer::set_id(const size_t& id) {
   id_ = id;
+}
+
+bool DetailsProducer::operator==(const DetailsProducer& producer) const {
+  return (id_ == producer.id_) && (name_ == producer.name_) &&
+         (country_ == producer.country_);
 }
 
 DetailsProducerData::DetailsProducerData(const std::string& name,

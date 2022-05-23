@@ -1,0 +1,10 @@
+rm *.pdf
+rm *.gz
+rm *.bcf
+rm *.blg
+rm *.toc
+rm *.xml
+rm *.out
+rm *.log
+rm *.bbl
+rm *.aux

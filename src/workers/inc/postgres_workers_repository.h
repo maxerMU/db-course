@@ -13,6 +13,7 @@ class PostgresWorkersRepository : public BaseWorkersRepository {
 
   virtual int create(const WorkerPost& worker) override;
   virtual size_t workers_count() override;
+  virtual WorkerBaseInf read(size_t worker_id) override;
   virtual void update(const WorkerUpdate& worker) override;
   virtual bool get_password(std::string& password,
                             size_t& worker_id,
@@ -33,12 +34,19 @@ class PostgresWorkersRepository : public BaseWorkersRepository {
   std::string host_;
   size_t port_;
 
-  enum PreparedRequests { CREATE, READ_COUNT, READ_PASSWORD, UPDATE };
+  enum PreparedRequests {
+    CREATE,
+    READ_COUNT,
+    READ_PASSWORD,
+    READ_BASE_INF,
+    UPDATE
+  };
 
   std::map<PreparedRequests, std::string> requests_names = {
       {CREATE, "create_worker"},
       {READ_COUNT, "read_workers_count"},
       {READ_PASSWORD, "read_password"},
+      {READ_BASE_INF, "read_base_inf"},
       {UPDATE, "update_worker"}};
 };
 

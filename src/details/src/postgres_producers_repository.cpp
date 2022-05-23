@@ -57,18 +57,30 @@ void PostgresProducersRepository::add_prepare_statements() {
 
 size_t PostgresProducersRepository::create(
     const DetailsProducerData& producer) {
-  pqxx::work w(*connection_);
-  pqxx::result res = w.exec_prepared(requests_names[CREATE], producer.name(),
-                                     producer.country());
-  w.commit();
+  try {
+    pqxx::work w(*connection_);
+    pqxx::result res = w.exec_prepared(requests_names[CREATE], producer.name(),
+                                       producer.country());
+    w.commit();
 
-  return res[0][0].as<size_t>();
+    return res[0][0].as<size_t>();
+  } catch (...) {
+    throw DatabaseExecutionException("can't execute prepared");
+  }
 }
 
 DetailsProducer PostgresProducersRepository::read(size_t producer_id) {
-  pqxx::work w(*connection_);
-  pqxx::result res = w.exec_prepared(requests_names[READ_BY_ID], producer_id);
-  w.commit();
+  pqxx::result res;
+  try {
+    pqxx::work w(*connection_);
+    res = w.exec_prepared(requests_names[READ_BY_ID], producer_id);
+    w.commit();
+  } catch (...) {
+    throw DatabaseExecutionException("can't execute prepared");
+  }
+
+  if (res.size() == 0)
+    throw DatabaseNotFoundException("Can't find producer");
 
   DetailsProducer producer;
   producer = DetailsProducer(res[0]["id"].as<size_t>(),
@@ -79,9 +91,14 @@ DetailsProducer PostgresProducersRepository::read(size_t producer_id) {
 }
 
 producers_t PostgresProducersRepository::read_all() {
-  pqxx::work w(*connection_);
-  pqxx::result res = w.exec_prepared(requests_names[READ_ALL]);
-  w.commit();
+  pqxx::result res;
+  try {
+    pqxx::work w(*connection_);
+    res = w.exec_prepared(requests_names[READ_ALL]);
+    w.commit();
+  } catch (...) {
+    throw DatabaseExecutionException("can't execute prepared");
+  }
 
   producers_t producers;
   for (auto const& row : res) {
@@ -94,14 +111,22 @@ producers_t PostgresProducersRepository::read_all() {
 }
 
 void PostgresProducersRepository::update(const DetailsProducer& producer) {
-  pqxx::work w(*connection_);
-  w.exec_prepared(requests_names[UPDATE], producer.id(), producer.name(),
-                  producer.country());
-  w.commit();
+  try {
+    pqxx::work w(*connection_);
+    w.exec_prepared(requests_names[UPDATE], producer.id(), producer.name(),
+                    producer.country());
+    w.commit();
+  } catch (...) {
+    throw DatabaseExecutionException("can't execute prepared");
+  }
 }
 
 void PostgresProducersRepository::delete_(size_t producer_id) {
-  pqxx::work w(*connection_);
-  w.exec_prepared(requests_names[DELETE], producer_id);
-  w.commit();
+  try {
+    pqxx::work w(*connection_);
+    w.exec_prepared(requests_names[DELETE], producer_id);
+    w.commit();
+  } catch (...) {
+    throw DatabaseExecutionException("can't execute prepared");
+  }
 }

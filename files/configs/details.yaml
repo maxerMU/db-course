@@ -1,6 +1,13 @@
 Server:
         Port: 8002
 
+Clients:
+        - Authentification
+
+Authentification:
+        Host: "127.0.0.1"
+        Port: 8003
+
 DB_PRODUCERS:
         DB_NAME: "stock_db"
         DB_USER: "producers_integrator"

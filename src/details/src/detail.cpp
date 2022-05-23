@@ -75,3 +75,9 @@ size_t Detail::producer_id() const {
 void Detail::set_producer_id(const size_t& producer_id) {
   producer_id_ = producer_id;
 }
+
+bool Detail::operator==(const Detail& detail) const {
+  return (producer_id_ == detail.producer_id_) &&
+         (part_number_ == detail.part_number_) &&
+         (name_rus_ == detail.name_rus_) && (name_eng_ == detail.name_eng_);
+}

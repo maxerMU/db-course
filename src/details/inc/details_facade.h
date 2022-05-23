@@ -27,7 +27,11 @@ class DetailsFacade {
     return facade;
   }
 
-  void init(const std::shared_ptr<BaseConfig>& conf);
+  void init(const std::shared_ptr<BaseConfig>& conf,
+            const std::shared_ptr<BaseProducersRepository>& producers_rep,
+            const std::shared_ptr<BaseDetailsRepository>& details_rep,
+            const std::shared_ptr<BaseSwapsRepository>& swaps_rep,
+            const std::shared_ptr<BaseStockRepository>& stock_rep);
 
   /*details branch */
   details_t get_details();
@@ -64,10 +68,10 @@ class DetailsFacade {
 
  private:
   std::shared_ptr<BaseConfig> config_;
-  std::shared_ptr<BaseProducersRepository> producers_db_;
-  std::shared_ptr<BaseDetailsRepository> details_db_;
-  std::shared_ptr<BaseSwapsRepository> swaps_db_;
-  std::shared_ptr<BaseStockRepository> stock_db_;
+  std::shared_ptr<BaseProducersRepository> producers_rep_;
+  std::shared_ptr<BaseDetailsRepository> details_rep_;
+  std::shared_ptr<BaseSwapsRepository> swaps_rep_;
+  std::shared_ptr<BaseStockRepository> stock_rep_;
   std::shared_ptr<SwapsController> swaps_controller_;
 };
 

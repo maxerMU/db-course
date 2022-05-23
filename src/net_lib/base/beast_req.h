@@ -1,25 +1,27 @@
 #ifndef BEASTREQ_H
 #define BEASTREQ_H
 
+#include <map>
 #include "net.h"
 #include "reqresp.h"
-#include <map>
 
 class BeastReq : public Request {
-public:
+ public:
   BeastReq() = default;
-  BeastReq(const http::request<http::string_body> &req);
+  BeastReq(const http::request<http::string_body>& req);
   virtual std::string get_body() override;
   virtual std::string get_target() override;
   virtual headers_t get_headers() override;
   virtual method_t get_method() override;
+  virtual ExtraData get_extra_data() override;
 
-  virtual void set_body(const std::string &body) override;
-  virtual void set_headers(const headers_t &headers) override;
-  virtual void set_target(const std::string &target) override;
-  virtual void set_method(const method_t &method) override;
+  virtual void set_body(const std::string& body) override;
+  virtual void set_headers(const headers_t& headers) override;
+  virtual void set_target(const std::string& target) override;
+  virtual void set_method(const method_t& method) override;
+  virtual void set_extra_data(const ExtraData& extra_data) override;
 
-private:
+ private:
   bool is_from_req = false;
   http::request<http::string_body> req_;
   std::map<std::string, method_t> methods_from{{"GET", GET},
@@ -32,9 +34,10 @@ private:
   headers_t headers_;
   std::string target_;
   method_t method_;
+  ExtraData extra_data_;
 };
 
-http::request<http::string_body>
-make_beast_req(const std::shared_ptr<Request> &req);
+http::request<http::string_body> make_beast_req(
+    const std::shared_ptr<Request>& req);
 
-#endif // BEASTREQ_H
+#endif  // BEASTREQ_H

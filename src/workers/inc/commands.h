@@ -59,4 +59,15 @@ class LoginCommand : public BaseCommand {
   int status_code_ = RESP_OK;
 };
 
+class AuthCommand : public BaseCommand {
+ public:
+  virtual void handle_request(const std::shared_ptr<Request>& req) override;
+  virtual void get_response(const std::shared_ptr<Response>& resp) override;
+
+ private:
+  std::string token_;
+  size_t worker_id_;
+  int status_code_ = RESP_OK;
+};
+
 #endif  // BASECOMMAND_H

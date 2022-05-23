@@ -1,0 +1,215 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.1 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{none/global//global/global}
+    \entry{rest-api}{misc}{}
+      \field{sortinit}{1}
+      \field{sortinithash}{50c6687d7fc80f50136d75228e3c59ba}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{Режим доступа: \url{https://www.redhat.com/en/topics/api/what-is-a-rest-api} (дата обращения: 07.05.2022)}
+      \field{title}{What is a REST API? - Red Hat [Электронный ресурс]}
+    \endentry
+    \entry{kleppman}{inbook}{}
+      \name{author}{1}{}{%
+        {{hash=a3a7a610c60a10426d79a474eb90561a}{%
+           family={Kleppmann},
+           familyi={K\bibinitperiod},
+           given={M.},
+           giveni={M\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Edition. Sebastopol: O’Reilly Media}%
+      }
+      \strng{namehash}{a3a7a610c60a10426d79a474eb90561a}
+      \strng{fullhash}{a3a7a610c60a10426d79a474eb90561a}
+      \strng{bibnamehash}{a3a7a610c60a10426d79a474eb90561a}
+      \strng{authorbibnamehash}{a3a7a610c60a10426d79a474eb90561a}
+      \strng{authornamehash}{a3a7a610c60a10426d79a474eb90561a}
+      \strng{authorfullhash}{a3a7a610c60a10426d79a474eb90561a}
+      \field{sortinit}{2}
+      \field{sortinithash}{ed39bb39cf854d5250e95b1c1f94f4ed}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Designing Data-Intensive Applications}
+      \field{year}{2017}
+      \field{pages}{640}
+      \range{pages}{1}
+    \endentry
+    \entry{postgresql}{misc}{}
+      \field{sortinit}{3}
+      \field{sortinithash}{a37a8ef248a93c322189792c34fc68c9}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{Режим доступа: \url{https://postgrespro.ru/docs/postgresql/} (дата обращения: 07.05.2022)}
+      \field{title}{PostgreSQL: Документация. [Электронный ресурс]}
+    \endentry
+    \entry{postgresql-fact}{misc}{}
+      \field{sortinit}{4}
+      \field{sortinithash}{e071e0bcb44634fab398d68ad04e69f4}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{Режим доступа: \url{https://postgrespro.ru/blog/media/17768} (дата обращения: 07.05.2022)}
+      \field{title}{PostgreSQL: вчера, сегодня, завтра [Электронный ресурс]}
+    \endentry
+    \entry{acid}{misc}{}
+      \field{sortinit}{5}
+      \field{sortinithash}{5dd416adbafacc8226114bc0202d5fdd}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{Режим доступа: \url{https://gb.ru/posts/acid_cap_transactions} (дата обращения: 07.05.2022)}
+      \field{title}{Транзакции, ACID, CAP | GeekBrains [Электронный ресурс]}
+    \endentry
+    \entry{mvcc}{misc}{}
+      \field{sortinit}{6}
+      \field{sortinithash}{7851c86048328b027313775d8fbd2131}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{Режим доступа: \url{https://www.postgresql.org/docs/12/mvcc-intro.html} (дата обращения: 07.05.2022)}
+      \field{title}{Documentation: 12: 13.1. Introduction - PostgreSQL [Электронный ресурс]}
+    \endentry
+    \entry{r-lock}{misc}{}
+      \field{sortinit}{7}
+      \field{sortinithash}{f615fb9c6fba11c6f962fb3fd599810e}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{Режим доступа: \url{https://www.ibm.com/docs/ru/aix/7.2?topic=programming-using-readwrite-locks} (дата обращения: 07.05.2022)}
+      \field{title}{Применение блокировок чтения/записи | IBM [Электронный ресурс]}
+    \endentry
+    \entry{oracle}{misc}{}
+      \field{sortinit}{8}
+      \field{sortinithash}{1b24cab5087933ef0826a7cd3b99e994}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{Режим доступа: \url{https://www.oracle.com/database/technologies/appdev/sql.html} (дата обращения: 07.05.2022)}
+      \field{title}{SQL Language | Oracle[Электронный ресурс]}
+    \endentry
+    \entry{oracle-company}{misc}{}
+      \field{sortinit}{9}
+      \field{sortinithash}{54047ffb55bdefa0694bbd554c1b11a0}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{Режим доступа: \url{https://www.oracle.com/index.html} (дата обращения: 07.05.2022)}
+      \field{title}{Oracle | Integrated Cloud Applications and Platform Services [Электронный ресурс]}
+    \endentry
+    \entry{oracle-popular}{misc}{}
+      \field{sortinit}{1}
+      \field{sortinithash}{50c6687d7fc80f50136d75228e3c59ba}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{Режим доступа: \url{https://db-engines.com/en/ranking} (дата обращения: 07.05.2022)}
+      \field{title}{DB-Engines Ranking [Электронный ресурс]}
+    \endentry
+    \entry{mysql}{misc}{}
+      \field{sortinit}{1}
+      \field{sortinithash}{50c6687d7fc80f50136d75228e3c59ba}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{Режим доступа: \url{https://www.mysql.com/} (дата обращения: 07.05.2022)}
+      \field{title}{MySQL Database Service is a fully managed database service to deploy cloud-native applications. [Электронный ресурс]}
+    \endentry
+    \entry{innodb}{misc}{}
+      \field{sortinit}{1}
+      \field{sortinithash}{50c6687d7fc80f50136d75228e3c59ba}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{Режим доступа: \url{https://dev.mysql.com/doc/refman/8.0/en/innodb-storage-engine.html} (дата обращения: 07.05.2022)}
+      \field{title}{MySQL Reference Manual 8.0: The InnoDB Storage Enginee [Электронный ресурс]}
+    \endentry
+    \entry{myisam}{misc}{}
+      \field{sortinit}{1}
+      \field{sortinithash}{50c6687d7fc80f50136d75228e3c59ba}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{Режим доступа: \url{https://dev.mysql.com/doc/refman/8.0/en/myisam-storage-engine.html} (дата обращения: 07.05.2022)}
+      \field{title}{MySQL Reference Manual 16.2: The MyISAM Storage Engine [Электронный ресурс]}
+    \endentry
+    \entry{php}{misc}{}
+      \field{sortinit}{1}
+      \field{sortinithash}{50c6687d7fc80f50136d75228e3c59ba}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{Режим доступа: \url{https://www.php.net/} (дата обращения: 07.05.2022)}
+      \field{title}{PHP: Hypertext Preprocessor [Электронный ресурс]}
+    \endentry
+    \entry{perl}{misc}{}
+      \field{sortinit}{1}
+      \field{sortinithash}{50c6687d7fc80f50136d75228e3c59ba}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{Режим доступа: \url{https://www.perl.org/} (дата обращения: 07.05.2022)}
+      \field{title}{The Perl Programming Language [Электронный ресурс]}
+    \endentry
+    \entry{oauth1}{misc}{}
+      \field{sortinit}{1}
+      \field{sortinithash}{50c6687d7fc80f50136d75228e3c59ba}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{Режим доступа: \url{https://oauth.net/core/1.0/} (дата обращения: 07.05.2022)}
+      \field{title}{OAuth Core 1.0 [Электронный ресурс]}
+    \endentry
+    \entry{redis}{misc}{}
+      \field{sortinit}{1}
+      \field{sortinithash}{50c6687d7fc80f50136d75228e3c59ba}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{Режим доступа: \url{https://redis.io/} (дата обращения: 07.05.2022)}
+      \field{title}{Redis is an open source (BSD licensed), in-memory data structure store, used as a database, cache, and message broker [Электронный ресурс]}
+    \endentry
+    \entry{cpp}{misc}{}
+      \field{sortinit}{1}
+      \field{sortinithash}{50c6687d7fc80f50136d75228e3c59ba}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{Режим доступа: \url{https://docs.microsoft.com/ru-ru/cpp/} (дата обращения: 07.05.2022)}
+      \field{title}{Документация по Microsoft C++, C и ассемблеру [Электронный ресурс]}
+    \endentry
+    \entry{oop}{inbook}{}
+      \name{author}{1}{}{%
+        {{hash=be41c75bfa15dd289b6e19290a7a7a9f}{%
+           family={Гради\bibnamedelima Буч},
+           familyi={Г\bibinitperiod\bibinitdelim Б\bibinitperiod},
+           given={Майкл\bibnamedelimb У.\bibnamedelimi Энгл},
+           giveni={М\bibinitperiod\bibinitdelim У\bibinitperiod\bibinitdelim Э\bibinitperiod},
+           suffix={Роберт\bibnamedelimb А.\bibnamedelimi Максимчук},
+           suffixi={Р\bibinitperiod\bibinitdelim А\bibinitperiod\bibinitdelim М\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {russian}%
+      }
+      \list{publisher}{1}{%
+        {Издательский дом Вильямс}%
+      }
+      \strng{namehash}{be41c75bfa15dd289b6e19290a7a7a9f}
+      \strng{fullhash}{be41c75bfa15dd289b6e19290a7a7a9f}
+      \strng{bibnamehash}{be41c75bfa15dd289b6e19290a7a7a9f}
+      \strng{authorbibnamehash}{be41c75bfa15dd289b6e19290a7a7a9f}
+      \strng{authornamehash}{be41c75bfa15dd289b6e19290a7a7a9f}
+      \strng{authorfullhash}{be41c75bfa15dd289b6e19290a7a7a9f}
+      \field{sortinit}{1}
+      \field{sortinithash}{50c6687d7fc80f50136d75228e3c59ba}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Объектно-ориентированный анализ и проектирование с примерами приложений}
+      \field{year}{2008}
+    \endentry
+    \entry{gtest}{misc}{}
+      \field{sortinit}{2}
+      \field{sortinithash}{ed39bb39cf854d5250e95b1c1f94f4ed}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{Режим доступа: \url{https://google.github.io/googletest/} (дата обращения: 07.05.2022)}
+      \field{title}{Документация по фреймворку GoogleTests [Электронный ресурс]}
+    \endentry
+    \entry{clock}{misc}{}
+      \field{sortinit}{2}
+      \field{sortinithash}{ed39bb39cf854d5250e95b1c1f94f4ed}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{Режим доступа: \url{https://www.cplusplus.com/reference/chrono/system_clock/now/} (дата обращения: 07.05.2022)}
+      \field{title}{Документация по chrono [Электронный ресурс]}
+    \endentry
+  \enddatalist
+  \missing{intel}
+  \missing{qt}
+\endrefsection
+\endinput
+

@@ -57,23 +57,40 @@ void PostgresStockRepository::add_prepare_statements() {
 void PostgresStockRepository::create(const std::string& part_name,
                                      size_t worker_id,
                                      size_t quantity) {
-  pqxx::work w(*connection_);
-  w.exec_prepared(requests_names[UPDATE], part_name, worker_id, quantity);
-  w.commit();
+  try {
+    pqxx::work w(*connection_);
+    w.exec_prepared(requests_names[UPDATE], part_name, worker_id, quantity);
+    w.commit();
+  } catch (...) {
+    throw DatabaseExecutionException("can't execute prepared");
+  }
 }
 
 detail_quantity_t PostgresStockRepository::read(const std::string& part_name) {
-  pqxx::work w(*connection_);
-  pqxx::result res = w.exec_prepared(requests_names[READ_BY_ID], part_name);
-  w.commit();
+  pqxx::result res;
+  try {
+    pqxx::work w(*connection_);
+    res = w.exec_prepared(requests_names[READ_BY_ID], part_name);
+    w.commit();
+  } catch (...) {
+    throw DatabaseExecutionException("can't execute prepared");
+  }
+
+  if (res.size() == 0)
+    throw DatabaseIncorrectAnswerException("no answer from database");
 
   return detail_quantity_t(part_name, res[0][0].as<size_t>());
 }
 
 details_quantities_t PostgresStockRepository::read_current() {
-  pqxx::work w(*connection_);
-  pqxx::result res = w.exec_prepared(requests_names[READ_CURR]);
-  w.commit();
+  pqxx::result res;
+  try {
+    pqxx::work w(*connection_);
+    res = w.exec_prepared(requests_names[READ_CURR]);
+    w.commit();
+  } catch (...) {
+    throw DatabaseExecutionException("can't execute prepared");
+  }
 
   details_quantities_t details_quantities;
   for (auto const& row : res) {
@@ -85,9 +102,14 @@ details_quantities_t PostgresStockRepository::read_current() {
 }
 
 details_names_t PostgresStockRepository::read_prev() {
-  pqxx::work w(*connection_);
-  pqxx::result res = w.exec_prepared(requests_names[READ_PREV]);
-  w.commit();
+  pqxx::result res;
+  try {
+    pqxx::work w(*connection_);
+    res = w.exec_prepared(requests_names[READ_PREV]);
+    w.commit();
+  } catch (...) {
+    throw DatabaseExecutionException("can't execute prepared");
+  }
 
   details_names_t part_numbers;
   for (auto const& row : res) {
@@ -100,8 +122,13 @@ details_names_t PostgresStockRepository::read_prev() {
 void PostgresStockRepository::delete_(const std::string& part_name,
                                       size_t worker_id,
                                       size_t quantity) {
-  pqxx::work w(*connection_);
-  long long quantity_int = quantity;
-  w.exec_prepared(requests_names[UPDATE], part_name, worker_id, -quantity_int);
-  w.commit();
+  try {
+    pqxx::work w(*connection_);
+    long long quantity_int = quantity;
+    w.exec_prepared(requests_names[UPDATE], part_name, worker_id,
+                    -quantity_int);
+    w.commit();
+  } catch (...) {
+    throw DatabaseExecutionException("can't execute prepared");
+  }
 }

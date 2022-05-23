@@ -2,8 +2,8 @@
 
 #define REQ_VERSION 11
 
-http::request<http::string_body>
-make_beast_req(const std::shared_ptr<Request> &req) {
+http::request<http::string_body> make_beast_req(
+    const std::shared_ptr<Request>& req) {
   // TODO
   std::map<method_t, http::verb> methods_to{{GET, http::verb::get},
                                             {POST, http::verb::post},
@@ -28,7 +28,7 @@ make_beast_req(const std::shared_ptr<Request> &req) {
   return res;
 }
 
-BeastReq::BeastReq(const http::request<http::string_body> &req)
+BeastReq::BeastReq(const http::request<http::string_body>& req)
     : req_(req), is_from_req(true) {}
 
 std::string BeastReq::get_body() {
@@ -51,7 +51,7 @@ headers_t BeastReq::get_headers() {
 
   headers_t res;
 
-  for (auto const &field : req_)
+  for (auto const& field : req_)
     res.push_back(std::pair<std::string, std::string>(field.name_string(),
                                                       field.value()));
 
@@ -70,10 +70,26 @@ method_t BeastReq::get_method() {
   return UNDEFINED;
 }
 
-void BeastReq::set_body(const std::string &body) { body_ = body; }
+void BeastReq::set_body(const std::string& body) {
+  body_ = body;
+}
 
-void BeastReq::set_headers(const headers_t &headers) { headers_ = headers; }
+void BeastReq::set_headers(const headers_t& headers) {
+  headers_ = headers;
+}
 
-void BeastReq::set_method(const method_t &method) { method_ = method; }
+void BeastReq::set_method(const method_t& method) {
+  method_ = method;
+}
 
-void BeastReq::set_target(const std::string &target) { target_ = target; }
+void BeastReq::set_target(const std::string& target) {
+  target_ = target;
+}
+
+ExtraData BeastReq::get_extra_data() {
+  return extra_data_;
+}
+
+void BeastReq::set_extra_data(const ExtraData& extra_data) {
+  extra_data_ = extra_data;
+}

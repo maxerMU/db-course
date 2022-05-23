@@ -26,6 +26,8 @@ class Detail {
   size_t producer_id() const;
   void set_producer_id(const size_t& producer_id);
 
+  bool operator==(const Detail& detail) const;
+
  private:
   std::string name_rus_;
   std::string name_eng_;

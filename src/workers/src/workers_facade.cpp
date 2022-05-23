@@ -3,24 +3,15 @@
 
 WorkersFacade::WorkersFacade() {}
 
-void WorkersFacade::init(const std::shared_ptr<BaseConfig>& conf) {
+void WorkersFacade::init(
+    const std::shared_ptr<BaseConfig>& conf,
+    const std::shared_ptr<BaseWorkersRepository>& workers_rep,
+    const std::shared_ptr<BaseAuthRepository>& auth_rep,
+    const std::shared_ptr<WorkersController>& workers_controller) {
   config_ = conf;
-
-  workers_db_ = std::shared_ptr<BaseWorkersRepository>(
-      new PostgresWorkersRepository(conf, DbWorkersSection));
-
-  auth_db_ = std::shared_ptr<BaseAuthRepository>(
-      new PostgresAuthRepository(conf, DbAuthSection));
-
-  auto encrypt_strategy = std::shared_ptr<BaseEncryptStrategy>(
-      new SHA256Encrypt(conf, EncryptSection));
-
-  auto token_generator = std::shared_ptr<BaseTokenGenerator>(
-      new JWTTokenGenerator(conf, AuthSection));
-
-  workers_controller_ =
-      std::shared_ptr<WorkersController>(new WorkersController(
-          encrypt_strategy, token_generator, auth_db_, workers_db_));
+  workers_db_ = workers_rep;
+  auth_db_ = auth_rep;
+  workers_controller_ = workers_controller;
 }
 
 void WorkersFacade::sign_up(WorkerPost& worker) {
@@ -29,4 +20,15 @@ void WorkersFacade::sign_up(WorkerPost& worker) {
 
 std::string WorkersFacade::login(const WorkerAuth& worker) {
   return workers_controller_->login(worker);
+}
+
+bool WorkersFacade::is_valid_session(size_t& worker_id,
+                                     const std::string& token) {
+  return workers_controller_->is_valid_session(worker_id, token);
+}
+
+bool WorkersFacade::is_valid_access(size_t worker_id,
+                                    const std::string& target,
+                                    const method_t& method) {
+  return workers_controller_->is_valid_access(worker_id, target, method);
 }

@@ -33,4 +33,8 @@ WorkersRouter::WorkersRouter() {
   RequestParams login{"/auth/login", POST};
   static_routes[login] =
       std::shared_ptr<BaseCommandCreator>(new CommandCreator<LoginCommand>());
+
+  RequestParams auth{"/auth", GET};
+  static_routes[auth] =
+      std::shared_ptr<BaseCommandCreator>(new CommandCreator<AuthCommand>());
 }

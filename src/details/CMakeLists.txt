@@ -26,3 +26,5 @@ target_link_libraries(${TARGET_NAME}
     jsoncpp_lib
     pq
     pqxx)
+
+add_subdirectory(unit_tests)

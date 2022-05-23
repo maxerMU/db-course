@@ -20,6 +20,7 @@ find_package(Boost COMPONENTS system thread REQUIRED)
 find_package(yaml-cpp)
 find_package(jsoncpp CONFIG REQUIRED)
 find_package(cpp-jwt REQUIRED)
+find_package(GTest REQUIRED)
 get_target_property(JSON_INC_PATH jsoncpp_lib INTERFACE_INCLUDE_DIRECTORIES)
 include_directories(${JSON_INC_PATH})
 

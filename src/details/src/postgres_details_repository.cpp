@@ -56,16 +56,28 @@ void PostgresDetailsRepository::add_prepare_statements() {
 }
 
 void PostgresDetailsRepository::create(const Detail& detail) {
-  pqxx::work w(*connection_);
-  w.exec_prepared(requests_names[CREATE], detail.part_number(),
-                  detail.name_rus(), detail.name_eng(), detail.producer_id());
-  w.commit();
+  try {
+    pqxx::work w(*connection_);
+    w.exec_prepared(requests_names[CREATE], detail.part_number(),
+                    detail.name_rus(), detail.name_eng(), detail.producer_id());
+    w.commit();
+  } catch (...) {
+    throw DatabaseExecutionException("can't execute prepared");
+  }
 }
 
 Detail PostgresDetailsRepository::read(const std::string& part_name) {
-  pqxx::work w(*connection_);
-  pqxx::result res = w.exec_prepared(requests_names[READ_BY_ID], part_name);
-  w.commit();
+  pqxx::result res;
+  try {
+    pqxx::work w(*connection_);
+    res = w.exec_prepared(requests_names[READ_BY_ID], part_name);
+    w.commit();
+  } catch (...) {
+    throw DatabaseExecutionException("can't execute prepared");
+  }
+
+  if (res.size() == 0)
+    throw DatabaseNotFoundException("no detail");
 
   auto row = res[0];
   auto detail = Detail(
@@ -76,9 +88,14 @@ Detail PostgresDetailsRepository::read(const std::string& part_name) {
 }
 
 details_t PostgresDetailsRepository::read_all() {
-  pqxx::work w(*connection_);
-  pqxx::result res = w.exec_prepared(requests_names[READ_ALL]);
-  w.commit();
+  pqxx::result res;
+  try {
+    pqxx::work w(*connection_);
+    res = w.exec_prepared(requests_names[READ_ALL]);
+    w.commit();
+  } catch (...) {
+    throw DatabaseExecutionException("can't execute prepared");
+  }
 
   details_t details;
   for (auto const& row : res) {
@@ -91,14 +108,22 @@ details_t PostgresDetailsRepository::read_all() {
 }
 
 void PostgresDetailsRepository::update(const Detail& detail) {
-  pqxx::work w(*connection_);
-  w.exec_prepared(requests_names[UPDATE], detail.part_number(),
-                  detail.name_rus(), detail.name_eng(), detail.producer_id());
-  w.commit();
+  try {
+    pqxx::work w(*connection_);
+    w.exec_prepared(requests_names[UPDATE], detail.part_number(),
+                    detail.name_rus(), detail.name_eng(), detail.producer_id());
+    w.commit();
+  } catch (...) {
+    throw DatabaseExecutionException("can't execute prepared");
+  }
 }
 
 void PostgresDetailsRepository::delete_(const std::string& part_name) {
-  pqxx::work w(*connection_);
-  w.exec_prepared(requests_names[DELETE], part_name);
-  w.commit();
+  try {
+    pqxx::work w(*connection_);
+    w.exec_prepared(requests_names[DELETE], part_name);
+    w.commit();
+  } catch (...) {
+    throw DatabaseExecutionException("can't execute prepared");
+  }
 }

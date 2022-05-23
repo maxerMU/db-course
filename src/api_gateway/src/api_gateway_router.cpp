@@ -55,6 +55,11 @@ ApiGatewayRouter::ApiGatewayRouter() {
   tmp.clear();
 
   tmp.push_back(std::shared_ptr<BaseApiGatewayAdapterCreator>(
+      new ApiGatewayAdapterCreator<WorkersAdapter>()));
+  static_routes["/auth"] = tmp;
+  tmp.clear();
+
+  tmp.push_back(std::shared_ptr<BaseApiGatewayAdapterCreator>(
       new ApiGatewayAdapterCreator<DetailsAdapter>()));
   static_routes["/stock?previous_details=1"] = tmp;
   tmp.clear();

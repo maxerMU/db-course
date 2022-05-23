@@ -46,7 +46,7 @@ void PostgresAuthRepository::connect() {
 void PostgresAuthRepository::add_prepare_statements() {
   connection_->prepare(requests_names[CREATE], "CALL PR_ADD_SESSION($1, $2)");
   connection_->prepare(requests_names[IS_VALID],
-                       "SELECT FN_IS_VALID_SESSION($1, $2)");
+                       "SELECT * FROM FN_GET_SESSION_DATA($1)");
 }
 
 void PostgresAuthRepository::create_session(size_t worker_id,
@@ -56,12 +56,15 @@ void PostgresAuthRepository::create_session(size_t worker_id,
   w.commit();
 }
 
-bool PostgresAuthRepository::is_valid_session(size_t worker_id,
+bool PostgresAuthRepository::is_valid_session(size_t& worker_id,
                                               const std::string& token) {
   pqxx::work w(*connection_);
-  pqxx::result res =
-      w.exec_prepared(requests_names[IS_VALID], worker_id, token);
+  pqxx::result res = w.exec_prepared(requests_names[IS_VALID], token);
   w.commit();
 
-  return res[0][0].as<bool>();
+  bool is_valid = res[0][0].as<bool>();
+  if (is_valid)
+    worker_id = res[0][1].as<size_t>();
+
+  return is_valid;
 }

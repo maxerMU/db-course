@@ -45,3 +45,19 @@ std::string WorkersController::login(const WorkerAuth& worker) {
 
   return token;
 }
+
+bool WorkersController::is_valid_session(size_t& worker_id,
+                                         const std::string& token) {
+  bool is_expired = token_generator_->check_expired(token);
+  if (is_expired)
+    return false;
+
+  return auth_db_->is_valid_session(worker_id, token);
+}
+
+bool WorkersController::is_valid_access(size_t worker_id,
+                                        const std::string& target,
+                                        const method_t& method) {
+  auto worker = workers_db_->read(worker_id);
+  return true;
+}

@@ -1,0 +1,20 @@
+[0] Config.pm:304> INFO - This is Biber 2.14 (beta)
+[0] Config.pm:307> INFO - Logfile is 'coursework.blg'
+[68] biber:322> INFO - === Пт мая 13, 2022, 20:01:06
+[83] Biber.pm:415> INFO - Reading 'coursework.bcf'
+[167] Biber.pm:943> INFO - Found 23 citekeys in bib section 0
+[180] Biber.pm:4256> INFO - Processing section 0
+[181] Utils.pm:75> INFO - Globbing data source 'biblio.bib'
+[181] Utils.pm:91> INFO - Globbed data source 'biblio.bib' to biblio.bib
+[188] Biber.pm:4455> INFO - Looking for bibtex format file 'biblio.bib' for section 0
+[189] bibtex.pm:1653> INFO - LaTeX decoding ...
+[200] bibtex.pm:1471> INFO - Found BibTeX data source 'biblio.bib'
+[227] Utils.pm:293> WARN - I didn't find a database entry for 'qt' (section 0)
+[228] Utils.pm:293> WARN - I didn't find a database entry for 'intel' (section 0)
+[239] UCollate.pm:68> INFO - Overriding locale 'ru-RU' defaults 'variable = shifted' with 'variable = non-ignorable'
+[239] UCollate.pm:68> INFO - Overriding locale 'ru-RU' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[239] Biber.pm:4084> INFO - Sorting list 'none/global//global/global' of type 'entry' with template 'none' and locale 'ru-RU'
+[239] Biber.pm:4090> INFO - No sort tailoring available for locale 'ru-RU'
+[249] bbl.pm:652> INFO - Writing 'coursework.bbl' with encoding 'UTF-8'
+[252] bbl.pm:755> INFO - Output to coursework.bbl
+[252] Biber.pm:128> INFO - WARNINGS: 2
