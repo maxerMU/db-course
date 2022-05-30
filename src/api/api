@@ -484,7 +484,6 @@ paths:
               $ref: '#/components/schemas/StockPost'
             example:
               part_number: 'd1c1991a-89e2-4dd4-a132-cb58ebe7def0'
-              worker_id: 5
               quantity: 2
       responses:
         '200':
@@ -507,7 +506,6 @@ paths:
               $ref: '#/components/schemas/StockPost'
             example:
               part_number: 'd1c1991a-89e2-4dd4-a132-cb58ebe7def0'
-              worker_id: 5
               quantity: 2
       responses:
         '200':
@@ -628,13 +626,10 @@ components:
       type: object
       required:
         - part_number
-        - worker_id
         - quantity
       properties:
         part_number:
           type: string
-        worker_id:
-          type: integer
         quantity:
           type: integer
 
