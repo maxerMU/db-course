@@ -67,7 +67,7 @@ paths:
         '200':
           description: access token.
 
-  '/workers/{worker_id}':
+  '/workers/{worker_id}/privilege':
     put:
       summary: Update privilege
       description: Update privilege.
