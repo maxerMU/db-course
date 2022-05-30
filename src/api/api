@@ -30,6 +30,19 @@ paths:
         '200':
           description: Worker was added.
 
+    get:
+      summary: Get worker
+      description: get worker.
+      tags:
+        - workers
+      
+      security:
+          - TokenAuth: []
+      
+      responses:
+        '200':
+          description: access token.
+
   /auth:
     get:
       summary: Auth data
