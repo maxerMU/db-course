@@ -15,16 +15,20 @@ paths:
         - workers
 
       requestBody:
-        description: A privilege schema.
+        description: A worker schema.
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Privilege'
+              $ref: '#/components/schemas/WorkerPost'
             example:
-              privilege_level: 3
+              name: "Max"
+              surname: "Mitsevich"
+              birthdate: "2002-03-04"
+              username: "maxermu"
+              password: "123456"
       responses:
         '200':
-          description: Privilege was updated.
+          description: Worker was added.
 
     put:
       summary: Update worker
@@ -87,13 +91,9 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/WorkerPost'
+              $ref: '#/components/schemas/Privilege'
             example:
-              name: "Max"
-              surname: "Mitsevich"
-              birthdate: "2002-03-04"
-              username: "maxermu"
-              password: "123456"
+              privilege_level: 3
 
       responses:
         '200':
