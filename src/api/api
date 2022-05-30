@@ -30,6 +30,30 @@ paths:
         '200':
           description: Worker was added.
 
+    put:
+      summary: Update worker
+      description: Updates worker.
+      tags:
+        - workers
+      security:
+          - TokenAuth: []
+
+      requestBody:
+        description: A worker schema.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WorkerPost'
+            example:
+              name: "Max"
+              surname: "Mitsevich"
+              birthdate: "2002-03-04"
+              username: "maxermu"
+              password: "123456"
+      responses:
+        '200':
+          description: Worker was updated.
+
     get:
       summary: Get worker
       description: get worker.
