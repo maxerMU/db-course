@@ -65,6 +65,10 @@ void DetailsForAllTimeCommand::get_response(
   resp->set_status(RESP_OK);
 }
 
+PrivilegeLevel DetailsForAllTimeCommand::get_min_privilege_level() {
+  return SELLER;
+}
+
 void DetailsInStockCommand::handle_request(
     const std::shared_ptr<Request>& req) {
   details_quantities_ = DetailsFacade::instanse().get_details_in_stock();
@@ -341,8 +345,9 @@ void AddDetailToStockCommand::handle_request(
   }
 
   std::string part_number = value["part_number"].asString();
-  size_t worker_id = value["worker_id"].asUInt64();
   size_t quantity = value["quantity"].asUInt64();
+
+  size_t worker_id = req->get_extra_data().auth_inf.worker_id;
 
   DetailsFacade::instanse().add_detail_to_stock(part_number, worker_id,
                                                 quantity);
@@ -365,8 +370,9 @@ void RemoveDetailFromStockCommand::handle_request(
   }
 
   std::string part_number = value["part_number"].asString();
-  size_t worker_id = value["worker_id"].asUInt64();
   size_t quantity = value["quantity"].asUInt64();
+
+  size_t worker_id = req->get_extra_data().auth_inf.worker_id;
 
   DetailsFacade::instanse().remove_detail_from_stock(part_number, worker_id,
                                                      quantity);
@@ -375,6 +381,10 @@ void RemoveDetailFromStockCommand::handle_request(
 void RemoveDetailFromStockCommand::get_response(
     const std::shared_ptr<Response>& resp) {
   resp->set_status(RESP_OK);
+}
+
+PrivilegeLevel RemoveDetailFromStockCommand::get_min_privilege_level() {
+  return STOREKEEPER;
 }
 
 void DetailQuantityCommand::handle_request(
@@ -394,4 +404,68 @@ void DetailQuantityCommand::get_response(
   Json::FastWriter writer;
   resp->set_body(writer.write(root));
   resp->set_status(RESP_OK);
+}
+
+PrivilegeLevel DetailQuantityCommand::get_min_privilege_level() {
+  return STOREKEEPER;
+}
+
+PrivilegeLevel GetDetailsCommand::get_min_privilege_level() {
+  return GUEST;
+}
+
+PrivilegeLevel GetDetailByNameCommand::get_min_privilege_level() {
+  return GUEST;
+}
+
+PrivilegeLevel AddDetailCommand::get_min_privilege_level() {
+  return SELLER;
+}
+
+PrivilegeLevel UpdateDetailCommand::get_min_privilege_level() {
+  return SELLER;
+}
+
+PrivilegeLevel DeleteDetailCommand::get_min_privilege_level() {
+  return SELLER;
+}
+
+PrivilegeLevel GetProducersCommand::get_min_privilege_level() {
+  return GUEST;
+}
+
+PrivilegeLevel GetProducerByIdCommand::get_min_privilege_level() {
+  return GUEST;
+}
+
+PrivilegeLevel DeleteProducerCommand::get_min_privilege_level() {
+  return SELLER;
+}
+
+PrivilegeLevel UpdateProducerCommand::get_min_privilege_level() {
+  return SELLER;
+}
+
+PrivilegeLevel AddProducerCommand::get_min_privilege_level() {
+  return SELLER;
+}
+
+PrivilegeLevel AddDetailSwapCommand::get_min_privilege_level() {
+  return SELLER;
+}
+
+PrivilegeLevel GetDetailSwapsCommand::get_min_privilege_level() {
+  return GUEST;
+}
+
+PrivilegeLevel DeleteDetailSwapCommand::get_min_privilege_level() {
+  return SELLER;
+}
+
+PrivilegeLevel AddDetailToStockCommand::get_min_privilege_level() {
+  return STOREKEEPER;
+}
+
+PrivilegeLevel DetailsInStockCommand::get_min_privilege_level() {
+  return SELLER;
 }

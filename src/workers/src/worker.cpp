@@ -118,6 +118,9 @@ WorkerUpdate::WorkerUpdate(size_t worker_id,
     : worker_id_(worker_id),
       WorkerPost(name, surname, birthdate, username, password, privilege) {}
 
+WorkerUpdate::WorkerUpdate(size_t worker_id, const WorkerPost& worker_post)
+    : worker_id_(worker_id), WorkerPost(worker_post) {}
+
 size_t WorkerUpdate::getWorker_id() const {
   return worker_id_;
 }
@@ -125,6 +128,9 @@ size_t WorkerUpdate::getWorker_id() const {
 void WorkerUpdate::setWorker_id(const size_t& value) {
   worker_id_ = value;
 }
+
+WorkerGet::WorkerGet(size_t worker_id, const WorkerBaseInf& base_inf)
+    : worker_id_(worker_id), WorkerBaseInf(base_inf) {}
 
 WorkerGet::WorkerGet(size_t worker_id,
                      const std::string& name,

@@ -18,6 +18,19 @@ void WorkersFacade::sign_up(WorkerPost& worker) {
   workers_controller_->sign_up(worker);
 }
 
+void WorkersFacade::update_worker(const WorkerUpdate& worker) {
+  workers_controller_->update_worker(worker);
+}
+
+void WorkersFacade::update_worker_privilege(size_t worker_id,
+                                            const PrivilegeLevel& privelege) {
+  workers_db_->update_privilege(worker_id, privelege);
+}
+
+WorkerGet WorkersFacade::get_worker(size_t worker_id) {
+  return workers_controller_->get_worker(worker_id);
+}
+
 std::string WorkersFacade::login(const WorkerAuth& worker) {
   return workers_controller_->login(worker);
 }
@@ -28,7 +41,6 @@ bool WorkersFacade::is_valid_session(size_t& worker_id,
 }
 
 bool WorkersFacade::is_valid_access(size_t worker_id,
-                                    const std::string& target,
-                                    const method_t& method) {
-  return workers_controller_->is_valid_access(worker_id, target, method);
+                                    const PrivilegeLevel& min_privilege_level) {
+  return workers_controller_->is_valid_access(worker_id, min_privilege_level);
 }

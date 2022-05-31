@@ -25,5 +25,5 @@ ENCRYPT:
         SALT: "Manchester United"
 
 AUTH:
-        MINUTES_TO_EXPIRE: 15
+        MINUTES_TO_EXPIRE: 180
         SECRET_WORD: "Manchester United"

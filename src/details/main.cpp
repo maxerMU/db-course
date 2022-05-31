@@ -6,6 +6,10 @@
 #include "echo_session.h"
 #include "http_client_server_session.h"
 #include "http_session.h"
+#include "postgres_details_repository.h"
+#include "postgres_producers_repository.h"
+#include "postgres_stock_repository.h"
+#include "postgres_swaps_repository.h"
 #include "server_connection.h"
 #include "yamlcpp_config.h"
 

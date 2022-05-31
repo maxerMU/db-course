@@ -3,8 +3,7 @@
 
 #include <time.h>
 #include <string>
-
-enum PrivilegeLevel { ADMIN = 1, SELLER, STOREKEEPER, CLIENT, GUEST };
+#include "privilege_level.h"
 
 class WorkerAuth {
  public:
@@ -52,6 +51,7 @@ class WorkerBaseInf {
 
 class WorkerPost : public WorkerAuth, public WorkerBaseInf {
  public:
+  WorkerPost() = default;
   WorkerPost(const std::string& name,
              const std::string& surname,
              const struct tm& birthdate,
@@ -71,6 +71,7 @@ class WorkerUpdate : public WorkerPost {
                const std::string& username,
                const std::string& password,
                const PrivilegeLevel& privilege = GUEST);
+  WorkerUpdate(size_t worker_id, const WorkerPost& worker_post);
 
   size_t getWorker_id() const;
   void setWorker_id(const size_t& value);
@@ -81,6 +82,9 @@ class WorkerUpdate : public WorkerPost {
 
 class WorkerGet : public WorkerBaseInf {
  public:
+  WorkerGet() = default;
+  WorkerGet(const WorkerGet&) = default;
+  WorkerGet(size_t worker_id, const WorkerBaseInf& base_inf);
   WorkerGet(size_t worker_id,
             const std::string& name,
             const std::string& surname,

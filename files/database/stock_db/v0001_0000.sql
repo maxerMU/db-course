@@ -22,7 +22,9 @@ CREATE table T_DETAILS (
 
 CREATE table T_STOCK (
     detail_part_name TEXT PRIMARY KEY,
-    quantity INTEGER not NULL
+    quantity INTEGER not NULL,
+
+    FOREIGN KEY (detail_part_name) REFERENCES T_DETAILS(part_name) ON DELETE CASCADE
 );
 
 

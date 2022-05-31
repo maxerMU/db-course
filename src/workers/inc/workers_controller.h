@@ -20,8 +20,9 @@ class WorkersController {
   std::string login(const WorkerAuth& worker);
   bool is_valid_session(size_t& worker_id, const std::string& token);
   bool is_valid_access(size_t worker_id,
-                       const std::string& target,
-                       const method_t& method);
+                       const PrivilegeLevel& min_privilege_level);
+  WorkerGet get_worker(size_t worker_id);
+  void update_worker(const WorkerUpdate& worker);
 
  private:
   std::shared_ptr<BaseEncryptStrategy> encrypt_strategy_;

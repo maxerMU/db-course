@@ -1,4 +1,5 @@
 #include "workers_controller.h"
+#include <iostream>
 #include "logic_exceptions.h"
 
 WorkersController::WorkersController(
@@ -55,9 +56,23 @@ bool WorkersController::is_valid_session(size_t& worker_id,
   return auth_db_->is_valid_session(worker_id, token);
 }
 
-bool WorkersController::is_valid_access(size_t worker_id,
-                                        const std::string& target,
-                                        const method_t& method) {
+bool WorkersController::is_valid_access(
+    size_t worker_id,
+    const PrivilegeLevel& min_privilege_level) {
   auto worker = workers_db_->read(worker_id);
-  return true;
+  return min_privilege_level >= worker.getPrivilege();
+}
+
+WorkerGet WorkersController::get_worker(size_t worker_id) {
+  auto worker_base = workers_db_->read(worker_id);
+  return WorkerGet(worker_id, worker_base);
+}
+
+void WorkersController::update_worker(const WorkerUpdate& worker) {
+  WorkerUpdate worker_copy = worker;
+  auto salt_password = encrypt_strategy_->encrypt(worker_copy.password());
+  worker_copy.setPassword(salt_password);
+  auto rc = workers_db_->update(worker_copy);
+  if (rc != 0)
+    throw NotUniqueUsernameException();
 }

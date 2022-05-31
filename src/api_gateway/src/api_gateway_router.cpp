@@ -90,4 +90,11 @@ ApiGatewayRouter::ApiGatewayRouter() {
   dynamic_routes.push_back(
       std::pair<std::regex, creators_t>(producer_by_id_regex, tmp));
   tmp.clear();
+
+  tmp.push_back(std::shared_ptr<BaseApiGatewayAdapterCreator>(
+      new ApiGatewayAdapterCreator<WorkersAdapter>()));
+  std::regex privilege_regex("/workers/([0-9]+)/privilege");
+  dynamic_routes.push_back(
+      std::pair<std::regex, creators_t>(privilege_regex, tmp));
+  tmp.clear();
 }

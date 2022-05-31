@@ -71,6 +71,7 @@ void DetailsAuthHandler::get_next_request(std::shared_ptr<Request>& req,
   req->copy(cur_request_);
   req->set_target(AuthTarget);
   req->set_method(AuthMethod);
+  req->set_body(make_privilege_json(command_->get_min_privilege_level()));
   client_index = client_indexes[AuthServerName];
 }
 
@@ -82,8 +83,8 @@ state_t DetailsAuthHandler::handle_response(
   }
 
   try {
-    // ExtraData extra(resp->get_body());
-    // cur_request_->set_extra_data(extra);
+    ExtraData data(resp->get_body());
+    cur_request_->set_extra_data(data);
     std::cout << resp->get_body() << std::endl;
 
     command_->handle_request(cur_request_);

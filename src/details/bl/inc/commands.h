@@ -4,12 +4,14 @@
 #include <functional>
 #include <regex>
 #include "details_facade.h"
+#include "privilege_level.h"
 #include "reqresp.h"
 
 class BaseCommand {
  public:
   virtual void handle_request(const std::shared_ptr<Request>& req) = 0;
   virtual void get_response(const std::shared_ptr<Response>& resp) = 0;
+  virtual PrivilegeLevel get_min_privilege_level() = 0;
 };
 
 class BaseCommandCreator {
@@ -48,6 +50,7 @@ class GetDetailsCommand : public BaseCommand {
  public:
   virtual void handle_request(const std::shared_ptr<Request>& req) override;
   virtual void get_response(const std::shared_ptr<Response>& resp) override;
+  virtual PrivilegeLevel get_min_privilege_level() override;
 
  private:
   details_t details_;
@@ -59,6 +62,7 @@ class GetDetailByNameCommand : public BaseCommand {
       : regexpr_(expr), part_number_group_index_(part_number_group_index) {}
   virtual void handle_request(const std::shared_ptr<Request>& req) override;
   virtual void get_response(const std::shared_ptr<Response>& resp) override;
+  virtual PrivilegeLevel get_min_privilege_level() override;
 
  private:
   std::regex regexpr_;
@@ -72,6 +76,7 @@ class AddDetailCommand : public BaseCommand {
  public:
   virtual void handle_request(const std::shared_ptr<Request>& req) override;
   virtual void get_response(const std::shared_ptr<Response>& resp) override;
+  virtual PrivilegeLevel get_min_privilege_level() override;
 };
 
 class UpdateDetailCommand : public BaseCommand {
@@ -80,6 +85,7 @@ class UpdateDetailCommand : public BaseCommand {
       : regexpr_(expr), part_number_group_index_(part_number_group_index) {}
   virtual void handle_request(const std::shared_ptr<Request>& req) override;
   virtual void get_response(const std::shared_ptr<Response>& resp) override;
+  virtual PrivilegeLevel get_min_privilege_level() override;
 
  private:
   std::regex regexpr_;
@@ -95,6 +101,7 @@ class DeleteDetailCommand : public BaseCommand {
       : regexpr_(expr), part_number_group_index_(part_number_group_index) {}
   virtual void handle_request(const std::shared_ptr<Request>& req) override;
   virtual void get_response(const std::shared_ptr<Response>& resp) override;
+  virtual PrivilegeLevel get_min_privilege_level() override;
 
  private:
   std::regex regexpr_;
@@ -107,6 +114,7 @@ class GetProducersCommand : public BaseCommand {
  public:
   virtual void handle_request(const std::shared_ptr<Request>& req) override;
   virtual void get_response(const std::shared_ptr<Response>& resp) override;
+  virtual PrivilegeLevel get_min_privilege_level() override;
 
  private:
   producers_t producers_;
@@ -118,6 +126,7 @@ class GetProducerByIdCommand : public BaseCommand {
       : regexpr_(expr), producer_id_group_index_(producer_id_group_index) {}
   virtual void handle_request(const std::shared_ptr<Request>& req) override;
   virtual void get_response(const std::shared_ptr<Response>& resp) override;
+  virtual PrivilegeLevel get_min_privilege_level() override;
 
  private:
   std::regex regexpr_;
@@ -131,6 +140,7 @@ class DeleteProducerCommand : public BaseCommand {
       : regexpr_(expr), producer_id_group_index_(producer_id_group_index) {}
   virtual void handle_request(const std::shared_ptr<Request>& req) override;
   virtual void get_response(const std::shared_ptr<Response>& resp) override;
+  virtual PrivilegeLevel get_min_privilege_level() override;
 
  private:
   std::regex regexpr_;
@@ -143,6 +153,7 @@ class UpdateProducerCommand : public BaseCommand {
       : regexpr_(expr), producer_id_group_index_(producer_id_group_index) {}
   virtual void handle_request(const std::shared_ptr<Request>& req) override;
   virtual void get_response(const std::shared_ptr<Response>& resp) override;
+  virtual PrivilegeLevel get_min_privilege_level() override;
 
  private:
   std::regex regexpr_;
@@ -153,6 +164,7 @@ class AddProducerCommand : public BaseCommand {
  public:
   virtual void handle_request(const std::shared_ptr<Request>& req) override;
   virtual void get_response(const std::shared_ptr<Response>& resp) override;
+  virtual PrivilegeLevel get_min_privilege_level() override;
 
  private:
   producers_t producers_;
@@ -166,6 +178,7 @@ class AddDetailSwapCommand : public BaseCommand {
       : regexpr_(expr), part_number_group_index_(part_number_group_index) {}
   virtual void handle_request(const std::shared_ptr<Request>& req) override;
   virtual void get_response(const std::shared_ptr<Response>& resp) override;
+  virtual PrivilegeLevel get_min_privilege_level() override;
 
  private:
   std::regex regexpr_;
@@ -179,6 +192,7 @@ class GetDetailSwapsCommand : public BaseCommand {
       : regexpr_(expr), part_number_group_index_(part_number_group_index) {}
   virtual void handle_request(const std::shared_ptr<Request>& req) override;
   virtual void get_response(const std::shared_ptr<Response>& resp) override;
+  virtual PrivilegeLevel get_min_privilege_level() override;
 
  private:
   std::regex regexpr_;
@@ -194,6 +208,7 @@ class DeleteDetailSwapCommand : public BaseCommand {
       : regexpr_(expr), part_number_group_index_(part_number_group_index) {}
   virtual void handle_request(const std::shared_ptr<Request>& req) override;
   virtual void get_response(const std::shared_ptr<Response>& resp) override;
+  virtual PrivilegeLevel get_min_privilege_level() override;
 
  private:
   std::regex regexpr_;
@@ -207,12 +222,14 @@ class AddDetailToStockCommand : public BaseCommand {
  public:
   virtual void handle_request(const std::shared_ptr<Request>& req) override;
   virtual void get_response(const std::shared_ptr<Response>& resp) override;
+  virtual PrivilegeLevel get_min_privilege_level() override;
 };
 
 class RemoveDetailFromStockCommand : public BaseCommand {
  public:
   virtual void handle_request(const std::shared_ptr<Request>& req) override;
   virtual void get_response(const std::shared_ptr<Response>& resp) override;
+  virtual PrivilegeLevel get_min_privilege_level() override;
 };
 
 class DetailQuantityCommand : public BaseCommand {
@@ -222,6 +239,7 @@ class DetailQuantityCommand : public BaseCommand {
 
   virtual void handle_request(const std::shared_ptr<Request>& req) override;
   virtual void get_response(const std::shared_ptr<Response>& resp) override;
+  virtual PrivilegeLevel get_min_privilege_level() override;
 
  private:
   std::regex regexpr_;
@@ -235,6 +253,7 @@ class DetailsForAllTimeCommand : public BaseCommand {
  public:
   virtual void handle_request(const std::shared_ptr<Request>& req) override;
   virtual void get_response(const std::shared_ptr<Response>& resp) override;
+  virtual PrivilegeLevel get_min_privilege_level() override;
 
  private:
   details_names_t details_names_;
@@ -244,6 +263,7 @@ class DetailsInStockCommand : public BaseCommand {
  public:
   virtual void handle_request(const std::shared_ptr<Request>& req) override;
   virtual void get_response(const std::shared_ptr<Response>& resp) override;
+  virtual PrivilegeLevel get_min_privilege_level() override;
 
  private:
   details_quantities_t details_quantities_;

@@ -52,6 +52,11 @@ void PostgresWorkersRepository::add_prepare_statements() {
                        "SELECT * FROM FN_GET_PASSWORD($1)");
   connection_->prepare(requests_names[READ_BASE_INF],
                        "SELECT * FROM FN_GET_WORKER_BY_ID($1)");
+  connection_->prepare(
+      requests_names[UPDATE],
+      "SELECT * FROM FN_UPDATE_WORKER($1, $2, $3, $4, $5, $6)");
+  connection_->prepare(requests_names[UPDATE_PRIVILEGE],
+                       "CALL PR_UPDATE_WORKER_PRIVILEGE($1, $2)");
 }
 
 int PostgresWorkersRepository::create(const WorkerPost& worker) {
@@ -99,7 +104,18 @@ WorkerBaseInf PostgresWorkersRepository::read(size_t worker_id) {
   return worker;
 }
 
-void PostgresWorkersRepository::update(const WorkerUpdate& worker) {}
+int PostgresWorkersRepository::update(const WorkerUpdate& worker) {
+  pqxx::work w(*connection_);
+  std::string birthdate = std::to_string(worker.birthdate().tm_year + 1900) +
+                          "-" + std::to_string(worker.birthdate().tm_mon + 1) +
+                          "-" + std::to_string(worker.birthdate().tm_mday);
+  pqxx::result res = w.exec_prepared(
+      requests_names[UPDATE], worker.getWorker_id(), worker.name(),
+      worker.surname(), birthdate, worker.username(), worker.password());
+  w.commit();
+
+  return res[0][0].as<size_t>();
+}
 
 bool PostgresWorkersRepository::get_password(std::string& password,
                                              size_t& worker_id,
@@ -115,4 +131,12 @@ bool PostgresWorkersRepository::get_password(std::string& password,
   password = res[0][2].as<std::string>();
 
   return true;
+}
+
+void PostgresWorkersRepository::update_privilege(
+    size_t worker_id,
+    const PrivilegeLevel& privilege) {
+  pqxx::work w(*connection_);
+  w.exec_prepared(requests_names[UPDATE_PRIVILEGE], worker_id, (int)privilege);
+  w.commit();
 }

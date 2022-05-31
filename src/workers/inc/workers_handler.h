@@ -17,6 +17,8 @@ class WorkersHandler : public ServerReqHandler {
   int cur_status_;
   std::string exception_description_;
   std::shared_ptr<BaseCommand> command_;
+
+  int make_auth(ExtraData& data, const std::shared_ptr<Request>& req);
 };
 
 #endif  // WORKERSHANDLER_H

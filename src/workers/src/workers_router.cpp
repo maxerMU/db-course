@@ -30,6 +30,21 @@ WorkersRouter::WorkersRouter() {
   static_routes[worker_post] = std::shared_ptr<BaseCommandCreator>(
       new CommandCreator<AddWorkerCommand>());
 
+  RequestParams worker_get{"/workers", GET};
+  static_routes[worker_get] = std::shared_ptr<BaseCommandCreator>(
+      new CommandCreator<GetWorkerCommand>());
+
+  RequestParams worker_put{"/workers", PUT};
+  static_routes[worker_put] = std::shared_ptr<BaseCommandCreator>(
+      new CommandCreator<UpdateWorkerCommand>());
+
+  std::regex privilege_regex("/workers/([0-9]+)/privilege");
+  RequestParamsRegEx worker_update_privilege{privilege_regex, PUT};
+  dynamic_routes.push_back(dynamic_route_t(
+      worker_update_privilege,
+      std::shared_ptr<BaseCommandCreator>(
+          new CommandCreator<UpdatePrivilegeCommand>(privilege_regex, 1))));
+
   RequestParams login{"/auth/login", POST};
   static_routes[login] =
       std::shared_ptr<BaseCommandCreator>(new CommandCreator<LoginCommand>());

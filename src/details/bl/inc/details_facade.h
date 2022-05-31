@@ -4,11 +4,11 @@
 #include <memory>
 #include <vector>
 #include "base_config.h"
+#include "base_details_repository.h"
+#include "base_producers_repository.h"
+#include "base_stock_repository.h"
+#include "base_swaps_repository.h"
 #include "detail.h"
-#include "postgres_details_repository.h"
-#include "postgres_producers_repository.h"
-#include "postgres_stock_repository.h"
-#include "postgres_swaps_repository.h"
 #include "swaps_controller.h"
 
 const std::string DbProducersSection = "DB_PRODUCERS";

@@ -1,7 +1,7 @@
 #include "swaps_controller.h"
 #include <iostream>
-#include "postgres_details_repository.h"
-#include "postgres_swaps_repository.h"
+#include "base_details_repository.h"
+#include "base_swaps_repository.h"
 
 SwapsController::SwapsController(
     const std::shared_ptr<BaseSwapsRepository>& swaps_db,
