@@ -5,10 +5,10 @@
 #include "redis_auth_repository.h"
 #include "yamlcpp_config.h"
 
-#define ITERATIONS 2000
-#define START 100000
-#define END 125000
-#define STEP 10000
+#define ITERATIONS 1000
+#define START 5000
+#define END 1005001
+#define STEP 100000
 #define WORKER_ID 16
 
 const std::string redis_section = "DB_AUTH_REDIS";
@@ -30,28 +30,30 @@ class AuthRepositoriesTimeCompare {
       rep2_->create_session(WORKER_ID, "test" + std::to_string(i));
       if (i % step == 0) {
         size_t worker_id;
-        std::cout << i << " ";
+        std::cout << i << ",";
         auto start = std::chrono::system_clock::now();
         for (size_t j = 0; j < ITERATIONS; j++)
           rep1_->is_valid_session(worker_id, "test" + std::to_string(i));
 
         auto end = std::chrono::system_clock::now();
-        std::cout << "rep1 -- "
-                  << std::chrono::duration_cast<std::chrono::nanoseconds>(end -
-                                                                          start)
-                         .count()
-                  << "ms ";
+        std::cout << ""
+                  << std::chrono::duration_cast<std::chrono::milliseconds>(
+                         end - start)
+                             .count() /
+                         (double)ITERATIONS
+                  << ",";
 
         start = std::chrono::system_clock::now();
         for (size_t j = 0; j < ITERATIONS; j++)
           rep2_->is_valid_session(worker_id, "test" + std::to_string(i));
 
         end = std::chrono::system_clock::now();
-        std::cout << "rep2 -- "
-                  << std::chrono::duration_cast<std::chrono::nanoseconds>(end -
-                                                                          start)
-                         .count()
-                  << "ms" << std::endl;
+        std::cout << ""
+                  << std::chrono::duration_cast<std::chrono::milliseconds>(
+                         end - start)
+                             .count() /
+                         (double)ITERATIONS
+                  << std::endl;
       }
     }
   }

@@ -1,6 +1,6 @@
 \chapter{Исследовательский раздел}
 
-В данном разделе будет проведено сравнение временных характеристик обычного алгоритма z-буфера и его распаралелленной версии.
+В данном разделе будет проведено сравнение временных характеристик приложения при хранении токенов авторизованных пользователей в PostgreSQL и Redis.
 
 \section{Технические характеристики}
 
@@ -18,69 +18,48 @@
 
 \section{Замеры времени}
 
-В связи с работой алгоритма в нескольких потоках, измерялось реальное время работы, а не процессорное. Время замерялось с помощью функции now \cite{clock}.
+Время замерялось с помощью функции now \cite{clock}.
 
-Результаты замеров времени (в мс) приведены в таблицах \ref{tbl:tbase} - \ref{tbl:time}. На рисунке \ref{plt:time_even} приведены зависимости времени работы алгоритмов от количества поверхностей модели.
-
-\begin{table}[H]
-	\begin{center}
-		\caption{Замер времени работы стандартного алгоритма для разного числа поверхностей}
-		\label{tbl:tbase}
-		%x*c|
-		\begin{tabular}{|c|c|}
-			\hline
-			& \multicolumn{1}{c|}{\bfseries Время, мс}                                    \\ \cline{2-2}
-			\bfseries Число поверхностей & \bfseries Стандартный алгоритм
-			\csvreader{inc/tbase.csv}{}
-			{\\\hline \csvcoli&\csvcolii}
-			\\\hline
-		\end{tabular}
-	\end{center}
-\end{table}
+Результаты замеров времени (в мс) приведены в таблице \ref{tbl:time}. На рисунке \ref{plt:time} приведена зависимость времени поиска строки, которой нет базе данных, от количества записей.
 
 \begin{table}[H]
 	\begin{center}
-		\caption{Замер времени работы распараллеленного алгоритма для разного числа поверхностей}
+		\caption{Замер времени поиска строки в базе данных}
 		\label{tbl:time}
 		%x*c|
 		\begin{tabular}{|c|c|c|c|c|c|c|}
 			\hline
-			& \multicolumn{6}{c|}{\bfseries Время в мс на n потоков}                                    \\ \cline{2-7}
-			\bfseries Число рёбер & \bfseries 1 & \bfseries 2 & \bfseries 4 & \bfseries 8 & \bfseries 16 & \bfseries 32
+			& \multicolumn{2}{c|}{\bfseries Время в мс на n потоков}                                    \\ \cline{2-3}
+			\bfseries строк в БД & \bfseries Redis & \bfseries PostgreSQL
 			\csvreader{inc/table.csv}{}
-			{\\\hline \csvcoli&\csvcolii&\csvcoliii&\csvcoliv&\csvcolv&\csvcolvi&\csvcolvi}
+			{\\\hline \csvcoli&\csvcolii&\csvcoliii}
 			\\\hline
 		\end{tabular}
 	\end{center}
 \end{table}
+
 
 \begin{figure}[H]
 	\centering
 	\begin{tikzpicture}
 	\begin{axis}[
 	axis lines=left,
-	xlabel=Количество поверхностей,
+	xlabel=Число строк,
 	ylabel={Время, мс},
 	legend pos=north west,
 	ymajorgrids=true
 	]
-	\addplot table[x=Len,y=th0,col sep=comma] {inc/tbase.csv};
-	\addplot table[x=Len,y=th1,col sep=comma] {inc/table.csv};
-	\addplot table[x=Len,y=th2,col sep=comma] {inc/table.csv};
-	\addplot table[x=Len,y=th4,col sep=comma] {inc/table.csv};
-	\addplot table[x=Len,y=th8,col sep=comma] {inc/table.csv};
-	\addplot table[x=Len,y=th16,col sep=comma] {inc/table.csv};
-	\addplot table[x=Len,y=th32,col sep=comma] {inc/table.csv};
-	\legend{Стандартный, 1 поток, 2 потока, 4 потока, 8 потоков, 16 потоков, 32 потока}
+	\addplot table[x=Len,y=PostgreSQL,col sep=comma] {inc/table.csv};
+	\addplot table[x=Len,y=Redis,col sep=comma] {inc/table.csv};
+	\legend{PostgreSQL, Redis}
 	\end{axis}
 	\end{tikzpicture}
 	\captionsetup{justification=centering}
-	\caption{Зависимость времени работы алгоритма z буфера от количества поверхностей.}
-	\label{plt:time_even}
+	\caption{Зависимость времени поиска токена от выбранной СУБД.}
+	\label{plt:time}
 \end{figure}
 
-\newpage
 \subsection*{Вывод}
 
-Из графиков отношения количества граней ко времени работы видно, что расчёт на одном потоке работает примерно столько же времени, как и стандартный алгоритм (разница около 1\%). При использовании двух и более потоков, время работы алгоритма уменьшается в разы. В случае, когда количество потоков равно числу логических ядер процессора, алгоритм работает в 2 (при размерности 250) и в 3 (при 1250 поверхностях) раза быстрее. При использовании количества потоков, большего, чем число логических ядер процессора, время работы изменяется в пределах 2-3\%, относительно предыдущего рассмотренного случая.
-Максимальной эффективности от параллельных вычислений добиться не удалось, так как между потоками возникает конфликт по данным, для решения которого используется мьютес.
+Из графиков видно, что поиск токена в Redis работает на порядок быстрее, чем в PostgreSQL. Это связано с тем, что Redis хранит все данные в оперативной памяти, которая быстрее вторичного хранилища, которое использует PostgreSQL.
+

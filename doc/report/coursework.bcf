@@ -3528,12 +3528,17 @@
     <bcf:citekey order="2">kleppman</bcf:citekey>
     <bcf:citekey order="3">oauth1</bcf:citekey>
     <bcf:citekey order="4">redis</bcf:citekey>
-    <bcf:citekey order="5">cpp</bcf:citekey>
-    <bcf:citekey order="6">oop</bcf:citekey>
-    <bcf:citekey order="7">qt</bcf:citekey>
-    <bcf:citekey order="8">gtest</bcf:citekey>
-    <bcf:citekey order="9">intel</bcf:citekey>
-    <bcf:citekey order="10">clock</bcf:citekey>
+    <bcf:citekey order="5">rest-api</bcf:citekey>
+    <bcf:citekey order="6">cpp</bcf:citekey>
+    <bcf:citekey order="7">oop</bcf:citekey>
+    <bcf:citekey order="8">boost</bcf:citekey>
+    <bcf:citekey order="9">pqxx</bcf:citekey>
+    <bcf:citekey order="10">redis-cpp</bcf:citekey>
+    <bcf:citekey order="11">gtest</bcf:citekey>
+    <bcf:citekey order="12">postman</bcf:citekey>
+    <bcf:citekey order="13">intel</bcf:citekey>
+    <bcf:citekey order="14">clock</bcf:citekey>
+    <bcf:citekey order="15">rest-api</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="none">
