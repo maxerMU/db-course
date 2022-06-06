@@ -1,0 +1,19 @@
+max@pinguin ~/r/d/d/r/i/lst (main)> curl -v -X GET -H "Autharization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTQzMDk0ODV9.iNqmjm_POfZfjrA6p6cidESkwFdX31yOBp8oKLr8odw"  --url 'http://localhost:8001/details/d1c1991a-89e2-4dd4-a132-cb58ebe7def0'
+Note: Unnecessary use of -X or --request, GET is already inferred.
+*   Trying 127.0.0.1:8001...
+* TCP_NODELAY set
+* Connected to localhost (127.0.0.1) port 8001 (#0)
+> GET /details/d1c1991a-89e2-4dd4-a132-cb58ebe7def0 HTTP/1.1
+> Host: localhost:8001
+> User-Agent: curl/7.68.0
+> Accept: */*
+> Autharization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTQzMDk0ODV9.iNqmjm_POfZfjrA6p6cidESkwFdX31yOBp8oKLr8odw
+> 
+* Mark bundle as not supporting multiuse
+< HTTP/1.1 200 OK
+< Server: Boost.Beast/266
+< Content-Type: text/html
+< Content-Length: 152
+< 
+{"name_eng":"Muffler Fittings","name_rus":"Фитинги глушителя","part_number":"d1c1991a-89e2-4dd4-a132-cb58ebe7def0","producer_id":"484"}
+* Connection #0 to host localhost left intact

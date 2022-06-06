@@ -1,1 +1,0 @@
-bmstu_standart/bmstu/bmstu.cls

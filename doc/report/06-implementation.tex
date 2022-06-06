@@ -1,7 +1,5 @@
 \chapter{Технологический раздел}
 
-В этом разделе будут рассмотрены средства разработки программного продукта и детали его реализации.
-
 \section{Архитектура приложения}
 
 Разрабатываемое приложение будет построено по микросервисной архитектуре. Программный продукт можно поделить на три основные части:
@@ -29,24 +27,38 @@
 
 \section{Детали реализации}
 
-Пример взаимодействия приложения с PostgreSQL представлен на листинге \ref{lst:postgres}
+Взаимодействие приложения с базой данных осуществляется в классах репозиториях для каждой сущности. Далее будет рассмотрен пример на примере деталей, хранящихся в таблицах PostgreSQL. 
 
-\begin{lstinputlisting}[label=lst:postgres,caption=Взаимодействие приложения с PostgreSQL, language=lisp]{inc/lst/details_repository.cpp}
+Подключение к СУБД приведено на листинге \ref{lst:postgres_connect}.
+
+\begin{lstinputlisting}[label=lst:postgres_connect,caption=Подключение к СУБД, language=c, firstline=25, lastline=45]{inc/lst/details_repository.cpp}
+\end{lstinputlisting}
+
+Создание заготовленный выражений, которые будут вызываться при чтении, создании, удалении и обновлении объекта представлены на листинге \ref{lst:postgres_prepared}.
+
+\begin{lstinputlisting}[label=lst:postgres_prepared,caption=Заготовленные выражение, language=c, firstline=46, lastline=56]{inc/lst/details_repository.cpp}
+\end{lstinputlisting}
+
+Чтение из базы данных всех деталей и перевод их в объекты бизнес логики представлено на листинге \ref{lst:postgres_read_all}.
+
+\begin{lstinputlisting}[label=lst:postgres_read_all,caption=Чтение деталей, language=c, firstline=90, lastline=108]{inc/lst/details_repository.cpp}
 \end{lstinputlisting}
 
 Пример взаимодействия приложения с Redis представлен на листинге \ref{lst:redis}
 
-\begin{lstinputlisting}[label=lst:redis,caption=Взаимодействие приложения с Redis, language=lisp]{inc/lst/auth_repository.cpp}
+\begin{lstinputlisting}[label=lst:redis,caption=Взаимодействие приложения с Redis, language=c, firstline=15, lastline=32]{inc/lst/auth_repository.cpp}
 \end{lstinputlisting}
 
 
 \section{Взаимодействие с программой}
-Запрос на получение информации о детали представлен на рисунке \ref{img:details_get}
+Взаимодействие с программой осуществляется посредством отправки запросов по протоколу HTTP на предоставляемое API. Приложение обрабатывает запросы методов GET, POST, PUT, DELETE на все сущности. Для того, чтобы подтвердить авторизацию пользователю в каждый из своих запросов необходимо добавить заголовок Authorization со значение токена доступа, полученного при отправки формы с логином и паролем.
 
-\imgw{details_get}{H}{0.8\textwidth}{Получение информации о детали}
+Результат работы программы при запросе на получение информации о детали представлен на листинге \ref{lst:detail_get}.
 
-Запрос на авторизацию в системе представлен на рисунке \ref{img:auth_post}
-\imgw{auth_post}{H}{0.8\textwidth}{Авторизация}
+\begin{lstinputlisting}[label=lst:detail_get,caption=Получение информации о детали, language=c]{inc/lst/detail_get}
+\end{lstinputlisting}
 
-\section{Вывод}
-В данном разделе были выбраны средства реализации программного продукта, приведены примеры взаимодействия с программой и листинги связывания приложения с различными СУБД.
+Результат работы программы при запросе на авторизацию в системе представлен на листинге \ref{lst:auth}.
+\newpage
+\begin{lstinputlisting}[label=lst:auth,caption=Авторизация в системе, language=c]{inc/lst/auth}
+\end{lstinputlisting}

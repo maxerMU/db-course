@@ -1,0 +1,7 @@
+max@pinguin ~/r/d/d/r/i/lst (main)> curl -v -X POST -d'{
+                                      "username": "maxermu",
+                                      "password": "123456"
+                                    }'  --url 'http://localhost:8001/auth/login'
+< HTTP/1.1 200 OK
+{"access_token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTQzMDk1OTN9.D512fw_tiALGmZ6D32-6zPncnuEkDgmMSSHfXPa742k"}
+* Connection #0 to host localhost left intact
