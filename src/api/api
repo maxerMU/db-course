@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   version: '1.0'
-  title: 'db-course'
+  title: 'stock_service'
   license:
     name: MIT
 servers:
@@ -29,6 +29,10 @@ paths:
       responses:
         '200':
           description: Worker was added.
+        '401':
+          description: Unauthorized
+        '503':
+          description: Server Error
 
     put:
       summary: Update worker
@@ -53,6 +57,10 @@ paths:
       responses:
         '200':
           description: Worker was updated.
+        '401':
+          description: Unauthorized
+        '503':
+          description: Server Error
 
     get:
       summary: Get worker
@@ -66,6 +74,10 @@ paths:
       responses:
         '200':
           description: access token.
+        '401':
+          description: Unauthorized
+        '503':
+          description: Server Error
 
   '/workers/{worker_id}/privilege':
     put:
@@ -98,6 +110,10 @@ paths:
       responses:
         '200':
           description: Updated.
+        '401':
+          description: Unauthorized
+        '503':
+          description: Server Error
 
   /auth:
     get:
@@ -112,6 +128,10 @@ paths:
       responses:
         '200':
           description: access token.
+        '401':
+          description: Unauthorized
+        '503':
+          description: Server Error
 
   /auth/login:
     post:
@@ -132,6 +152,8 @@ paths:
       responses:
         '200':
           description: access token.
+        '503':
+          description: Server Error
 
 
   /details:
@@ -152,6 +174,10 @@ paths:
               description: A link to the next page of responses
               schema:
                 type: string
+        '401':
+          description: Unauthorized
+        '503':
+          description: Server Error
 
         default:
           description: Unexpected error
@@ -183,6 +209,10 @@ paths:
       responses:
         '200':
           description: Detail was added.
+        '401':
+          description: Unauthorized
+        '503':
+          description: Server Error
 
 
   '/details/{part_number}':
@@ -206,6 +236,10 @@ paths:
       responses:
         '200':
           description: Detail.
+        '401':
+          description: Unauthorized
+        '503':
+          description: Server Error
 
     put:
       summary: update detail
@@ -239,6 +273,10 @@ paths:
       responses:
         '200':
           description: Detail's swaps.
+        '401':
+          description: Unauthorized
+        '503':
+          description: Server Error
 
     delete:
       summary: Delete detail by part_number
@@ -260,6 +298,10 @@ paths:
       responses:
         '200':
           description: Detail.
+        '401':
+          description: Unauthorized
+        '503':
+          description: Server Error
 
 
   /producers:
@@ -280,6 +322,10 @@ paths:
               description: A link to the next page of responses
               schema:
                 type: string
+        '401':
+          description: Unauthorized
+        '503':
+          description: Server Error
 
         default:
           description: Unexpected error
@@ -309,6 +355,10 @@ paths:
       responses:
         '200':
           description: Detail was added.
+        '401':
+          description: Unauthorized
+        '503':
+          description: Server Error
 
   '/details/{part_number}/swaps':
     get:
@@ -331,6 +381,10 @@ paths:
       responses:
         '200':
           description: Detail's swaps.
+        '401':
+          description: Unauthorized
+        '503':
+          description: Server Error
 
     post:
       summary: Add detail's swaps
@@ -360,6 +414,10 @@ paths:
       responses:
         '200':
           description: Detail's swaps.
+        '401':
+          description: Unauthorized
+        '503':
+          description: Server Error
 
     delete:
       summary: Add detail's swaps
@@ -389,6 +447,10 @@ paths:
       responses:
         '200':
           description: Detail's swaps.
+        '401':
+          description: Unauthorized
+        '503':
+          description: Server Error
 
 
   '/producers/{producer_id}':
@@ -412,6 +474,10 @@ paths:
       responses:
         '200':
           description: Detail's swaps.
+        '401':
+          description: Unauthorized
+        '503':
+          description: Server Error
 
     delete:
       summary: delete producer by id
@@ -433,6 +499,10 @@ paths:
       responses:
         '200':
           description: Detail's swaps.
+        '401':
+          description: Unauthorized
+        '503':
+          description: Server Error
 
     put:
       summary: update producer by id
@@ -465,6 +535,10 @@ paths:
       responses:
         '200':
           description: Detail's swaps.
+        '401':
+          description: Unauthorized
+        '503':
+          description: Server Error
 
   /stock:
     post:
@@ -488,6 +562,10 @@ paths:
       responses:
         '200':
           description: Detail was added.
+        '401':
+          description: Unauthorized
+        '503':
+          description: Server Error
 
     delete:
       summary: Remove detail from stock
@@ -510,6 +588,10 @@ paths:
       responses:
         '200':
           description: Detail was removed.
+        '401':
+          description: Unauthorized
+        '503':
+          description: Server Error
 
     get:
       summary: Get quantity by part_number
@@ -538,6 +620,10 @@ paths:
       responses:
         '200':
           description: details.
+        '401':
+          description: Unauthorized
+        '503':
+          description: Server Error
 
 components:
   schemas:
