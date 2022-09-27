@@ -5,7 +5,7 @@ info:
   license:
     name: MIT
 servers:
-  - url: 'localhost:8001'
+  - url: 'localhost'
 paths:
   /workers:
     post:
@@ -747,6 +747,7 @@ components:
       type: apiKey
       name: Autharization
       in: header
+
 security:
   - BasicAuth: []
   - TokenAuth: []
