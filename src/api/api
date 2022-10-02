@@ -625,7 +625,7 @@ paths:
         '503':
           description: Server Error
 
-  /stock/log:
+  /stock/logs:
     get:
       summary: Get stock logs
       description: Get stock logs.
