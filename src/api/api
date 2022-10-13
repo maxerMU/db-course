@@ -80,7 +80,7 @@ paths:
           description: Server Error
 
   '/workers/{worker_id}/privilege':
-    put:
+    patch:
       summary: Update privilege
       description: Update privilege.
       tags:
