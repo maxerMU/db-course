@@ -62,6 +62,7 @@ paths:
         '503':
           description: Server Error
 
+  /workers/me:
     get:
       summary: Get worker
       description: get worker.
