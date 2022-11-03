@@ -626,6 +626,7 @@ paths:
         '503':
           description: Server Error
 
+
   /stock/logs:
     get:
       summary: Get stock logs
@@ -635,16 +636,22 @@ paths:
 
       security:
           - TokenAuth: []
+      parameters:
+        - name: time_start
+          in: query
+          description: time start.
+          required: false
+          schema:
+            type: string
+            example: '2022-03-04'
+        - name: time_end
+          in: query
+          description: time end.
+          required: false
+          schema:
+            type: string
+            example: '2022-12-31'
 
-      requestBody:
-        description: A stock logs schema.
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/StockLog'
-            example:
-              time_start: '2022-03-04'
-              time_end: '2022-12-31'
       responses:
         '200':
           description: Detail was added.
