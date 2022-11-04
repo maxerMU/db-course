@@ -60,7 +60,7 @@ void PostgresSwapsRepository::create(const std::string& src,
   }
 }
 
-std::vector<std::string> PostgresSwapsRepository::read(const std::string& src) {
+details_names_t PostgresSwapsRepository::read(const std::string& src) {
   pqxx::result res;
   try {
     pqxx::work w(*connection_);

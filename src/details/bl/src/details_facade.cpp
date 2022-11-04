@@ -78,6 +78,11 @@ detail_quantity_t DetailsFacade::get_detail_in_stock(
   return stock_rep_->read(part_name);
 }
 
+stock_logs_t DetailsFacade::get_logs(const std::string& time_start,
+                                     const std::string& time_end) {
+  return stock_rep_->read_log(time_start, time_end);
+}
+
 size_t DetailsFacade::add_producer(const DetailsProducerData& producer) {
   return producers_rep_->create(producer);
 }

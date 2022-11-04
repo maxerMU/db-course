@@ -47,17 +47,3 @@ bool DetailsProducer::operator==(const DetailsProducer& producer) const {
 DetailsProducerData::DetailsProducerData(const std::string& name,
                                          const std::string& country)
     : name_(name), country_(country) {}
-
-DetailsProducerData::DetailsProducerData(const std::string& json_str) {
-  Json::Value value;
-  Json::Reader reader;
-
-  bool parse_successfull = reader.parse(json_str, value);
-
-  if (!parse_successfull) {
-    throw JsonParserException("can't parse Details Producer object");
-  }
-
-  name_ = value["name"].asString();
-  country_ = value["country"].asString();
-}

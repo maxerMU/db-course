@@ -13,7 +13,7 @@ class PostgresSwapsRepository : public BaseSwapsRepository {
 
  public:
   virtual void create(const std::string& src, const std::string& dst) override;
-  virtual std::vector<std::string> read(const std::string& src) override;
+  virtual details_names_t read(const std::string& src) override;
   virtual void delete_(const std::string& src, const std::string& dst) override;
 
  private:

@@ -1,0 +1,14 @@
+Clients:
+        - Details
+        - Workers
+
+Details:
+        Host: "127.0.0.1"
+        Port: 8008
+
+Workers:
+        Host: "127.0.0.1"
+        Port: 8009
+
+Server:
+        Port: 8007

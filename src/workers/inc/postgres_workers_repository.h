@@ -11,7 +11,7 @@ class PostgresWorkersRepository : public BaseWorkersRepository {
   PostgresWorkersRepository(const std::shared_ptr<BaseConfig>& conf,
                             const std::string& connection_section);
 
-  virtual int create(const WorkerPost& worker) override;
+  virtual size_t create(const WorkerPost& worker) override;
   virtual size_t workers_count() override;
   virtual WorkerBaseInf read(size_t worker_id) override;
   virtual int update(const WorkerUpdate& worker) override;

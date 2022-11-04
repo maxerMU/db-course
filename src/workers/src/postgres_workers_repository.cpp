@@ -46,7 +46,7 @@ void PostgresWorkersRepository::connect() {
 
 void PostgresWorkersRepository::add_prepare_statements() {
   connection_->prepare(requests_names[CREATE],
-                       "SELECT FN_ADD_WORKER($1, $2, $3, $4, $5, $6)");
+                       "SELECT * FROM FN_ADD_WORKER($1, $2, $3, $4, $5, $6)");
   connection_->prepare(requests_names[READ_COUNT], "SELECT FN_WORKERS_COUNT()");
   connection_->prepare(requests_names[READ_PASSWORD],
                        "SELECT * FROM FN_GET_PASSWORD($1)");
@@ -59,7 +59,7 @@ void PostgresWorkersRepository::add_prepare_statements() {
                        "CALL PR_UPDATE_WORKER_PRIVILEGE($1, $2)");
 }
 
-int PostgresWorkersRepository::create(const WorkerPost& worker) {
+size_t PostgresWorkersRepository::create(const WorkerPost& worker) {
   pqxx::work w(*connection_);
   std::string birthdate = std::to_string(worker.birthdate().tm_year + 1900) +
                           "-" + std::to_string(worker.birthdate().tm_mon + 1) +
@@ -69,7 +69,10 @@ int PostgresWorkersRepository::create(const WorkerPost& worker) {
       (int)worker.getPrivilege(), worker.username(), worker.password());
   w.commit();
 
-  return res[0][0].as<size_t>();
+  if (res[0][0].as<size_t>() != 0)
+    throw DatabaseNotUniqueUsernameException();
+
+  return res[0][1].as<size_t>();
 }
 
 size_t PostgresWorkersRepository::workers_count() {

@@ -12,6 +12,7 @@ add_executable(${TARGET_NAME}
 
 add_subdirectory(bl)
 add_subdirectory(da)
+add_subdirectory(gateway)
 
 target_link_libraries(${TARGET_NAME}
     net_lib
@@ -20,6 +21,7 @@ target_link_libraries(${TARGET_NAME}
     pqxx
     details_bl
     details_da
+    details_gateway
     )
 
-# add_subdirectory(unit_tests)
+add_subdirectory(unit_tests)

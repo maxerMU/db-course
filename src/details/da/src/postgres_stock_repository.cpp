@@ -50,6 +50,8 @@ void PostgresStockRepository::add_prepare_statements() {
                        "SELECT FN_GET_DETAIL_QUANTITY($1)");
   connection_->prepare(requests_names[READ_CURR],
                        "SELECT * FROM FN_STOCK_CURRENT_DETAILS()");
+  connection_->prepare(requests_names[READ_LOG],
+                       "SELECT * FROM FN_GET_STOCK_LOG($1, $2)");
   connection_->prepare(requests_names[READ_PREV],
                        "SELECT * FROM FN_STOCK_PREVIOUS_DETAILS()");
 }
@@ -61,8 +63,8 @@ void PostgresStockRepository::create(const std::string& part_name,
     pqxx::work w(*connection_);
     w.exec_prepared(requests_names[UPDATE], part_name, worker_id, quantity);
     w.commit();
-  } catch (...) {
-    throw DatabaseExecutionException("can't execute prepared");
+  } catch (std::exception& ex) {
+    throw DatabaseExecutionException(ex.what());
   }
 }
 
@@ -99,6 +101,27 @@ details_quantities_t PostgresStockRepository::read_current() {
   }
 
   return details_quantities;
+}
+
+stock_logs_t PostgresStockRepository::read_log(const std::string& time_start,
+                                               const std::string& time_end) {
+  pqxx::result res;
+  try {
+    pqxx::work w(*connection_);
+    res = w.exec_prepared(requests_names[READ_LOG], time_start, time_end);
+    w.commit();
+  } catch (...) {
+    throw DatabaseExecutionException("can't execute prepared");
+  }
+
+  stock_logs_t stock_logs;
+  for (auto const& row : res) {
+    stock_logs.push_back(StockLog(
+        row["fk_worker"].as<size_t>(), row["fk_detail"].as<std::string>(),
+        row["change"].as<int>(), row["change_time"].as<std::string>()));
+  }
+
+  return stock_logs;
 }
 
 details_names_t PostgresStockRepository::read_prev() {

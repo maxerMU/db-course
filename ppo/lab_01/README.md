@@ -28,3 +28,7 @@
 # ER-диаграмма сущностей
 
 ![er diagram](er-diaram.png "er diagram")
+
+# UI
+
+[UI в Figma](https://www.figma.com/file/vIa0dJ7KyxS4mEgKucmnyi/Inventory-Management-system-(Community)?node-id=0%3A1)

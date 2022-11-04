@@ -12,7 +12,7 @@ WorkersController::WorkersController(
       auth_db_(auth_db),
       workers_db_(workers_db) {}
 
-void WorkersController::sign_up(WorkerPost& worker) {
+size_t WorkersController::sign_up(WorkerPost& worker) {
   size_t workers_count = workers_db_->workers_count();
   if (workers_count == 0) {
     worker.setPrivilege(ADMIN);
@@ -23,9 +23,12 @@ void WorkersController::sign_up(WorkerPost& worker) {
   auto salt_password = encrypt_strategy_->encrypt(worker.password());
   worker.setPassword(salt_password);
 
-  auto rc = workers_db_->create(worker);
-  if (rc != 0)
+  try {
+    size_t worker_id = workers_db_->create(worker);
+    return worker_id;
+  } catch (...) {
     throw NotUniqueUsernameException();
+  }
 }
 
 std::string WorkersController::login(const WorkerAuth& worker) {

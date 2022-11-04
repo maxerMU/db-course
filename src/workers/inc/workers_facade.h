@@ -34,7 +34,7 @@ class WorkersFacade {
             const std::shared_ptr<WorkersController>& workers_controller);
 
   /* workers */
-  void sign_up(WorkerPost& worker);
+  size_t sign_up(WorkerPost& worker);
   void update_worker(const WorkerUpdate& worker);
   void update_worker_privilege(size_t worker_id,
                                const PrivilegeLevel& privelege);

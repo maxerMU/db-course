@@ -1,0 +1,69 @@
+<!--
+<div class="back">
+    <div class="main_box">
+        <div class="login_details">
+            <div class="login_header">
+                <div class="login_rect"></div>
+                Login
+            </div>
+            <div class="input">
+                <div class="login_info">
+                    <div class="login_username">
+                        <label for="username">Username*</label>
+                        <input id="username" class="login_input" type="text" [(ngModel)]="username" placeholder="Enter your username">
+                    </div>
+                    <div class="login_password">
+                        <label for="password">Password*</label>
+                        <input id="password" class="login_input" type="text" [(ngModel)]="password" placeholder="Enter your password">
+                    </div>
+                </div>
+                <div class="login_button">
+                  <button type="button" (click)="onSelect()">
+                    <span class="name">Login</span>
+                  </button>
+                </div>
+            </div>
+
+        </div>
+        <div class="login_picture">
+            <img src="../../assets/login.png">
+        </div>
+    </div>
+
+</div>
+-->
+<div class="back">
+  <div class="main_box">
+    <div class="columns is-vcentered">
+      <div class="column is-one-third">
+        <form class="box">
+          <div class="field">
+            <label class="label">Username</label>
+            <div class="control">
+              <input class="input" type="text" [(ngModel)]="username" [ngModelOptions]="{standalone: true}" placeholder="Enter username">
+            </div>
+          </div>
+        
+          <div class="field">
+            <label class="label">Password</label>
+            <div class="control">
+              <input class="input" type="password" [(ngModel)]="password" [ngModelOptions]="{standalone: true}" placeholder="********">
+            </div>
+          </div>
+        
+          <button class="button is-primary" (click)="onSelect()">Sign in</button>
+          <div class="field">
+            <label>
+              Do not registered yet? <a href="/signup">Create new account</a>
+            </label>
+          </div>
+        </form>
+      </div>
+      <div class="column">
+        <figure class="image is-fullwidth">
+            <img src="../../assets/login.png">
+        </figure>
+      </div>
+    </div>
+  </div>
+</div>

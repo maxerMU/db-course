@@ -121,4 +121,12 @@ DetailsRouter::DetailsRouter() {
       stock_read_qty,
       std::shared_ptr<BaseCommandCreator>(
           new CommandCreator<DetailQuantityCommand>(detail_stock_regex, 1))));
+
+  std::regex stock_log_regex(
+      "/stock/logs\\?time_start=([0-9\\-]+)&time_end=([0-9\\-]+)");
+  RequestParamsRegEx stock_log{stock_log_regex, GET};
+  dynamic_routes.push_back(dynamic_route_t(
+      stock_log,
+      std::shared_ptr<BaseCommandCreator>(
+          new CommandCreator<StockLogsCommand>(stock_log_regex, 1, 2))));
 }

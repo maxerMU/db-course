@@ -16,7 +16,7 @@ class WorkersController {
       const std::shared_ptr<BaseAuthRepository>& auth_db,
       const std::shared_ptr<BaseWorkersRepository>& workers_db);
 
-  void sign_up(WorkerPost& worker);
+  size_t sign_up(WorkerPost& worker);
   std::string login(const WorkerAuth& worker);
   bool is_valid_session(size_t& worker_id, const std::string& token);
   bool is_valid_access(size_t worker_id,

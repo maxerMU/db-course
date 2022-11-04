@@ -3,7 +3,13 @@
 #include <jsoncpp/json/value.h>
 #include <jsoncpp/json/writer.h>
 #include <iostream>
+#include "converters.h"
+#include "detail_dto.h"
+#include "detail_to_stock_dto.h"
+#include "get_stock_log_dto.h"
+#include "producer_data_dto.h"
 #include "server_exceptions.h"
+#include "swaps_part_name_dto.h"
 
 size_t get_producer_id_from_regex(const std::string& target,
                                   const std::regex& regexpr,
@@ -27,20 +33,19 @@ size_t get_producer_id_from_regex(const std::string& target,
   return producer_id;
 }
 
-std::string get_part_number_from_regex(const std::string& target,
-                                       const std::regex& regexpr,
-                                       size_t part_number_group_index) {
+std::string get_string_from_regex(const std::string& target,
+                                  const std::regex& regexpr,
+                                  size_t group_index) {
   std::smatch match;
 
-  std::string part_number;
+  std::string res;
   if (std::regex_search(target, match, regexpr)) {
-    part_number = match.str(part_number_group_index);
+    res = match.str(group_index);
   } else {
-    throw RegExpParserException(
-        "couldn't parse regexpr for DetailSwapsCommand");
+    throw RegExpParserException("couldn't parse regexpr");
   }
 
-  return part_number;
+  return res;
 }
 
 void DetailsForAllTimeCommand::handle_request(
@@ -50,18 +55,7 @@ void DetailsForAllTimeCommand::handle_request(
 
 void DetailsForAllTimeCommand::get_response(
     const std::shared_ptr<Response>& resp) {
-  Json::Value arr = Json::arrayValue;
-  for (auto name : details_names_) {
-    Json::Value root;
-    root["part_number"] = name;
-    arr.append(root);
-  }
-
-  Json::Value root;
-  root["details"] = arr;
-
-  Json::FastWriter writer;
-  resp->set_body(writer.write(root));
+  resp->set_body(PartNamesArrayConverter().to_json(details_names_));
   resp->set_status(RESP_OK);
 }
 
@@ -76,24 +70,13 @@ void DetailsInStockCommand::handle_request(
 
 void DetailsInStockCommand::get_response(
     const std::shared_ptr<Response>& resp) {
-  Json::Value arr = Json::arrayValue;
-  for (auto detail_quantity : details_quantities_) {
-    Json::Value root;
-    root["part_number"] = detail_quantity.first;
-    root["quantity"] = std::to_string(detail_quantity.second);
-    arr.append(root);
-  }
-
-  Json::Value root;
-  root["details"] = arr;
-
-  Json::FastWriter writer;
-  resp->set_body(writer.write(root));
+  resp->set_body(
+      DetailsQuantitiesArrayConverter().to_json(details_quantities_));
   resp->set_status(RESP_OK);
 }
 
 void AddDetailCommand::handle_request(const std::shared_ptr<Request>& req) {
-  auto detail = Detail(req->get_body());
+  auto detail = DetailDto(req->get_body());
 
   DetailsFacade::instanse().add_detail(detail);
 }
@@ -103,21 +86,13 @@ void AddDetailCommand::get_response(const std::shared_ptr<Response>& resp) {
 }
 
 void AddDetailSwapCommand::handle_request(const std::shared_ptr<Request>& req) {
-  part_number_ = get_part_number_from_regex(req->get_target(), regexpr_,
-                                            part_number_group_index_);
+  part_number_ = get_string_from_regex(req->get_target(), regexpr_,
+                                       part_number_group_index_);
 
-  Json::Value val;
-  Json::Reader reader;
+  auto swaps_part_name_dto = SwapsPartNameDto(req->get_body());
 
-  bool parse_successfull = reader.parse(req->get_body(), val);
-
-  if (!parse_successfull) {
-    throw JsonParserException("can't parse add detail swaps request");
-  }
-
-  auto part_dst = val["swap_part_numbers"].asString();
-
-  DetailsFacade::instanse().add_detail_swap(part_number_, part_dst);
+  DetailsFacade::instanse().add_detail_swap(part_number_,
+                                            swaps_part_name_dto.get_part_dst());
 }
 
 void AddDetailSwapCommand::get_response(const std::shared_ptr<Response>& resp) {
@@ -129,37 +104,18 @@ void GetProducersCommand::handle_request(const std::shared_ptr<Request>& req) {
 }
 
 void GetProducersCommand::get_response(const std::shared_ptr<Response>& resp) {
-  Json::Value arr = Json::arrayValue;
-
-  for (auto producer : producers_) {
-    Json::Value root;
-    root["id"] = std::to_string(producer.id());
-    root["name"] = producer.name();
-    root["country"] = producer.country();
-    arr.append(root);
-  }
-
-  Json::Value root;
-  root["producers"] = arr;
-
-  Json::FastWriter writer;
-  resp->set_body(writer.write(root));
+  resp->set_body(ProducersArrayConverter().to_json(producers_));
   resp->set_status(RESP_OK);
 }
 
 void AddProducerCommand::handle_request(const std::shared_ptr<Request>& req) {
-  auto producer = DetailsProducerData(req->get_body());
+  auto producer = ProducerDataDto(req->get_body());
 
   id_ = DetailsFacade::instanse().add_producer(producer);
 }
 
 void AddProducerCommand::get_response(const std::shared_ptr<Response>& resp) {
-  unsigned long long int tmp = id_;
-  Json::Value root;
-  root["id"] = tmp;
-
-  Json::FastWriter writer;
-  resp->set_body(writer.write(root));
+  resp->set_body(IdConverter().to_json(id_));
   resp->set_status(RESP_OK);
 }
 
@@ -173,13 +129,7 @@ void GetProducerByIdCommand::handle_request(
 
 void GetProducerByIdCommand::get_response(
     const std::shared_ptr<Response>& resp) {
-  Json::Value root;
-  root["id"] = std::to_string(producer_.id());
-  root["name"] = producer_.name();
-  root["country"] = producer_.country();
-
-  Json::FastWriter writer;
-  resp->set_body(writer.write(root));
+  resp->set_body(ProducerConverter().to_json(producer_));
   resp->set_status(RESP_OK);
 }
 
@@ -201,7 +151,7 @@ void UpdateProducerCommand::handle_request(
   auto producer_id = get_producer_id_from_regex(req->get_target(), regexpr_,
                                                 producer_id_group_index_);
 
-  DetailsProducerData producer_data(req->get_body());
+  ProducerDataDto producer_data(req->get_body());
 
   DetailsFacade::instanse().update_producer(
       DetailsProducer(producer_id, producer_data));
@@ -217,51 +167,28 @@ void GetDetailsCommand::handle_request(const std::shared_ptr<Request>& req) {
 }
 
 void GetDetailsCommand::get_response(const std::shared_ptr<Response>& resp) {
-  Json::Value arr = Json::arrayValue;
-
-  for (auto detail : details_) {
-    Json::Value root;
-    root["part_number"] = detail.part_number();
-    root["name_rus"] = detail.name_rus();
-    root["name_eng"] = detail.name_eng();
-    root["producer_id"] = std::to_string(detail.producer_id());
-    arr.append(root);
-  }
-
-  Json::Value root;
-  root["details"] = arr;
-
-  Json::FastWriter writer;
-  resp->set_body(writer.write(root));
+  resp->set_body(DetailsArrayConverter().to_json(details_));
   resp->set_status(RESP_OK);
 }
 
 void GetDetailByNameCommand::handle_request(
     const std::shared_ptr<Request>& req) {
-  part_number_ = get_part_number_from_regex(req->get_target(), regexpr_,
-                                            part_number_group_index_);
+  part_number_ = get_string_from_regex(req->get_target(), regexpr_,
+                                       part_number_group_index_);
 
   detail_ = DetailsFacade::instanse().get_detail(part_number_);
 }
 
 void GetDetailByNameCommand::get_response(
     const std::shared_ptr<Response>& resp) {
-  Json::Value root;
-
-  root["part_number"] = detail_.part_number();
-  root["name_rus"] = detail_.name_rus();
-  root["name_eng"] = detail_.name_eng();
-  root["producer_id"] = std::to_string(detail_.producer_id());
-
-  Json::FastWriter writer;
-  resp->set_body(writer.write(root));
+  resp->set_body(DetailConverter().to_json(detail_));
   resp->set_status(RESP_OK);
 }
 
 void UpdateDetailCommand::handle_request(const std::shared_ptr<Request>& req) {
-  auto part_number_ = get_part_number_from_regex(req->get_target(), regexpr_,
-                                                 part_number_group_index_);
-  detail_ = Detail(part_number_, req->get_body());
+  auto part_number_ = get_string_from_regex(req->get_target(), regexpr_,
+                                            part_number_group_index_);
+  detail_ = DetailDto(part_number_, req->get_body());
   DetailsFacade::instanse().update_detail(detail_);
 }
 
@@ -270,8 +197,8 @@ void UpdateDetailCommand::get_response(const std::shared_ptr<Response>& resp) {
 }
 
 void DeleteDetailCommand::handle_request(const std::shared_ptr<Request>& req) {
-  auto part_name = get_part_number_from_regex(req->get_target(), regexpr_,
-                                              part_number_group_index_);
+  auto part_name = get_string_from_regex(req->get_target(), regexpr_,
+                                         part_number_group_index_);
 
   DetailsFacade::instanse().delete_detail(part_name);
 }
@@ -282,21 +209,13 @@ void DeleteDetailCommand::get_response(const std::shared_ptr<Response>& resp) {
 
 void DeleteDetailSwapCommand::handle_request(
     const std::shared_ptr<Request>& req) {
-  part_number_ = get_part_number_from_regex(req->get_target(), regexpr_,
-                                            part_number_group_index_);
+  part_number_ = get_string_from_regex(req->get_target(), regexpr_,
+                                       part_number_group_index_);
 
-  Json::Value val;
-  Json::Reader reader;
+  auto swaps_part_name_dto = SwapsPartNameDto(req->get_body());
 
-  bool parse_successfull = reader.parse(req->get_body(), val);
-
-  if (!parse_successfull) {
-    throw JsonParserException("can't parse add detail swaps request");
-  }
-
-  auto part_dst = val["swap_part_numbers"].asString();
-
-  DetailsFacade::instanse().delete_detail_swap(part_number_, part_dst);
+  DetailsFacade::instanse().delete_detail_swap(
+      part_number_, swaps_part_name_dto.get_part_dst());
 }
 
 void DeleteDetailSwapCommand::get_response(
@@ -306,51 +225,27 @@ void DeleteDetailSwapCommand::get_response(
 
 void GetDetailSwapsCommand::handle_request(
     const std::shared_ptr<Request>& req) {
-  auto part_number = get_part_number_from_regex(req->get_target(), regexpr_,
-                                                part_number_group_index_);
+  auto part_number = get_string_from_regex(req->get_target(), regexpr_,
+                                           part_number_group_index_);
 
   details_ = DetailsFacade::instanse().get_detail_swaps(part_number);
 }
 
 void GetDetailSwapsCommand::get_response(
     const std::shared_ptr<Response>& resp) {
-  Json::Value arr = Json::arrayValue;
-
-  for (auto detail : details_) {
-    Json::Value root;
-    root["part_number"] = detail.part_number();
-    root["name_rus"] = detail.name_rus();
-    root["name_eng"] = detail.name_eng();
-    root["producer_id"] = std::to_string(detail.producer_id());
-    arr.append(root);
-  }
-
-  Json::Value root;
-  root["details"] = arr;
-
-  Json::FastWriter writer;
-  resp->set_body(writer.write(root));
+  resp->set_body(DetailsArrayConverter().to_json(details_));
   resp->set_status(RESP_OK);
 }
 
 void AddDetailToStockCommand::handle_request(
     const std::shared_ptr<Request>& req) {
-  Json::Value value;
-  Json::Reader reader;
-
-  bool parse_successfull = reader.parse(req->get_body(), value);
-
-  if (!parse_successfull) {
-    throw JsonParserException("can't parse request data");
-  }
-
-  std::string part_number = value["part_number"].asString();
-  size_t quantity = value["quantity"].asUInt64();
-
   size_t worker_id = req->get_extra_data().auth_inf.worker_id;
 
-  DetailsFacade::instanse().add_detail_to_stock(part_number, worker_id,
-                                                quantity);
+  auto detail_to_stock_dto = DetailToStockDto(req->get_body());
+
+  DetailsFacade::instanse().add_detail_to_stock(
+      detail_to_stock_dto.get_part_number(), worker_id,
+      detail_to_stock_dto.get_quantity());
 }
 
 void AddDetailToStockCommand::get_response(
@@ -360,22 +255,13 @@ void AddDetailToStockCommand::get_response(
 
 void RemoveDetailFromStockCommand::handle_request(
     const std::shared_ptr<Request>& req) {
-  Json::Value value;
-  Json::Reader reader;
-
-  bool parse_successfull = reader.parse(req->get_body(), value);
-
-  if (!parse_successfull) {
-    throw JsonParserException("can't parse request data");
-  }
-
-  std::string part_number = value["part_number"].asString();
-  size_t quantity = value["quantity"].asUInt64();
-
   size_t worker_id = req->get_extra_data().auth_inf.worker_id;
 
-  DetailsFacade::instanse().remove_detail_from_stock(part_number, worker_id,
-                                                     quantity);
+  auto detail_to_stock_dto = DetailToStockDto(req->get_body());
+
+  DetailsFacade::instanse().remove_detail_from_stock(
+      detail_to_stock_dto.get_part_number(), worker_id,
+      detail_to_stock_dto.get_quantity());
 }
 
 void RemoveDetailFromStockCommand::get_response(
@@ -389,20 +275,15 @@ PrivilegeLevel RemoveDetailFromStockCommand::get_min_privilege_level() {
 
 void DetailQuantityCommand::handle_request(
     const std::shared_ptr<Request>& req) {
-  auto part_number = get_part_number_from_regex(req->get_target(), regexpr_,
-                                                part_number_group_index_);
+  auto part_number = get_string_from_regex(req->get_target(), regexpr_,
+                                           part_number_group_index_);
 
   res = DetailsFacade::instanse().get_detail_in_stock(part_number);
 }
 
 void DetailQuantityCommand::get_response(
     const std::shared_ptr<Response>& resp) {
-  Json::Value root;
-  root["part_number"] = res.first;
-  root["quantity"] = std::to_string(res.second);
-
-  Json::FastWriter writer;
-  resp->set_body(writer.write(root));
+  resp->set_body(DetailQuantityConverter().to_json(res));
   resp->set_status(RESP_OK);
 }
 
@@ -468,4 +349,22 @@ PrivilegeLevel AddDetailToStockCommand::get_min_privilege_level() {
 
 PrivilegeLevel DetailsInStockCommand::get_min_privilege_level() {
   return SELLER;
+}
+
+void StockLogsCommand::handle_request(const std::shared_ptr<Request>& req) {
+  std::string time_start = get_string_from_regex(req->get_target(), regexpr_,
+                                                 time_start_group_index_);
+  std::string time_end =
+      get_string_from_regex(req->get_target(), regexpr_, time_end_group_index_);
+
+  stock_logs_ = DetailsFacade::instanse().get_logs(time_start, time_end);
+}
+
+void StockLogsCommand::get_response(const std::shared_ptr<Response>& resp) {
+  resp->set_body(StockLogsConverter().to_json(stock_logs_));
+  resp->set_status(RESP_OK);
+}
+
+PrivilegeLevel StockLogsCommand::get_min_privilege_level() {
+  return ADMIN;
 }

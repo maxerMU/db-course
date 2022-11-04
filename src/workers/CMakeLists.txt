@@ -5,6 +5,7 @@ set (REDISCPP_FLAGS "-DREDISCPP_HEADER_ONLY=ON")
 
 add_executable(${TARGET_NAME}
   main.cpp
+  src/converters.cpp
   src/workers_handler.cpp
   src/workers_facade.cpp
   src/worker.cpp

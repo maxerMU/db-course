@@ -1,0 +1,37 @@
+Server:
+        Port: 8008
+
+Clients:
+        - Authentification
+
+Authentification:
+        Host: "127.0.0.1"
+        Port: 8009
+
+DB_PRODUCERS:
+        DB_NAME: "stock_db"
+        DB_USER: "stock_reader"
+        DB_USER_PASSWORD: "stock_reader"
+        DB_HOST: "127.0.0.1"
+        DB_PORT: 5432
+
+DB_DETAILS:
+        DB_NAME: "stock_db"
+        DB_USER: "stock_reader"
+        DB_USER_PASSWORD: "stock_reader"
+        DB_HOST: "127.0.0.1"
+        DB_PORT: 5432
+
+DB_SWAPS:
+        DB_NAME: "stock_db"
+        DB_USER: "stock_reader"
+        DB_USER_PASSWORD: "stock_reader"
+        DB_HOST: "127.0.0.1"
+        DB_PORT: 5432
+
+DB_STOCK:
+        DB_NAME: "stock_db"
+        DB_USER: "stock_reader"
+        DB_USER_PASSWORD: "stock_reader"
+        DB_HOST: "127.0.0.1"
+        DB_PORT: 5432

@@ -1,0 +1,57 @@
+<!--
+<h2>My Heroes</h2>
+<ul class="details">
+  <li *ngFor="let detail of details">
+    <button type="button" (click)="onSelect(detail)">
+      <span class="badge">{{detail.part_name}} </span>
+      <span class="name">{{detail.amount}}</span>
+    </button>
+  </li>
+</ul>
+<app-stock-detail [detail]="selectedDetail"></app-stock-detail>
+
+-->
+<div class="head_bar">
+  <app-header-bar></app-header-bar>
+</div>
+<div class="columns">
+    <div class="column is-1">
+        <app-left-bar></app-left-bar>
+    </div>
+    <div class="column">
+        <section class="hero is-primary">
+          <div class="hero-body">
+            <p class="title">
+              Stock
+            </p>
+            <p class="subtitle">
+              Details in Stock
+            </p>
+          </div>
+        </section>
+        <div class="block">
+            <table class="table is-fullwidth">
+              <thead>
+                <tr>
+                  <th><abbr title="Detail Id">Detail id</abbr></th>
+                  <th><abbr title="Detail name">Detail name</abbr></th>
+                  <th><abbr title="Producer name">Producer name</abbr></th>
+                  <th><abbr title="Producer country">Producer country</abbr></th>
+                  <th><abbr title="Amount">Amount</abbr></th>
+                </tr>
+              </thead>
+              <tbody *ngFor="let detail of details">
+                <tr>
+                  <td>{{detail.part_number}}</td>
+                  <td>{{detail.part_name}}</td>
+                  <td>{{detail.producer_name}}</td>
+                  <td>{{detail.producer_country}}</td>
+                  <td>{{detail.amount}}</td>
+                </tr>
+        
+              </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>

@@ -8,7 +8,6 @@ class DetailsProducerData {
  public:
   DetailsProducerData() = default;
   DetailsProducerData(const std::string& name, const std::string& country);
-  DetailsProducerData(const std::string& json_str);
 
   std::string name() const;
   void set_name(const std::string& name);
@@ -18,7 +17,7 @@ class DetailsProducerData {
 
   bool operator==(const DetailsProducerData& data) const;
 
- private:
+ protected:
   std::string name_;
   std::string country_;
 };

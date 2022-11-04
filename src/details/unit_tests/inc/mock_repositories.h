@@ -57,6 +57,10 @@ class StockMockRepository : public BaseStockRepository {
               (override));
   MOCK_METHOD(details_quantities_t, read_current, (), (override));
   MOCK_METHOD(details_names_t, read_prev, (), (override));
+  MOCK_METHOD(stock_logs_t,
+              read_log,
+              (const std::string& time_start, const std::string& time_end),
+              (override));
   MOCK_METHOD(void,
               delete_,
               (const std::string& part_name, size_t worker_id, size_t quantity),

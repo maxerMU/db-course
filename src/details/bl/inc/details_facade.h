@@ -56,8 +56,8 @@ class DetailsFacade {
   details_quantities_t get_details_in_stock();
   details_names_t get_prev_details_in_stock();
   detail_quantity_t get_detail_in_stock(const std::string& part_name);
-
-  // void add_details(const details_t& details);
+  stock_logs_t get_logs(const std::string& time_start,
+                        const std::string& time_end);
 
   /* producers branch */
   size_t add_producer(const DetailsProducerData& producer);

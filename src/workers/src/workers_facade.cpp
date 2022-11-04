@@ -14,8 +14,8 @@ void WorkersFacade::init(
   workers_controller_ = workers_controller;
 }
 
-void WorkersFacade::sign_up(WorkerPost& worker) {
-  workers_controller_->sign_up(worker);
+size_t WorkersFacade::sign_up(WorkerPost& worker) {
+  return workers_controller_->sign_up(worker);
 }
 
 void WorkersFacade::update_worker(const WorkerUpdate& worker) {

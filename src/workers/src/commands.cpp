@@ -1,12 +1,8 @@
 #include "commands.h"
-#include <jsoncpp/json/reader.h>
-#include <jsoncpp/json/value.h>
-#include <jsoncpp/json/writer.h>
 #include <iostream>
+#include "converters.h"
 #include "logic_exceptions.h"
 #include "server_exceptions.h"
-
-#define MAX_TIME_STR_LENGTH 32
 
 size_t get_worker_id_from_regex(const std::string& target,
                                 const std::regex& regexpr,
@@ -31,6 +27,9 @@ size_t get_worker_id_from_regex(const std::string& target,
 }
 
 PrivilegeLevel parse_privilege_level(const std::string& json_str) {
+  if (json_str.empty()) {
+    return CLIENT;
+  }
   Json::Value value;
   Json::Reader reader;
 
@@ -47,10 +46,15 @@ PrivilegeLevel parse_privilege_level(const std::string& json_str) {
 
 void AddWorkerCommand::handle_request(const std::shared_ptr<Request>& req) {
   WorkerPost worker(req->get_body());
-  WorkersFacade::instanse().sign_up(worker);
+  worker_id = WorkersFacade::instanse().sign_up(worker);
 }
 
 void AddWorkerCommand::get_response(const std::shared_ptr<Response>& resp) {
+  Json::Value root;
+  root["worker_id"] = (int)worker_id;
+
+  Json::FastWriter writer;
+  resp->set_body(writer.write(root));
   resp->set_status(RESP_OK);
 }
 
@@ -88,7 +92,7 @@ void AuthCommand::handle_request(const std::shared_ptr<Request>& req) {
   auto headers_ = req->get_headers();
   token_ = "";
   for (auto header : headers_) {
-    if (header.first == "Autharization") {
+    if (header.first == "Autharization" || header.first == "autharization") {
       token_ = header.second;
       break;
     }
@@ -141,18 +145,7 @@ void GetWorkerCommand::handle_request(const std::shared_ptr<Request>& req) {
 }
 
 void GetWorkerCommand::get_response(const std::shared_ptr<Response>& resp) {
-  Json::Value root;
-  root["id"] = (unsigned long long)worker_.worker_id();
-  root["name"] = worker_.name();
-  root["surname"] = worker_.surname();
-  auto birthdate = worker_.birthdate();
-  std::vector<char> temp_time_str(MAX_TIME_STR_LENGTH);
-  std::strftime(temp_time_str.data(), MAX_TIME_STR_LENGTH, "%D", &birthdate);
-  root["birthdate"] = std::string(temp_time_str.data());
-  root["privilege"] = (int)worker_.getPrivilege();
-
-  Json::FastWriter writer;
-  resp->set_body(writer.write(root));
+  resp->set_body(to_json(worker_));
   resp->set_status(RESP_OK);
 }
 
@@ -190,4 +183,20 @@ void UpdatePrivilegeCommand::get_response(
 
 PrivilegeLevel UpdatePrivilegeCommand::get_min_privilege_level() {
   return ADMIN;
+}
+
+void GetWorkerByIdCommand::handle_request(const std::shared_ptr<Request>& req) {
+  auto worker_id = get_worker_id_from_regex(req->get_target(), regexpr_,
+                                            worker_id_group_index_);
+
+  worker_ = WorkersFacade::instanse().get_worker(worker_id);
+}
+
+void GetWorkerByIdCommand::get_response(const std::shared_ptr<Response>& resp) {
+  resp->set_body(to_json(worker_));
+  resp->set_status(RESP_OK);
+}
+
+PrivilegeLevel GetWorkerByIdCommand::get_min_privilege_level() {
+  return CLIENT;
 }

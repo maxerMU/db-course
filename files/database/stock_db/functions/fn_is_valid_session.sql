@@ -1,6 +1,5 @@
 \c stock_db
 
-drop FUNCTION FN_IS_VALID_SESSION(int4, text);
 CREATE OR REPLACE FUNCTION FN_GET_SESSION_DATA(token text)
 RETURNS TABLE (is_valid_session int4, worker_id int4)
 AS $$
@@ -21,3 +20,4 @@ END
 $$ LANGUAGE PLPGSQL;
 
 GRANT EXECUTE ON FUNCTION FN_GET_SESSION_DATA(text) TO auth_integrator;
+GRANT EXECUTE ON FUNCTION FN_GET_SESSION_DATA(text) TO stock_reader;

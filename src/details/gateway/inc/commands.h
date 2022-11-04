@@ -269,4 +269,24 @@ class DetailsInStockCommand : public BaseCommand {
   details_quantities_t details_quantities_;
 };
 
+class StockLogsCommand : public BaseCommand {
+ public:
+  StockLogsCommand(const std::regex& expr,
+                   size_t time_start_group_index,
+                   size_t time_end_group_index)
+      : regexpr_(expr),
+        time_start_group_index_(time_start_group_index),
+        time_end_group_index_(time_end_group_index) {}
+  virtual void handle_request(const std::shared_ptr<Request>& req) override;
+  virtual void get_response(const std::shared_ptr<Response>& resp) override;
+  virtual PrivilegeLevel get_min_privilege_level() override;
+
+ private:
+  stock_logs_t stock_logs_;
+
+  std::regex regexpr_;
+  size_t time_start_group_index_;
+  size_t time_end_group_index_;
+};
+
 #endif  // BASECOMMAND_H
