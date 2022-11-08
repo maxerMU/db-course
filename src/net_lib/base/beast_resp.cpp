@@ -49,7 +49,7 @@ http::response<http::string_body> make_beast_resp(
   http::response<http::string_body> res(http::status(resp->get_status()), 11);
   res.set(http::field::server, BOOST_BEAST_VERSION_STRING);
   res.set(http::field::content_type, "application/json");
-  // res.keep_alive(req_.keep_alive());
+  res.keep_alive(true);
   res.body() = std::string{resp->get_body()};
   res.prepare_payload();
 

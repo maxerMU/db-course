@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Order } from '../order';
 import { StockDetailService } from '../stock-detail.service';
 
@@ -12,7 +13,9 @@ export class OrdersComponent implements OnInit {
   start_date: string = '';
   end_date: string = '';
 
-  constructor(private stockService: StockDetailService) { }
+  constructor(private stockService: StockDetailService,
+              private router: Router) { 
+              }
 
   ngOnInit(): void {
   }
@@ -26,7 +29,7 @@ export class OrdersComponent implements OnInit {
   }
 
   newOrder() {
-
+    this.router.navigateByUrl('/orders/new')
   }
 
 }

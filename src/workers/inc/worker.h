@@ -3,6 +3,7 @@
 
 #include <time.h>
 #include <string>
+#include <vector>
 #include "privilege_level.h"
 
 class WorkerAuth {
@@ -92,10 +93,10 @@ class WorkerGet : public WorkerBaseInf {
             const PrivilegeLevel& privilege = GUEST);
 
   size_t worker_id() const;
-  void setWorker_id(const size_t& worker_id);
+  void setWorkerId(const size_t& worker_id);
 
-  PrivilegeLevel privilege() const;
-  void setPrivilege(const PrivilegeLevel& privilege);
+  // PrivilegeLevel privilege() const;
+  // void setPrivilege(const PrivilegeLevel& privilege);
 
  protected:
   size_t worker_id_;

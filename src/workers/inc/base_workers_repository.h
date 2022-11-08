@@ -8,6 +8,7 @@ class BaseWorkersRepository {
   virtual size_t create(const WorkerPost& worker) = 0;
 
   virtual WorkerBaseInf read(size_t worker_id) = 0;
+  virtual std::vector<WorkerGet> read() = 0;
   virtual size_t workers_count() = 0;
   virtual int update(const WorkerUpdate& worker) = 0;
   virtual void update_privilege(size_t worker_id,

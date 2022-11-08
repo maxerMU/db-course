@@ -200,3 +200,16 @@ void GetWorkerByIdCommand::get_response(const std::shared_ptr<Response>& resp) {
 PrivilegeLevel GetWorkerByIdCommand::get_min_privilege_level() {
   return CLIENT;
 }
+
+void GetWorkersCommand::handle_request(const std::shared_ptr<Request>& req) {
+  workers_ = WorkersFacade::instanse().get_workers();
+}
+
+void GetWorkersCommand::get_response(const std::shared_ptr<Response>& resp) {
+  resp->set_body(to_json(workers_));
+  resp->set_status(RESP_OK);
+}
+
+PrivilegeLevel GetWorkersCommand::get_min_privilege_level() {
+  return CLIENT;
+}

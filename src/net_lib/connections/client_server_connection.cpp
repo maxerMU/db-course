@@ -99,7 +99,6 @@ void ClientServerConnection::accept_new() {
   clear_expired_connections();
 
   acceptor_.async_accept([this](error_code ec, tcp::socket sock) {
-    accept_new();
     client_sockets = connet_client_sockets(config_);
 
     if (ec) {
@@ -111,6 +110,8 @@ void ClientServerConnection::accept_new() {
     auto fut = session->run(std::move(sock), client_sockets);
     coroutine_sessions_.push_back(
         coroutine_cssession_t(session, std::move(fut)));
+
+    accept_new();
   });
 }
 

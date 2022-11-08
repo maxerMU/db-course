@@ -12,6 +12,9 @@ import { HeaderBarComponent } from './header-bar/header-bar.component';
 import { LoginComponent } from './login/login.component';
 import { AuthInterceptor } from './auth-interceptor';
 import { OrdersComponent } from './orders/orders.component';
+import { OrderFormComponent } from './order-form/order-form.component';
+import { WorkersComponent } from './workers/workers.component';
+import { SignupComponent } from './signup/signup.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +24,10 @@ import { OrdersComponent } from './orders/orders.component';
     LeftBarComponent,
     HeaderBarComponent,
     LoginComponent,
-    OrdersComponent
+    OrdersComponent,
+    OrderFormComponent,
+    WorkersComponent,
+    SignupComponent
   ],
   imports: [
     BrowserModule,

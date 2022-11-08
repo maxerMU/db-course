@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { StockDetail } from './stock-detail';
+import { StockDetail, DetailInStock } from './stock-detail';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { map, switchMap, timeout } from 'rxjs/operators'
 import { combineLatest, forkJoin, Observable, of } from 'rxjs';
@@ -94,6 +94,14 @@ export class StockDetailService {
     );
   }
 
+  takeDetailFromStock(order: DetailInStock) {
+    return this.http.delete(this.stockDetailsUrl, {body: order});
+  }
+
+  putDetailInStock(order: DetailInStock) {
+    return this.http.post(this.stockDetailsUrl, order);
+  }
+
   private stockDetailsUrl = 'https://localhost/api/v1/stock'
   private logsUrl = 'https://localhost/api/v1/stock/logs'
   private detailsUrl = 'https://localhost/api/v1/details'
@@ -115,11 +123,6 @@ interface Producer {
   id: number;
   name: string;
   country: string;
-}
-
-interface DetailInStock {
-  part_number: string;
-  quantity: number;
 }
 
 interface DetailsInStock {

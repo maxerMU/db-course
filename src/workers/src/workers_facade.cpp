@@ -31,6 +31,10 @@ WorkerGet WorkersFacade::get_worker(size_t worker_id) {
   return workers_controller_->get_worker(worker_id);
 }
 
+std::vector<WorkerGet> WorkersFacade::get_workers() {
+  return workers_db_->read();
+}
+
 std::string WorkersFacade::login(const WorkerAuth& worker) {
   return workers_controller_->login(worker);
 }

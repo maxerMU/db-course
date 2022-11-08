@@ -16,7 +16,7 @@ HttpClientServerSession::HttpClientServerSession(
 std::future<void> HttpClientServerSession::run(
     tcp::socket server_sock,
     const std::vector<std::shared_ptr<tcp::socket>>& clients_sock) {
-  while (server_sock.is_open()) {
+  while (true) {
     http::request<http::string_body> req =
         co_await HttpAsyncReadRequest(server_sock);
     std::cout << "read from socket" << std::endl;

@@ -47,6 +47,7 @@ void PostgresWorkersRepository::connect() {
 void PostgresWorkersRepository::add_prepare_statements() {
   connection_->prepare(requests_names[CREATE],
                        "SELECT * FROM FN_ADD_WORKER($1, $2, $3, $4, $5, $6)");
+  connection_->prepare(requests_names[READ], "SELECT * FROM FN_GET_WORKERS()");
   connection_->prepare(requests_names[READ_COUNT], "SELECT FN_WORKERS_COUNT()");
   connection_->prepare(requests_names[READ_PASSWORD],
                        "SELECT * FROM FN_GET_PASSWORD($1)");
@@ -73,6 +74,37 @@ size_t PostgresWorkersRepository::create(const WorkerPost& worker) {
     throw DatabaseNotUniqueUsernameException();
 
   return res[0][1].as<size_t>();
+}
+
+std::vector<WorkerGet> PostgresWorkersRepository::read() {
+  pqxx::work w(*connection_);
+  pqxx::result res = w.exec_prepared(requests_names[READ]);
+  w.commit();
+
+  if (res.size() == 0)
+    throw DatabaseNotFoundException("can't find user");
+
+  std::vector<WorkerGet> workers;
+
+  for (auto row : res) {
+    WorkerGet worker;
+
+    worker.setWorkerId(row[0].as<int>());
+    worker.setName(row[1].as<std::string>());
+    worker.setSurname(row[2].as<std::string>());
+
+    auto birthdate_str = row[3].as<std::string>();
+    tm birthdate;
+    if (!strptime(birthdate_str.c_str(), "%Y-%m-%d", &birthdate))
+      throw DatabaseIncorrectAnswerException("can't parse datetime");
+
+    worker.setBirthdate(birthdate);
+    worker.setPrivilege(static_cast<PrivilegeLevel>(row[4].as<int>()));
+
+    workers.push_back(worker);
+  }
+
+  return workers;
 }
 
 size_t PostgresWorkersRepository::workers_count() {

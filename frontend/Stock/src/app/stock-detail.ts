@@ -5,3 +5,8 @@ export interface StockDetail {
     producer_country: string
     amount: number,
 }
+
+export interface DetailInStock {
+  part_number: string;
+  quantity: number;
+}

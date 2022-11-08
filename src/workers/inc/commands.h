@@ -100,6 +100,17 @@ class GetWorkerCommand : public BaseAuthCommand {
   int status_code_ = RESP_OK;
 };
 
+class GetWorkersCommand : public BaseAuthCommand {
+ public:
+  virtual void handle_request(const std::shared_ptr<Request>& req) override;
+  virtual void get_response(const std::shared_ptr<Response>& resp) override;
+  virtual PrivilegeLevel get_min_privilege_level() override;
+
+ private:
+  std::vector<WorkerGet> workers_;
+  int status_code_ = RESP_OK;
+};
+
 class GetWorkerByIdCommand : public BaseAuthCommand {
  public:
   GetWorkerByIdCommand(const std::regex& expr, size_t worker_id_group_index)

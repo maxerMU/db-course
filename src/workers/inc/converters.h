@@ -11,5 +11,6 @@
 #define MAX_TIME_STR_LENGTH 32
 
 std::string to_json(const WorkerGet& worker);
+std::string to_json(const std::vector<WorkerGet>& workers);
 
 #endif  // CONVERTERS_H

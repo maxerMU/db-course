@@ -12,7 +12,7 @@ export class HeaderBarComponent implements OnInit {
     id: 1,
     name: '',
     surname: '',
-    privillege: 0,
+    privilege: 0,
     birthdate: ''
   };
 

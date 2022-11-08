@@ -30,6 +30,10 @@ WorkersRouter::WorkersRouter() {
   static_routes[worker_post] = std::shared_ptr<BaseCommandCreator>(
       new CommandCreator<AddWorkerCommand>());
 
+  RequestParams workers_get{"/workers", GET};
+  static_routes[workers_get] = std::shared_ptr<BaseCommandCreator>(
+      new CommandCreator<GetWorkersCommand>());
+
   RequestParams worker_get{"/workers/me", GET};
   static_routes[worker_get] = std::shared_ptr<BaseCommandCreator>(
       new CommandCreator<GetWorkerCommand>());

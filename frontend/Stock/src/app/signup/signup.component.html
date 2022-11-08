@@ -1,0 +1,52 @@
+<div class="back">
+  <div class="main_box">
+    <div class="columns is-vcentered">
+      <div class="column ">
+        <form class="box">
+          <div class="field">
+            <label class="label">Name</label>
+            <div class="control">
+              <input class="input" type="text" [(ngModel)]="worker.name" [ngModelOptions]="{standalone: true}" placeholder="Enter name">
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label">Surname</label>
+            <div class="control">
+              <input class="input" type="text" [(ngModel)]="worker.surname" [ngModelOptions]="{standalone: true}" placeholder="Enter surname">
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label">Birthdate</label>
+            <div class="control">
+              <input class="input" type="date" [(ngModel)]="worker.birthdate" [ngModelOptions]="{standalone: true}">
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label">Username</label>
+            <div class="control">
+              <input class="input" type="text" [(ngModel)]="worker.username" [ngModelOptions]="{standalone: true}" placeholder="Enter username">
+            </div>
+          </div>
+        
+          <div class="field">
+            <label class="label">Password</label>
+            <div class="control">
+              <input class="input" type="password" [(ngModel)]="worker.password" [ngModelOptions]="{standalone: true}" placeholder="********">
+            </div>
+          </div>
+
+          <button class="button is-primary" (click)="onSelect()">Sign up</button>
+        
+        </form>
+      </div>
+      <div class="column">
+        <figure class="image is-fullwidth">
+            <img src="../../assets/login.png">
+        </figure>
+      </div>
+    </div>
+  </div>
+</div>
