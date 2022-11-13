@@ -23,6 +23,7 @@ jobs:
         path: ./
   
   unit_tests:
+    needs: build
     runs-on: ubuntu-latest
     container: maxermu/stock_build_env
 
