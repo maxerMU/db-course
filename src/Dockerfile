@@ -7,7 +7,9 @@ RUN apt install -y gcc-10 g++-10 cpp-10
 RUN apt install -y cmake
 RUN apt install -y git
 RUN apt install -y libssl-dev
+
 RUN apt install -y libgtest-dev
+RUN apt install -y libgmock-dev
 WORKDIR "/usr/src/googletest/googletest"
 RUN mkdir build
 WORKDIR "/usr/src/googletest/googletest/build"
@@ -40,3 +42,11 @@ WORKDIR "/home/cpp-jwt/build"
 RUN cmake ..
 RUN make install
 
+WORKDIR "/home"
+RUN git clone https://github.com/tdv/redis-cpp.git  
+WORKDIR "/home/redis-cpp"
+RUN mkdir build  
+WORKDIR "/home/redis-cpp/build"
+RUN cmake ..  
+RUN make  
+RUN make install  
