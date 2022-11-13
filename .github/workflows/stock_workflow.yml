@@ -16,4 +16,17 @@ jobs:
       run: |
         mkdir build && cd build
         cmake ../src
-        make -j4
+      #  make -j4
+    - uses: actions/upload-artifact@master
+        with:
+          name: build-artifact
+          path: ./
+  
+  unit_tests:
+    runs-on: ubuntu-latest
+    container: maxermu/stock_build_env
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: ls
+      run: ls -a
