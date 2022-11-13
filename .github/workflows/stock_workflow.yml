@@ -10,10 +10,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: pwd
+      run: pwd
     - name: build
       run: |
         mkdir build && cd build
         cmake ../src
         make -j4
-    - name: which
-      run: which g++-10
