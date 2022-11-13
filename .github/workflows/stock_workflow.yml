@@ -11,8 +11,9 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: build
-      run: mkdir build && cd build
-      run: cmake ../src
-      run: make
+      run: |
+        mkdir build && cd build
+        cmake ../src
+        make
     - name: which
       run: which g++-10
