@@ -10,8 +10,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: pwd
-      run: pwd
     - name: build
       run: |
         mkdir build && cd build
@@ -70,7 +68,9 @@ jobs:
       with:
         name: build-artifact
         path: ./build
-
+    
+    - name: install psql
+      run: apt install libqt5sql5-psql
     - name: migrate_database
       run: |
         cd files/database/stock_db
