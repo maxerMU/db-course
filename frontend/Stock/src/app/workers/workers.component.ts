@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
+import { Label } from '../left-bar/left-bar.component';
 import { Worker } from '../worker';
 
 @Component({
@@ -9,6 +10,7 @@ import { Worker } from '../worker';
 })
 export class WorkersComponent implements OnInit {
   workers: Worker[] = [];
+  label: Label = Label.WORKERS
 
   constructor(private authService: AuthService) { }
 
@@ -22,11 +24,13 @@ export class WorkersComponent implements OnInit {
 
   promote(id: number, curPrivilege: number) {
     this.authService.updatePrivilege(id, curPrivilege - 1).subscribe();
-    this.getWorkers();
+    let i = this.workers.findIndex((worker) => worker.id == id);
+    this.workers[i].privilege = curPrivilege - 1;
   }
 
   downgrade(id: number, curPrivilege: number) {
     this.authService.updatePrivilege(id, curPrivilege + 1).subscribe();
-    this.getWorkers();
+    let i = this.workers.findIndex((worker) => worker.id == id);
+    this.workers[i].privilege = curPrivilege + 1;
   }
 }

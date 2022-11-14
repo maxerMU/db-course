@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { StockDetailService } from '../stock-detail.service';
 import { DetailInStock } from '../stock-detail';
+import { Label } from '../left-bar/left-bar.component';
 
 @Component({
   selector: 'app-order-form',
@@ -9,6 +10,7 @@ import { DetailInStock } from '../stock-detail';
 })
 export class OrderFormComponent implements OnInit {
   order: DetailInStock = {part_number: '', quantity: 0}
+  label: Label = Label.STOCK;
 
   constructor(private stockService: StockDetailService) { }
 

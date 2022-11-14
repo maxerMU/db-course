@@ -37,10 +37,48 @@ jobs:
     - name: run_unit_tests
       run: |
         cd build 
-        ls -a
         cd details
-        ls -a
         cd unit_tests
-        ls -a
         chmod +x details_unit_tests
         ./details_unit_tests
+
+  integration_tests:
+    needs: build
+    runs-on: ubuntu-latest
+    container: maxermu/stock_build_env
+
+    # service containers to run with `postgres-job`
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_PASSWORD: Pass2022!
+
+        ports:
+          - 5432:5432
+
+        # set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/download-artifact@master
+      with:
+        name: build-artifact
+        path: ./build
+
+    - name: migrate_database
+      run: |
+        cd files/database/stock_db
+        bash migrate.sh postgres 127.0.0.1 5432 Pass2022!
+    - name: run_integration_tests
+      run: |
+        cd build 
+        cd details
+        cd integration_tests
+        chmod +x details_integration_tests
+        ./details_integration_tests

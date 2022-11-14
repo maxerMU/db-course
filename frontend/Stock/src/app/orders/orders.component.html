@@ -3,7 +3,7 @@
 </div>
 <div class="columns">
     <div class="column is-1">
-        <app-left-bar></app-left-bar>
+        <app-left-bar [label]="label"></app-left-bar>
     </div>
     <div class="column">
         <section class="hero is-primary">
@@ -18,7 +18,7 @@
         </section>
         <div class="block">
             <form class="box">
-                <div class="columns is-vcentered">
+                <div class="columns is-centered">
                     <div class="column">
                         <div class="field">
                             <label class="label">Enter start date</label>
@@ -31,18 +31,24 @@
                             <input class="input" type="date" [(ngModel)]="end_date" [ngModelOptions]="{standalone: true}" placeholder="Enter start date">
                         </div>
                     </div>
+                            <!--
                     <div class="column is-2">
                         <div class="field is-grouped">
                             <p class="control">
-                                <button class="button is-info is-medium" (click)="findOrders()">Find orders</button>
+                                <button class="button is-info" (click)="findOrders()">Find orders</button>
                             </p>
-                            <p class="control">
-                                <button class="button is-primary is-medium" (click)="newOrder()">New order</button>
+                            <p class="control pt-5">
+                                <button class="button is-primary" (click)="newOrder()">New order</button>
                             </p>
 
                         </div>
                     </div>
+                            -->
+
                 </div>
+                <p class="control">
+                    <button class="button is-info" (click)="findOrders()">Find orders</button>
+                </p>
 
             </form>
         </div>

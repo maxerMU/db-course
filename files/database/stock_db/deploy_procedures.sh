@@ -1,4 +1,4 @@
 for file in ./procedures/*.sql
 do
-    psql "sslmode=disable user=postgres hostaddr=$1 port=5432 password=Pass2022!" < $file;
+    psql "sslmode=disable user=$1 hostaddr=$2 port=$3 password=$4" < $file;
 done

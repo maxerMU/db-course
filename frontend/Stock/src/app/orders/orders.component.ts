@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Order } from '../order';
 import { StockDetailService } from '../stock-detail.service';
+import { Label } from '../left-bar/left-bar.component';
 
 @Component({
   selector: 'app-orders',
@@ -9,6 +10,7 @@ import { StockDetailService } from '../stock-detail.service';
   styleUrls: ['./orders.component.less']
 })
 export class OrdersComponent implements OnInit {
+  label: Label = Label.ORDERS
   orders: Order[] = [];
   start_date: string = '';
   end_date: string = '';
@@ -26,10 +28,6 @@ export class OrdersComponent implements OnInit {
         res => this.orders = res
       )
     }
-  }
-
-  newOrder() {
-    this.router.navigateByUrl('/orders/new')
   }
 
 }

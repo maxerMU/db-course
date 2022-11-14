@@ -16,7 +16,7 @@
 </div>
 <div class="columns">
     <div class="column is-1">
-        <app-left-bar></app-left-bar>
+        <app-left-bar [label]="label"></app-left-bar>
     </div>
     <div class="column">
         <section class="hero is-primary">
@@ -38,6 +38,7 @@
                   <th><abbr title="Producer name">Producer name</abbr></th>
                   <th><abbr title="Producer country">Producer country</abbr></th>
                   <th><abbr title="Amount">Amount</abbr></th>
+                  <th><abbr title="Action">Action</abbr></th>
                 </tr>
               </thead>
               <tbody *ngFor="let detail of details">
@@ -47,10 +48,30 @@
                   <td>{{detail.producer_name}}</td>
                   <td>{{detail.producer_country}}</td>
                   <td>{{detail.amount}}</td>
+                  <td>
+                        <div class="field is-grouped">
+                            <p class="control">
+                                <button class="button is-success" (click)="put(detail.part_number)">Put</button>
+                            </p>
+                            <p class="control">
+                                <button class="button is-danger" (click)="take(detail.part_number)">Take</button>
+                            </p>
+
+                        </div>
+                  </td>
                 </tr>
         
               </tbody>
             </table>
+        </div>
+        <div class="columns">
+          <div class="column is-flex is-justify-content-end">
+            <p class="control p-5">
+                <button class="button is-primary is-medium" (click)="newOrder()">New order</button>
+            </p>
+
+          </div>
+
         </div>
 
     </div>

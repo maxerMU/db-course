@@ -26,8 +26,8 @@
       General
     </p>
     <ul class="menu-list">
-      <li><a class="is-active" href="/stock">Stock</a></li>
-      <li><a href="/orders">Orders</a></li>
-      <li><a href="/workers">Workers</a></li>
+      <li><a [class.is-active]="label == 0" href="/stock">Stock</a></li>
+      <li><a [class.is-active]="label == 1" href="/orders">Orders</a></li>
+      <li><a [class.is-active]="label == 2" href="/workers">Workers</a></li>
     </ul>
   </aside>

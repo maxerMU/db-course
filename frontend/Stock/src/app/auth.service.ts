@@ -4,6 +4,7 @@ import { AuthInfo } from './auth-info';
 import { Worker, WorkerSignup } from './worker';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators'
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -38,9 +39,9 @@ export class AuthService {
     return this.http.patch(this.workersUrl + '/' + worker_id.toString() + '/' + 'privilege', {privilege_level: newPrivilege});
   }
 
-  private authUrl = 'https://localhost/api/v1/auth/login'
-  private getMeUrl = 'https://localhost/api/v1/workers/me'
-  private workersUrl = 'https://localhost/api/v1/workers'
+  private authUrl = environment.baseApiUrl + '/api/v1/auth/login'
+  private getMeUrl = environment.baseApiUrl + '/api/v1/workers/me'
+  private workersUrl = environment.baseApiUrl + '/api/v1/workers'
 }
 
 interface Workers {

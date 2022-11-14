@@ -1,4 +1,4 @@
-set(TARGET_NAME details_unit_tests)
+set(TARGET_NAME details_integration_tests)
 set(CMAKE_CXX_STANDARD 17)
 
 file(GLOB src "./src/*.cpp" "./inc/*.h")
@@ -25,4 +25,7 @@ target_link_libraries(${TARGET_NAME} PRIVATE
     pq
     pqxx)
 
-add_test(NAME details_unit_tests COMMAND ${TARGET_NAME})
+
+file(INSTALL ./conf DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+
+add_test(NAME details_integration_tests COMMAND ${TARGET_NAME})

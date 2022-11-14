@@ -6,6 +6,7 @@ import { combineLatest, forkJoin, Observable, of } from 'rxjs';
 import { Order } from './order';
 import { AuthService } from './auth.service';
 import { Worker } from './worker';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -102,10 +103,10 @@ export class StockDetailService {
     return this.http.post(this.stockDetailsUrl, order);
   }
 
-  private stockDetailsUrl = 'https://localhost/api/v1/stock'
-  private logsUrl = 'https://localhost/api/v1/stock/logs'
-  private detailsUrl = 'https://localhost/api/v1/details'
-  private producersUrl = 'https://localhost/api/v1/producers'
+  private stockDetailsUrl = environment.baseApiUrl + '/api/v1/stock'
+  private logsUrl = environment.baseApiUrl + '/api/v1/stock/logs'
+  private detailsUrl = environment.baseApiUrl + '/api/v1/details'
+  private producersUrl = environment.baseApiUrl + '/api/v1/producers'
 }
 
 interface Detail {
