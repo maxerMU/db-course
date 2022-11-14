@@ -16,7 +16,7 @@ jobs:
       run: |
         mkdir build && cd build
         cmake ../src
-        make -j4
+        make -j12
     - uses: actions/upload-artifact@master
       with:
         name: build-artifact
@@ -35,4 +35,12 @@ jobs:
         path: ./build
 
     - name: run_unit_tests
-      run: ./build/details/unit_tests/details_unit_tests
+      run: |
+        cd build 
+        ls -a
+        cd details
+        ls -a
+        cd unit_tests
+        ls -a
+        chmod +x details_unit_tests
+        ./details_unit_tests
