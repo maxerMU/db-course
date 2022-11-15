@@ -73,7 +73,7 @@ jobs:
     - name: install psql
       run: sudo apt install -y postgresql postgresql-contrib
     - name: psql
-      run: psql "sslmode=disable user=postgres hostaddr=postgres port=5432 password=Pass2022!"
+      run: psql "sslmode=disable user=postgres hostaddr=127.0.0.1 port=5432 password=Pass2022!"
     - name: migrate_database
       run: |
         cd files/database/stock_db
