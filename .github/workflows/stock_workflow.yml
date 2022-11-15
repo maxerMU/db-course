@@ -43,7 +43,7 @@ jobs:
   integration_tests:
     # needs: build
     runs-on: ubuntu-latest
-    container: maxermu/stock_build_env
+    # container: maxermu/stock_build_env
 
     # service containers to run with `postgres-job`
     services:
@@ -65,10 +65,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    # - uses: actions/download-artifact@master
-    #   with:
-    #     name: build-artifact
-    #     path: ./build
+    - uses: actions/download-artifact@master
+      with:
+        name: build-artifact
+        path: ./build
     
     - name: install psql
       run: apt install -y postgresql postgresql-contrib
