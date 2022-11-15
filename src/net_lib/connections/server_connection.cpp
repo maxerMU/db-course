@@ -56,15 +56,15 @@ void ServerConnection::clear_expired_connections() {
 }
 
 void ServerConnection::run() {
-  accept_new();
-  context_.run();
-  // boost::thread_group tg;
   // accept_new();
-  // for (size_t i = 0; i < boost::thread::hardware_concurrency(); i++) {
-  //   tg.create_thread([&]() { context_.run(); });
-  // }
-  // // context_.run();
-  // tg.join_all();
+  // context_.run();
+  boost::thread_group tg;
+  accept_new();
+  for (size_t i = 0; i < 12; i++) {
+    tg.create_thread([&]() { context_.run(); });
+  }
+  // context_.run();
+  tg.join_all();
 }
 
 void ServerConnection::accept_new() {

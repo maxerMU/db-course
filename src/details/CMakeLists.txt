@@ -24,5 +24,6 @@ target_link_libraries(${TARGET_NAME}
     details_gateway
     )
 
+add_subdirectory(tests_lib)
 add_subdirectory(unit_tests)
 add_subdirectory(integration_tests)

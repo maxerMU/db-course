@@ -6,7 +6,7 @@
 #include "std_future.hpp"
 
 HttpServerSession::HttpServerSession(
-    const std::shared_ptr<BaseServerReqHandlerCreator> &creator)
+    const std::shared_ptr<BaseServerReqHandlerCreator>& creator)
     : handler_creator_(creator) {}
 
 HttpServerSession::~HttpServerSession() {
@@ -14,11 +14,11 @@ HttpServerSession::~HttpServerSession() {
 }
 
 HttpServerSessionCreator::HttpServerSessionCreator(
-    const std::shared_ptr<BaseServerReqHandlerCreator> &creator)
+    const std::shared_ptr<BaseServerReqHandlerCreator>& creator)
     : handler_creator_(creator) {}
 
 std::future<void> HttpServerSession::run(tcp::socket sock) {
-  while (sock.is_open()) {
+  while (true) {
     auto handler_ = handler_creator_->create_handler();
     http::request<http::string_body> req = co_await HttpAsyncReadRequest(sock);
 

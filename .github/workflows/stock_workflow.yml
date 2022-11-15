@@ -72,17 +72,14 @@ jobs:
 
     - name: install ip
       run: apt install -y iproute2
-    - name: test ip
-      run: ip route | awk '/default/ { print $3 }'
     - name: find host
-      run: DOCKER_HOST=$(ip route | awk '/default/ { print $3 }')
+      run: ip route | awk '/default/ { print $3 }'
     
     - name: install psql
       run: apt install -y postgresql postgresql-contrib
     - name: migrate_database
       run: |
         cd files/database/stock_db
-        echo $DOCKER_HOST
         DOCKER_HOST=$(ip route | awk '/default/ { print $3 }')
         bash migrate.sh postgres $DOCKER_HOST 5432 Pass2022!
     - name: run_integration_tests

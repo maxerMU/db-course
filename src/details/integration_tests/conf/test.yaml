@@ -2,33 +2,33 @@ STOCK_DB:
         DB_NAME: "stock_db"
         DB_USER: "stock_adm"
         DB_USER_PASSWORD: "stock_adm"
-        DB_HOST: "127.0.0.1"
+        DB_HOST: "172.18.0.1"
         DB_PORT: 5432
 
 DB_DETAILS:
         DB_NAME: "stock_db"
         DB_USER: "details_integrator"
         DB_USER_PASSWORD: "details_integrator"
-        DB_HOST: "127.0.0.1"
+        DB_HOST: "172.18.0.1"
         DB_PORT: 5432
 
 DB_PRODUCERS:
         DB_NAME: "stock_db"
         DB_USER: "producers_integrator"
         DB_USER_PASSWORD: "producers_integrator"
-        DB_HOST: "127.0.0.1"
+        DB_HOST: "172.18.0.1"
         DB_PORT: 5432
 
 DB_SWAPS:
         DB_NAME: "stock_db"
         DB_USER: "details_integrator"
         DB_USER_PASSWORD: "details_integrator"
-        DB_HOST: "127.0.0.1"
+        DB_HOST: "172.18.0.1"
         DB_PORT: 5432
 
 DB_STOCK_LOG:
         DB_NAME: "stock_db"
         DB_USER: "stock_integrator"
         DB_USER_PASSWORD: "stock_integrator"
-        DB_HOST: "127.0.0.1"
+        DB_HOST: "172.18.0.1"
         DB_PORT: 5432
