@@ -1,4 +1,4 @@
 for file in ./functions/*.sql
 do
-    psql "sslmode=disable user=$1 hostaddr=$2 port=$3 password=$4" < $file;
+    psql -h $2 "sslmode=disable user=$1 port=$3 password=$4" < $file;
 done
