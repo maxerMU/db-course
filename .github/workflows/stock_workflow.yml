@@ -71,7 +71,7 @@ jobs:
         path: ./build
     
     - name: install psql
-      run: apt install -y postgresql postgresql-contrib
+      run: sudo apt install -y postgresql postgresql-contrib
     - name: psql
       run: psql "sslmode=disable user=postgres hostaddr=postgres port=5432 password=Pass2022!"
     - name: migrate_database
