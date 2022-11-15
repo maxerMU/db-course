@@ -3,45 +3,45 @@ name: ci build
 on: [push]
 
 jobs:
-  build:
+  # build:
 
-    runs-on: ubuntu-latest
-    container: maxermu/stock_build_env
+  #   runs-on: ubuntu-latest
+  #   container: maxermu/stock_build_env
 
-    steps:
-    - uses: actions/checkout@v2
-    - name: build
-      run: |
-        mkdir build && cd build
-        cmake ../src
-        make -j12
-    - uses: actions/upload-artifact@master
-      with:
-        name: build-artifact
-        path: ./build
+  #   steps:
+  #   - uses: actions/checkout@v2
+  #   - name: build
+  #     run: |
+  #       mkdir build && cd build
+  #       cmake ../src
+  #       make -j12
+  #   - uses: actions/upload-artifact@master
+  #     with:
+  #       name: build-artifact
+  #       path: ./build
   
-  unit_tests:
-    needs: build
-    runs-on: ubuntu-latest
-    container: maxermu/stock_build_env
+  # unit_tests:
+  #   needs: build
+  #   runs-on: ubuntu-latest
+  #   container: maxermu/stock_build_env
 
-    steps:
-    - uses: actions/checkout@v2
-    - uses: actions/download-artifact@master
-      with:
-        name: build-artifact
-        path: ./build
+  #   steps:
+  #   - uses: actions/checkout@v2
+  #   - uses: actions/download-artifact@master
+  #     with:
+  #       name: build-artifact
+  #       path: ./build
 
-    - name: run_unit_tests
-      run: |
-        cd build 
-        cd details
-        cd unit_tests
-        chmod +x details_unit_tests
-        ./details_unit_tests
+  #   - name: run_unit_tests
+  #     run: |
+  #       cd build 
+  #       cd details
+  #       cd unit_tests
+  #       chmod +x details_unit_tests
+  #       ./details_unit_tests
 
   integration_tests:
-    needs: build
+    # needs: build
     runs-on: ubuntu-latest
     container: maxermu/stock_build_env
 
@@ -65,10 +65,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - uses: actions/download-artifact@master
-      with:
-        name: build-artifact
-        path: ./build
+    # - uses: actions/download-artifact@master
+    #   with:
+    #     name: build-artifact
+    #     path: ./build
 
     - name: install ip
       run: apt install -y iproute2
@@ -81,7 +81,7 @@ jobs:
       run: |
         cd files/database/stock_db
         DOCKER_HOST=$(ip route | awk '/default/ { print $3 }')
-        bash migrate.sh postgres $DOCKER_HOST 5432 Pass2022!
+        bash migrate.sh postgres localhost 5432 Pass2022!
     - name: run_integration_tests
       run: |
         cd build 
