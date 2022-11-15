@@ -43,7 +43,7 @@ jobs:
   integration_tests:
     needs: build
     runs-on: ubuntu-latest
-    # container: maxermu/stock_build_env
+    container: maxermu/stock_build_env
 
     # service containers to run with `postgres-job`
     services:
@@ -78,7 +78,7 @@ jobs:
       run: DOCKER_HOST=$(ip route | awk '/default/ { print $3 }')
     
     - name: install psql
-      run: sudo apt install -y postgresql postgresql-contrib
+      run: apt install -y postgresql postgresql-contrib
     - name: migrate_database
       run: |
         cd files/database/stock_db
