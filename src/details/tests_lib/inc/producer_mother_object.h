@@ -3,19 +3,20 @@
 
 #include "producer.h"
 
-class ProducerMotherObject
-{
-public:
-    ProducerMotherObject();
+class ProducerMotherObject {
+ public:
+  ProducerMotherObject();
 
-    DetailsProducer create_producer();
-    DetailsProducerData create_producer_data();
-    producers_t create_producers();
+  DetailsProducer create_producer();
+  DetailsProducerData create_producer_data();
+  producers_t create_producers();
+  std::vector<DetailsProducerData> create_producers_data();
 
-private:
-    DetailsProducerData producer_data_;
-    DetailsProducer producer_;
-    producers_t producers_;
+ private:
+  DetailsProducerData producer_data_;
+  DetailsProducer producer_;
+  producers_t producers_;
+  std::vector<DetailsProducerData> producers_data_;
 };
 
-#endif // PRODUCERMOTHEROBJECT_H
+#endif  // PRODUCERMOTHEROBJECT_H

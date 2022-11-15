@@ -219,11 +219,11 @@ size_t StockDbTest::create_test_worker() {
 }
 
 void StockDbTest::clean_database() {
-  try {
-    pqxx::work w(*connection_);
-    w.exec_prepared(requests_names[CLEAN]);
-    w.commit();
-  } catch (...) {
-    throw DatabaseExecutionException("can't execute prepared");
-  }
+  // try {
+  pqxx::work w(*connection_);
+  w.exec_prepared(requests_names[CLEAN]);
+  w.commit();
+  // } catch (...) {
+  //  throw DatabaseExecutionException("can't execute prepared");
+  // }
 }
