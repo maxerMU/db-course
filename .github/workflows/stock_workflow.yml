@@ -70,14 +70,10 @@ jobs:
     #     name: build-artifact
     #     path: ./build
     
-    - name: ip
-      run: ip -a
-    - name: ifconfig
-      run: ifconfig
     - name: install psql
       run: apt install -y postgresql postgresql-contrib
-    - name: install psql
-      run: psql "sslmode=disable user=postgres hostaddr=127.0.0.1 port=5432 password=Pass2022!"
+    - name: psql
+      run: psql "sslmode=disable user=postgres hostaddr=host.docker.internal port=5432 password=Pass2022!"
     - name: migrate_database
       run: |
         cd files/database/stock_db
