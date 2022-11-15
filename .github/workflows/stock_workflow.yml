@@ -70,6 +70,10 @@ jobs:
     #     name: build-artifact
     #     path: ./build
     
+    - name: ip
+      run: ip -a
+    - name: ifconfig
+      run: ifconfig
     - name: install psql
       run: apt install -y postgresql postgresql-contrib
     - name: install psql
