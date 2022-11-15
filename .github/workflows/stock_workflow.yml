@@ -3,45 +3,45 @@ name: ci build
 on: [push]
 
 jobs:
-  build:
+  # build:
 
-    runs-on: ubuntu-latest
-    container: maxermu/stock_build_env
+  #   runs-on: ubuntu-latest
+  #   container: maxermu/stock_build_env
 
-    steps:
-    - uses: actions/checkout@v2
-    - name: build
-      run: |
-        mkdir build && cd build
-        cmake ../src
-        make -j12
-    - uses: actions/upload-artifact@master
-      with:
-        name: build-artifact
-        path: ./build
+  #   steps:
+  #   - uses: actions/checkout@v2
+  #   - name: build
+  #     run: |
+  #       mkdir build && cd build
+  #       cmake ../src
+  #       make -j12
+  #   - uses: actions/upload-artifact@master
+  #     with:
+  #       name: build-artifact
+  #       path: ./build
   
-  unit_tests:
-    needs: build
-    runs-on: ubuntu-latest
-    container: maxermu/stock_build_env
+  # unit_tests:
+  #   needs: build
+  #   runs-on: ubuntu-latest
+  #   container: maxermu/stock_build_env
 
-    steps:
-    - uses: actions/checkout@v2
-    - uses: actions/download-artifact@master
-      with:
-        name: build-artifact
-        path: ./build
+  #   steps:
+  #   - uses: actions/checkout@v2
+  #   - uses: actions/download-artifact@master
+  #     with:
+  #       name: build-artifact
+  #       path: ./build
 
-    - name: run_unit_tests
-      run: |
-        cd build 
-        cd details
-        cd unit_tests
-        chmod +x details_unit_tests
-        ./details_unit_tests
+  #   - name: run_unit_tests
+  #     run: |
+  #       cd build 
+  #       cd details
+  #       cd unit_tests
+  #       chmod +x details_unit_tests
+  #       ./details_unit_tests
 
   integration_tests:
-    needs: build
+    # needs: build
     runs-on: ubuntu-latest
     container: maxermu/stock_build_env
 
@@ -50,6 +50,7 @@ jobs:
       postgres:
         image: postgres:latest
         env:
+          POSTGRES_USER: postgres
           POSTGRES_PASSWORD: Pass2022!
 
         ports:
@@ -64,10 +65,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - uses: actions/download-artifact@master
-      with:
-        name: build-artifact
-        path: ./build
+    # - uses: actions/download-artifact@master
+    #   with:
+    #     name: build-artifact
+    #     path: ./build
     
     - name: install psql
       run: apt install -y postgresql postgresql-contrib
