@@ -23,7 +23,7 @@ void StockDbTest::read_config(const std::shared_ptr<BaseConfig>& conf,
 void StockDbTest::connect() {
   std::string connection_string = "dbname = " + name_ + " user = " + user_ +
                                   " password = " + user_password_ +
-                                  " hostaddr = " + host_ +
+                                  " host = " + host_ +
                                   " port = " + std::to_string(port_);
 
   try {
