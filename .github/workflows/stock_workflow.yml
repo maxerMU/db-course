@@ -77,6 +77,8 @@ jobs:
     
     - name: install psql
       run: apt install -y postgresql postgresql-contrib
+    - name: test psql
+      run: psql -h postgres "sslmode=disable user=postgres port=5432 password=Pass2022!"
     - name: migrate_database
       run: |
         cd files/database/stock_db
