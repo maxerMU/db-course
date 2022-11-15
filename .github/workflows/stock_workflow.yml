@@ -69,15 +69,20 @@ jobs:
       with:
         name: build-artifact
         path: ./build
+
+    - name: install ip
+      run: apt install -y iproute2
+    - name: test ip
+      run: ip route | awk '/default/ { print $3 }'
+    - name: find host
+      run: DOCKER_HOST=$(ip route | awk '/default/ { print $3 }')
     
     - name: install psql
       run: sudo apt install -y postgresql postgresql-contrib
-    - name: psql
-      run: psql "sslmode=disable user=postgres hostaddr=127.0.0.1 port=5432 password=Pass2022!"
     - name: migrate_database
       run: |
         cd files/database/stock_db
-        bash migrate.sh postgres 127.0.0.1 5432 Pass2022!
+        bash migrate.sh postgres $DOCKER_HOST 5432 Pass2022!
     - name: run_integration_tests
       run: |
         cd build 
