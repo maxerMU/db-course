@@ -82,6 +82,8 @@ jobs:
     - name: migrate_database
       run: |
         cd files/database/stock_db
+        echo $DOCKER_HOST
+        DOCKER_HOST=$(ip route | awk '/default/ { print $3 }')
         bash migrate.sh postgres $DOCKER_HOST 5432 Pass2022!
     - name: run_integration_tests
       run: |
