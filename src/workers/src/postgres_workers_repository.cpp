@@ -26,7 +26,7 @@ void PostgresWorkersRepository::read_config(
 void PostgresWorkersRepository::connect() {
   std::string connection_string = "dbname = " + name_ + " user = " + user_ +
                                   " password = " + user_password_ +
-                                  " hostaddr = " + host_ +
+                                  " host = " + host_ +
                                   " port = " + std::to_string(port_);
 
   try {
