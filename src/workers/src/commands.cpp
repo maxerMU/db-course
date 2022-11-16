@@ -92,7 +92,7 @@ void AuthCommand::handle_request(const std::shared_ptr<Request>& req) {
   auto headers_ = req->get_headers();
   token_ = "";
   for (auto header : headers_) {
-    if (header.first == "Autharization" || header.first == "autharization") {
+    if (header.first == "Authorization" || header.first == "authorization") {
       token_ = header.second;
       break;
     }

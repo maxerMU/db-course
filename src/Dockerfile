@@ -7,6 +7,8 @@ RUN apt install -y gcc-10 g++-10 cpp-10
 RUN apt install -y cmake
 RUN apt install -y git
 RUN apt install -y libssl-dev
+RUN apt install -y python3-pytest
+RUN apt install -y python3-requests
 
 RUN apt install -y libgtest-dev
 RUN apt install -y libgmock-dev

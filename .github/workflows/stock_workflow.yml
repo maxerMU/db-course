@@ -85,3 +85,58 @@ jobs:
         cd integration_tests
         chmod +x details_integration_tests
         ./details_integration_tests
+
+  e2e_tests:
+    needs: build
+    runs-on: ubuntu-latest
+    container: maxermu/stock_build_env
+
+    # service containers to run with `postgres-job`
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: Pass2022!
+
+        ports:
+          - 5432:5432
+
+        # set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/download-artifact@master
+      with:
+        name: build-artifact
+        path: ./build
+
+    - name: install psql
+      run: apt install -y postgresql postgresql-contrib
+    - name: test psql
+      run: psql -h postgres "sslmode=disable user=postgres port=5432 password=Pass2022!"
+    - name: migrate_database
+      run: |
+        cd files/database/stock_db
+        bash migrate.sh postgres postgres 5432 Pass2022!
+    - name: run_app
+      run: |
+        cd build 
+        cd api_gateway
+        ./api_gateway ../../files/configs/api_gateway.github.yaml &
+        cd ..
+        cd details
+        ./details ../../files/configs/details.github.yaml &
+        cd ..
+        cd workers
+        ./workers ../../files/configs/workers.github.yaml &
+
+    - name: run_e2e_tests
+      run: |
+        cd src/e2e_tests
+        pytest-3
