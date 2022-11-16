@@ -89,7 +89,9 @@ jobs:
   e2e_tests:
     needs: build
     runs-on: ubuntu-latest
-    container: maxermu/stock_build_env
+    container: 
+      image: maxermu/stock_build_env
+      options: --user root
 
     # service containers to run with `postgres-job`
     services:
@@ -128,11 +130,14 @@ jobs:
       run: |
         cd build 
         cd api_gateway
+        chmod +x api_gateway
         ./api_gateway ../../files/configs/api_gateway.github.yaml &
         cd ..
         cd details
+        chmod +x details
         ./details ../../files/configs/details.github.yaml &
         cd ..
+        chmod +x workers
         cd workers
         ./workers ../../files/configs/workers.github.yaml &
         cd ../../src/e2e_tests
