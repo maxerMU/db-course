@@ -834,7 +834,7 @@ components:
       scheme: basic
     TokenAuth:
       type: apiKey
-      name: Autharization
+      name: Authorization
       in: header
 
 security:
