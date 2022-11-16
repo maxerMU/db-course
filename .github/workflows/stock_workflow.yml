@@ -124,7 +124,7 @@ jobs:
       run: |
         cd files/database/stock_db
         bash migrate.sh postgres postgres 5432 Pass2022!
-    - name: run_app
+    - name: run_e2e_tests
       run: |
         cd build 
         cd api_gateway
@@ -135,8 +135,5 @@ jobs:
         cd ..
         cd workers
         ./workers ../../files/configs/workers.github.yaml &
-
-    - name: run_e2e_tests
-      run: |
-        cd src/e2e_tests
+        cd ../../src/e2e_tests
         pytest-3
