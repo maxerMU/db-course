@@ -2,33 +2,33 @@ STOCK_DB:
         DB_NAME: "stock_db"
         DB_USER: "postgres"
         DB_USER_PASSWORD: "Pass2022!"
-        DB_HOST: "172.17.0.2"
+        DB_HOST: "postgres"
         DB_PORT: 5432
 
 DB_DETAILS:
         DB_NAME: "stock_db"
         DB_USER: "details_integrator"
         DB_USER_PASSWORD: "details_integrator"
-        DB_HOST: "172.17.0.2"
+        DB_HOST: "postgres"
         DB_PORT: 5432
 
 DB_PRODUCERS:
         DB_NAME: "stock_db"
         DB_USER: "producers_integrator"
         DB_USER_PASSWORD: "producers_integrator"
-        DB_HOST: "172.17.0.2"
+        DB_HOST: "postgres"
         DB_PORT: 5432
 
 DB_SWAPS:
         DB_NAME: "stock_db"
         DB_USER: "details_integrator"
         DB_USER_PASSWORD: "details_integrator"
-        DB_HOST: "172.17.0.2"
+        DB_HOST: "postgres"
         DB_PORT: 5432
 
 DB_STOCK_LOG:
         DB_NAME: "stock_db"
         DB_USER: "stock_integrator"
         DB_USER_PASSWORD: "stock_integrator"
-        DB_HOST: "172.17.0.2"
+        DB_HOST: "postgres"
         DB_PORT: 5432
