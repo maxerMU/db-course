@@ -137,8 +137,8 @@ jobs:
         chmod +x details
         ./details ../../files/configs/details.github.yaml &
         cd ..
-        chmod +x workers
         cd workers
+        chmod +x workers
         ./workers ../../files/configs/workers.github.yaml &
         cd ../../src/e2e_tests
         pytest-3
