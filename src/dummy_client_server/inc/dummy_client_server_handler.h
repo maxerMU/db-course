@@ -6,16 +6,16 @@
 #include "net.h"
 
 class DummyClientServerHandler : public ClientServerReqHandler {
-public:
+ public:
   DummyClientServerHandler(const std::shared_ptr<BaseConfig> &config);
   virtual state_t handle_request(const std::shared_ptr<Request> &req) override;
-  virtual void get_next_request(std::shared_ptr<Request> &req,
-                                size_t &client_index) override;
-  virtual state_t
-  handle_response(const std::shared_ptr<Response> &resp) override;
+  virtual state_t get_next_request(std::shared_ptr<Request> &req,
+                                   size_t &client_index) override;
+  virtual state_t handle_response(
+      const std::shared_ptr<Response> &resp) override;
   virtual void make_response(const std::shared_ptr<Response> &resp) override;
 
-private:
+ private:
   std::shared_ptr<BaseConfig> config_;
 
   std::string cur_body;
@@ -31,4 +31,4 @@ private:
   DummyClientServerState state_ = NOT_INITIALIZED;
 };
 
-#endif // DUMMYCLIENTSERVERHANDLER_H
+#endif  // DUMMYCLIENTSERVERHANDLER_H

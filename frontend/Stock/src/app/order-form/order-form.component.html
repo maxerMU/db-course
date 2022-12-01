@@ -1,0 +1,56 @@
+<!--
+<div class="columns">
+    <div class="column is-1">
+        <app-left-bar [label]="label"></app-left-bar>
+    </div>
+    <div class="column">
+
+-->
+        <section class="hero is-primary">
+          <div class="hero-body">
+            <p class="title">
+                Create new order
+            </p>
+            <p class="subtitle">
+              
+            </p>
+          </div>
+        </section>
+
+        <div class="columns is-centered">
+            <div class="column is-half">
+                <form class="box">
+                  <div class="field">
+                    <label class="label">Part number</label>
+                    <div class="control">
+                      <input class="input" type="text" [(ngModel)]="order.part_number" [ngModelOptions]="{standalone: true}" placeholder="Enter part number">
+                    </div>
+                  </div>
+
+                  <div class="field">
+                    <label class="label">Amount</label>
+                    <div class="control">
+                      <input class="input" type="number" min="0" [(ngModel)]="order.quantity" [ngModelOptions]="{standalone: true}" placeholder="0">
+                    </div>
+                  </div>
+
+                  <div class="field is-grouped">
+                      <p class="control">
+                        <button class="button is-success" (click)="putDetail()">Put</button>
+                      </p>
+                      <p class="control">
+                        <button class="button is-danger" (click)="takeDetail()">Take</button>
+                      </p>
+
+                  </div>
+                </form>
+
+            </div>
+
+        </div>
+
+<!--
+    </div>
+</div>
+
+-->

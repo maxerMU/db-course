@@ -6,9 +6,9 @@ AS $$
 DECLARE is_valid_var int4 := 1;
         worker_id_var int4;
 BEGIN
-    SELECT t.fk_worker INTO worker_id_var
-    FROM t_tokens t
-    WHERE t.access_token = token;
+    SELECT fk_worker INTO worker_id_var
+    FROM t_tokens
+    WHERE access_token = token;
 
     IF worker_id_var is NULL THEN
         is_valid_var := 0;
@@ -20,3 +20,4 @@ END
 $$ LANGUAGE PLPGSQL;
 
 GRANT EXECUTE ON FUNCTION FN_GET_SESSION_DATA(text) TO auth_integrator;
+GRANT EXECUTE ON FUNCTION FN_GET_SESSION_DATA(text) TO stock_reader;

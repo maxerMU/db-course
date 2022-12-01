@@ -1,0 +1,4 @@
+Server:
+        Port: 8020
+
+AppendString: "dummy1"

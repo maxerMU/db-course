@@ -19,7 +19,7 @@ DB_AUTH_REDIS:
         DB_HOST: "127.0.0.1"
         DB_PORT: 6379
 
-DB_AUTH_SECTION: "DB_AUTH_REDIS"
+DB_AUTH_SECTION: "DB_AUTH_POSTGRES"
 
 ENCRYPT:
         SALT: "Manchester United"

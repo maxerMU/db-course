@@ -61,6 +61,9 @@ class AddWorkerCommand : public BaseNoAuthCommand {
   virtual void handle_request(const std::shared_ptr<Request>& req) override;
   virtual void get_response(const std::shared_ptr<Response>& resp) override;
   virtual PrivilegeLevel get_min_privilege_level() override;
+
+ private:
+  size_t worker_id;
 };
 
 class LoginCommand : public BaseNoAuthCommand {
@@ -95,6 +98,33 @@ class GetWorkerCommand : public BaseAuthCommand {
  private:
   WorkerGet worker_;
   int status_code_ = RESP_OK;
+};
+
+class GetWorkersCommand : public BaseAuthCommand {
+ public:
+  virtual void handle_request(const std::shared_ptr<Request>& req) override;
+  virtual void get_response(const std::shared_ptr<Response>& resp) override;
+  virtual PrivilegeLevel get_min_privilege_level() override;
+
+ private:
+  std::vector<WorkerGet> workers_;
+  int status_code_ = RESP_OK;
+};
+
+class GetWorkerByIdCommand : public BaseAuthCommand {
+ public:
+  GetWorkerByIdCommand(const std::regex& expr, size_t worker_id_group_index)
+      : regexpr_(expr), worker_id_group_index_(worker_id_group_index) {}
+
+  virtual void handle_request(const std::shared_ptr<Request>& req) override;
+  virtual void get_response(const std::shared_ptr<Response>& resp) override;
+  virtual PrivilegeLevel get_min_privilege_level() override;
+
+ private:
+  WorkerGet worker_;
+  int status_code_ = RESP_OK;
+  std::regex regexpr_;
+  size_t worker_id_group_index_;
 };
 
 class UpdateWorkerCommand : public BaseAuthCommand {

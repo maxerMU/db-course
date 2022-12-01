@@ -14,8 +14,8 @@ void WorkersFacade::init(
   workers_controller_ = workers_controller;
 }
 
-void WorkersFacade::sign_up(WorkerPost& worker) {
-  workers_controller_->sign_up(worker);
+size_t WorkersFacade::sign_up(WorkerPost& worker) {
+  return workers_controller_->sign_up(worker);
 }
 
 void WorkersFacade::update_worker(const WorkerUpdate& worker) {
@@ -29,6 +29,10 @@ void WorkersFacade::update_worker_privilege(size_t worker_id,
 
 WorkerGet WorkersFacade::get_worker(size_t worker_id) {
   return workers_controller_->get_worker(worker_id);
+}
+
+std::vector<WorkerGet> WorkersFacade::get_workers() {
+  return workers_db_->read();
 }
 
 std::string WorkersFacade::login(const WorkerAuth& worker) {

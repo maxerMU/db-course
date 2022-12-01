@@ -1,0 +1,50 @@
+\boolfalse {citerequest}\boolfalse {citetracker}\boolfalse {pagetracker}\boolfalse {backtracker}\relax 
+\babel@toc {russian}{}
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{ОБОЗНАЧЕНИЯ И СОКРАЩЕНИЯ}{5}{chapter*.4}%
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{ВВЕДЕНИЕ}{6}{chapter*.5}%
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {1}Аналитический раздел}{7}{chapter.1}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {1.1}Постановка задачи}{7}{section.1.1}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {1.2}Формализация данных}{7}{section.1.2}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {1.3}Типы пользователей}{8}{section.1.3}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {1.4}Модели хранения данных}{9}{section.1.4}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {1.5}Аутентификация пользователей в системе}{11}{section.1.5}%
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {2}Конструкторский раздел}{12}{chapter.2}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {2.1}Проектирование базы данных}{12}{section.2.1}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {2.2}Требования к приложению}{15}{section.2.2}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {2.3}Проектирование приложения}{15}{section.2.3}%
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {3}Технологический раздел}{18}{chapter.3}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {3.1}Архитектура приложения}{18}{section.3.1}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {3.2}Средства реализации}{18}{section.3.2}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {3.3}Детали реализации}{19}{section.3.3}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {3.4}Взаимодействие с программой}{21}{section.3.4}%
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {4}Исследовательский раздел}{24}{chapter.4}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {4.1}Постановка эксперимента}{24}{section.4.1}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {4.2}Технические характеристики}{24}{section.4.2}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {4.3}Замеры времени}{24}{section.4.3}%
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{ЗАКЛЮЧЕНИЕ}{27}{chapter*.17}%
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{СПИСОК ИСПОЛЬЗОВАННЫХ ИСТОЧНИКОВ}{29}{chapter*.18}%
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{ПРИЛОЖЕНИЕ \numberline {\CYRA }Презентация}{30}{appendix.1.A}%

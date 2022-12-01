@@ -11,7 +11,8 @@ class PostgresWorkersRepository : public BaseWorkersRepository {
   PostgresWorkersRepository(const std::shared_ptr<BaseConfig>& conf,
                             const std::string& connection_section);
 
-  virtual int create(const WorkerPost& worker) override;
+  virtual size_t create(const WorkerPost& worker) override;
+  virtual std::vector<WorkerGet> read() override;
   virtual size_t workers_count() override;
   virtual WorkerBaseInf read(size_t worker_id) override;
   virtual int update(const WorkerUpdate& worker) override;
@@ -38,6 +39,7 @@ class PostgresWorkersRepository : public BaseWorkersRepository {
 
   enum PreparedRequests {
     CREATE,
+    READ,
     READ_COUNT,
     READ_PASSWORD,
     READ_BASE_INF,
@@ -47,6 +49,7 @@ class PostgresWorkersRepository : public BaseWorkersRepository {
 
   std::map<PreparedRequests, std::string> requests_names = {
       {CREATE, "create_worker"},
+      {READ, "read_workers"},
       {READ_COUNT, "read_workers_count"},
       {READ_PASSWORD, "read_password"},
       {READ_BASE_INF, "read_base_inf"},

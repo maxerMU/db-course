@@ -1,6 +1,0 @@
-DB_DETAILS:
-        DB_NAME: "stock_db"
-        DB_USER: "details_integrator"
-        DB_USER_PASSWORD: "details_integrator"
-        DB_HOST: "127.0.0.1"
-        DB_PORT: 5432

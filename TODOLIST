@@ -1,3 +1,5 @@
 add exceptions
 check init at APIGATEWAY adapters
-add primary keys
+add primary keys ??
+
+Boost beast req resp is_from_req set methods

@@ -2,14 +2,16 @@
 #define BASE_API_GATEWAY_ADAPTER_H
 
 #include <functional>
+
 #include "client_server_req_handler.h"
 
 class BaseApiGatewayAdapter {
  public:
   virtual void init(const std::shared_ptr<Request>& req,
-                    const std::map<std::string, size_t>& client_indexes) = 0;
-  virtual void make_request(std::shared_ptr<Request>& req,
-                            size_t& client_index) = 0;
+                    const std::map<std::string, size_t>& client_indexes,
+                    const std::shared_ptr<Response>& cur_gateway_resp) = 0;
+  virtual state_t make_request(std::shared_ptr<Request>& req,
+                               size_t& client_index) = 0;
   virtual state_t handle_response(
       const std::shared_ptr<Response>& cur_gateway_repsonse,
       const std::shared_ptr<Response>& server_response) = 0;

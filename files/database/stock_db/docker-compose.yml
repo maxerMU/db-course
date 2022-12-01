@@ -4,7 +4,7 @@ services:
   db:
     build:
       context: .
-      dockerfile: Dockerfile.db
+      dockerfile: Dockerfile
     container_name: postgresdb
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
@@ -12,6 +12,7 @@ services:
       PGDATA: /var/lib/postgresql/data/
     volumes:
       - ~/postgres-data/:/var/lib/postgresql/data/
+      - ~/repos/db-course/files/database/stock_db:/database/
     ports:
       - 5432:5432
     restart: unless-stopped

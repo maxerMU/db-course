@@ -17,7 +17,7 @@ int main(int argc, char* argv[]) {
   auto auth_section = config->get_string_field({SelectAuthDbSection});
 
   auto auth_db = std::shared_ptr<BaseAuthRepository>(
-      new RedisAuthRepository(config, auth_section));
+      new PostgresAuthRepository(config, auth_section));
 
   auto encrypt_strategy = std::shared_ptr<BaseEncryptStrategy>(
       new SHA256Encrypt(config, EncryptSection));

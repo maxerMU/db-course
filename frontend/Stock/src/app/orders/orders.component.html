@@ -1,0 +1,81 @@
+<!--
+<div class="columns">
+    <div class="column is-1">
+        <app-left-bar [label]="label"></app-left-bar>
+    </div>
+    <div class="column">
+
+-->
+        <section class="hero is-primary">
+          <div class="hero-body">
+            <p class="title">
+                Orders
+            </p>
+            <p class="subtitle">
+              
+            </p>
+          </div>
+        </section>
+        <div class="block">
+            <form class="box">
+                <div class="columns is-centered">
+                    <div class="column">
+                        <div class="field">
+                            <label class="label">Enter start date</label>
+                            <input class="input" type="date" [(ngModel)]="start_date" [ngModelOptions]="{standalone: true}" placeholder="11/11/2022">
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="field">
+                            <label class="label">Enter end date</label>
+                            <input class="input" type="date" [(ngModel)]="end_date" [ngModelOptions]="{standalone: true}" placeholder="Enter start date">
+                        </div>
+                    </div>
+                            <!--
+                    <div class="column is-2">
+                        <div class="field is-grouped">
+                            <p class="control">
+                                <button class="button is-info" (click)="findOrders()">Find orders</button>
+                            </p>
+                            <p class="control pt-5">
+                                <button class="button is-primary" (click)="newOrder()">New order</button>
+                            </p>
+
+                        </div>
+                    </div>
+                            -->
+
+                </div>
+                <p class="control">
+                    <button class="button is-info" (click)="findOrders()">Find orders</button>
+                </p>
+
+            </form>
+        </div>
+        <div *ngIf="orders.length != 0" class="block table_field">
+            <table class="table is-fullwidth">
+              <thead>
+                <tr>
+                  <th><abbr title="Detail Id">Detail id</abbr></th>
+                  <th><abbr title="Worker">Worker</abbr></th>
+                  <th><abbr title="Change">Change</abbr></th>
+                  <th><abbr title="Date">Date</abbr></th>
+                </tr>
+              </thead>
+              <tbody *ngFor="let order of orders">
+                <tr>
+                  <td>{{order.detail_id}}</td>
+                  <td>{{order.worker}}</td>
+                  <td>{{order.change}}</td>
+                  <td>{{order.time_change}}</td>
+                </tr>
+              </tbody>
+        
+            </table>
+        </div>
+
+<!--
+    </div>
+</div>
+
+-->

@@ -1,0 +1,70 @@
+<!--
+
+<div class="columns">
+   <div class="column">
+
+   </div> 
+   <div class="column is-one-third">
+    <div class="columns is-vcentered">
+        <div class="column">
+            Brilliant name
+        </div>
+        <div class="column">
+          <figure class="image is-64x64">
+              <img src="../../assets/avatar.jpg">
+          </figure>
+        </div>
+    </div>
+   </div> 
+</div>
+-->
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item" href="https://qoollo.com/">
+      <img src="../../assets/qoollo.png" width="100" height="56">
+    </a>
+
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+
+  <div id="navbarBasicExample" class="navbar-menu">
+    <div class="navbar-start">
+      <a class="navbar-item" href="https://localhost">
+        Home
+      </a>
+
+      <a class="navbar-item" href="https://localhost/api/v1">
+        Documentation
+      </a>
+
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          More
+        </a>
+
+        <div class="navbar-dropdown">
+          <a class="navbar-item" routerLink="/login">
+            Sign in to new account
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="navbar-end">
+        <div class="columns is-vcentered">
+            <div class="column">
+                {{me.name}} {{me.surname}}
+            </div>
+            <div class="column">
+              <figure class="image is-64x64">
+                  <img src="../../assets/avatar.jpg">
+              </figure>
+            </div>
+          </div>
+        </div>
+  </div>
+</nav>

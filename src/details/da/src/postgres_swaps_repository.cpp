@@ -25,7 +25,7 @@ void PostgresSwapsRepository::read_config(
 void PostgresSwapsRepository::connect() {
   std::string connection_string = "dbname = " + name_ + " user = " + user_ +
                                   " password = " + user_password_ +
-                                  " hostaddr = " + host_ +
+                                  " host = " + host_ +
                                   " port = " + std::to_string(port_);
 
   try {
@@ -60,7 +60,7 @@ void PostgresSwapsRepository::create(const std::string& src,
   }
 }
 
-std::vector<std::string> PostgresSwapsRepository::read(const std::string& src) {
+details_names_t PostgresSwapsRepository::read(const std::string& src) {
   pqxx::result res;
   try {
     pqxx::work w(*connection_);

@@ -1,0 +1,57 @@
+<!--
+<div class="columns">
+    <div class="column is-1">
+        <app-left-bar [label]="label"></app-left-bar>
+    </div>
+    <div class="column">
+
+-->
+        <section class="hero is-primary">
+          <div class="hero-body">
+            <p class="title">
+                Workers
+            </p>
+            <p class="subtitle">
+              
+            </p>
+          </div>
+        </section>
+        <div class="block table_field">
+            <table class="table is-fullwidth">
+              <thead>
+                <tr>
+                  <th><abbr title="Name">Name</abbr></th>
+                  <th><abbr title="Surname">Surname</abbr></th>
+                  <th><abbr title="Birthdate">Birthdate</abbr></th>
+                  <th><abbr title="Privilege">Privilege</abbr></th>
+                  <th><abbr title="Action">Action</abbr></th>
+                </tr>
+              </thead>
+              <tbody *ngFor="let worker of workers">
+                <tr>
+                  <td>{{worker.name}}</td>
+                  <td>{{worker.surname}}</td>
+                  <td>{{worker.birthdate}}</td>
+                  <td>{{worker.privilege}}</td>
+                  <td>
+                        <div class="field is-grouped">
+                            <p class="control">
+                                <button class="button is-success" (click)="promote(worker.id, worker.privilege)">Promote</button>
+                            </p>
+                            <p class="control">
+                                <button class="button is-danger" (click)="downgrade(worker.id, worker.privilege)">Downgrade</button>
+                            </p>
+
+                        </div>
+                  </td>
+                </tr>
+              </tbody>
+        
+            </table>
+        </div>
+
+<!--
+    </div>
+</div>
+
+-->

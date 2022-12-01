@@ -4,6 +4,8 @@ GRANT USAGE ON SEQUENCE t_producers_pk_seq TO stock_adm;
 GRANT USAGE ON SEQUENCE t_workers_pk_seq TO stock_adm;
 GRANT USAGE ON SEQUENCE t_stock_log_pk_seq TO stock_adm;
 
+GRANT SELECT ON ALL TABLES IN SCHEMA public TO stock_reader;
+
 GRANT ALL ON TABLE T_PRODUCERS TO stock_adm;
 GRANT ALL ON TABLE T_DETAILS TO stock_adm;
 GRANT ALL ON TABLE T_STOCK TO stock_adm;

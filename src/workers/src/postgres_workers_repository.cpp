@@ -26,7 +26,7 @@ void PostgresWorkersRepository::read_config(
 void PostgresWorkersRepository::connect() {
   std::string connection_string = "dbname = " + name_ + " user = " + user_ +
                                   " password = " + user_password_ +
-                                  " hostaddr = " + host_ +
+                                  " host = " + host_ +
                                   " port = " + std::to_string(port_);
 
   try {
@@ -46,7 +46,8 @@ void PostgresWorkersRepository::connect() {
 
 void PostgresWorkersRepository::add_prepare_statements() {
   connection_->prepare(requests_names[CREATE],
-                       "SELECT FN_ADD_WORKER($1, $2, $3, $4, $5, $6)");
+                       "SELECT * FROM FN_ADD_WORKER($1, $2, $3, $4, $5, $6)");
+  connection_->prepare(requests_names[READ], "SELECT * FROM FN_GET_WORKERS()");
   connection_->prepare(requests_names[READ_COUNT], "SELECT FN_WORKERS_COUNT()");
   connection_->prepare(requests_names[READ_PASSWORD],
                        "SELECT * FROM FN_GET_PASSWORD($1)");
@@ -59,7 +60,7 @@ void PostgresWorkersRepository::add_prepare_statements() {
                        "CALL PR_UPDATE_WORKER_PRIVILEGE($1, $2)");
 }
 
-int PostgresWorkersRepository::create(const WorkerPost& worker) {
+size_t PostgresWorkersRepository::create(const WorkerPost& worker) {
   pqxx::work w(*connection_);
   std::string birthdate = std::to_string(worker.birthdate().tm_year + 1900) +
                           "-" + std::to_string(worker.birthdate().tm_mon + 1) +
@@ -69,7 +70,41 @@ int PostgresWorkersRepository::create(const WorkerPost& worker) {
       (int)worker.getPrivilege(), worker.username(), worker.password());
   w.commit();
 
-  return res[0][0].as<size_t>();
+  if (res[0][0].as<size_t>() != 0)
+    throw DatabaseNotUniqueUsernameException();
+
+  return res[0][1].as<size_t>();
+}
+
+std::vector<WorkerGet> PostgresWorkersRepository::read() {
+  pqxx::work w(*connection_);
+  pqxx::result res = w.exec_prepared(requests_names[READ]);
+  w.commit();
+
+  if (res.size() == 0)
+    throw DatabaseNotFoundException("can't find user");
+
+  std::vector<WorkerGet> workers;
+
+  for (auto row : res) {
+    WorkerGet worker;
+
+    worker.setWorkerId(row[0].as<int>());
+    worker.setName(row[1].as<std::string>());
+    worker.setSurname(row[2].as<std::string>());
+
+    auto birthdate_str = row[3].as<std::string>();
+    tm birthdate;
+    if (!strptime(birthdate_str.c_str(), "%Y-%m-%d", &birthdate))
+      throw DatabaseIncorrectAnswerException("can't parse datetime");
+
+    worker.setBirthdate(birthdate);
+    worker.setPrivilege(static_cast<PrivilegeLevel>(row[4].as<int>()));
+
+    workers.push_back(worker);
+  }
+
+  return workers;
 }
 
 size_t PostgresWorkersRepository::workers_count() {

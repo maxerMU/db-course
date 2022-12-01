@@ -1,0 +1,14 @@
+Clients:
+        - Details
+        - Workers
+
+Details:
+        Host: "127.0.0.1"
+        Port: 8011
+
+Workers:
+        Host: "127.0.0.1"
+        Port: 8012
+
+Server:
+        Port: 8010

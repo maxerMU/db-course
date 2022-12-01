@@ -1,3 +1,3 @@
-psql "sslmode=disable user=postgres hostaddr=127.0.0.1 port=5432 password=Pass2022!" < ./init/create_database.sql
+psql -h $2 "sslmode=disable user=$1 port=$3 password=$4" < ./init/create_database.sql
 
-psql "sslmode=disable user=postgres hostaddr=127.0.0.1 port=5432 password=Pass2022!" < ./init/create_users.sql
+psql -h $2 "sslmode=disable user=$1 port=$3 password=$4" < ./init/create_users.sql

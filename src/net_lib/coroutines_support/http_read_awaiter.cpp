@@ -1,15 +1,17 @@
 #include "http_read_awaiter.h"
 #include <iostream>
 
-HttpReadRequestAwaiter HttpAsyncReadRequest(tcp::socket &socket) {
+HttpReadRequestAwaiter HttpAsyncReadRequest(tcp::socket& socket) {
   return HttpReadRequestAwaiter{socket};
 }
 
-HttpReadResponseAwaiter HttpAsyncReadResponse(tcp::socket &socket) {
+HttpReadResponseAwaiter HttpAsyncReadResponse(tcp::socket& socket) {
   return HttpReadResponseAwaiter{socket};
 }
 
-bool HttpReadRequestAwaiter::await_ready() { return false; }
+bool HttpReadRequestAwaiter::await_ready() {
+  return false;
+}
 
 void HttpReadRequestAwaiter::await_suspend(std::coroutine_handle<> h) {
   http::async_read(sock_, buf_, req_,
@@ -20,14 +22,17 @@ void HttpReadRequestAwaiter::await_suspend(std::coroutine_handle<> h) {
                    });
 }
 
-http::request<http::string_body> HttpReadRequestAwaiter::await_resume() {
+std::pair<http::request<http::string_body>, size_t>
+HttpReadRequestAwaiter::await_resume() {
   if (ec_) {
     throw std::system_error(ec_);
   }
-  return req_;
+  return std::pair<http::request<http::string_body>, size_t>(req_, bytes_read_);
 }
 
-bool HttpReadResponseAwaiter::await_ready() { return false; }
+bool HttpReadResponseAwaiter::await_ready() {
+  return false;
+}
 
 void HttpReadResponseAwaiter::await_suspend(std::coroutine_handle<> h) {
   http::async_read(sock_, buf_, resp_,

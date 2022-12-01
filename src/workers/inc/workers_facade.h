@@ -34,11 +34,13 @@ class WorkersFacade {
             const std::shared_ptr<WorkersController>& workers_controller);
 
   /* workers */
-  void sign_up(WorkerPost& worker);
+  size_t sign_up(WorkerPost& worker);
   void update_worker(const WorkerUpdate& worker);
   void update_worker_privilege(size_t worker_id,
                                const PrivilegeLevel& privelege);
   WorkerGet get_worker(size_t worker_id);
+  std::vector<WorkerGet> get_workers();
+
   std::string login(const WorkerAuth& worker);
   bool is_valid_session(size_t& worker_id, const std::string& token);
   bool is_valid_access(size_t worker_id,

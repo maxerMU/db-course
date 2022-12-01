@@ -55,4 +55,13 @@ class DatabaseIncorrectAnswerException : public DatabaseException {
   }
 };
 
+class DatabaseNotUniqueUsernameException : public DatabaseException {
+ public:
+  DatabaseNotUniqueUsernameException() = default;
+  DatabaseNotUniqueUsernameException(const std::string& message)
+      : DatabaseException(message) {}
+
+  const char* what() const noexcept override { return "Not Unique Username"; }
+};
+
 #endif  // DATABASE_EXCEPTIONS_H

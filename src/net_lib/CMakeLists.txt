@@ -20,6 +20,7 @@ add_library(${TARGET_NAME}
   config/yamlcpp_config.cpp
 )
 
+
 target_include_directories(${TARGET_NAME} PUBLIC
                            ${CMAKE_CURRENT_SOURCE_DIR}/base/
                            ${CMAKE_CURRENT_SOURCE_DIR}/base_inf/

@@ -1,4 +1,5 @@
 #include "details_facade.h"
+
 #include <iostream>
 
 DetailsFacade::DetailsFacade() {}
@@ -17,11 +18,12 @@ void DetailsFacade::init(
 
   swaps_controller_ = std::shared_ptr<SwapsController>(
       new SwapsController(swaps_rep_, details_rep_));
+
+  stock_controller_ = std::shared_ptr<StockController>(
+      new StockController(details_rep, producers_rep, stock_rep));
 }
 
-details_t DetailsFacade::get_details() {
-  return details_rep_->read_all();
-}
+details_t DetailsFacade::get_details() { return details_rep_->read_all(); }
 
 Detail DetailsFacade::get_detail(const std::string& part_name) {
   return details_rep_->read(part_name);
@@ -54,8 +56,7 @@ void DetailsFacade::delete_detail_swap(const std::string& src,
 }
 
 void DetailsFacade::add_detail_to_stock(const std::string& part_name,
-                                        size_t worker_id,
-                                        size_t quantity) {
+                                        size_t worker_id, size_t quantity) {
   stock_rep_->create(part_name, worker_id, quantity);
 }
 
@@ -65,8 +66,8 @@ void DetailsFacade::remove_detail_from_stock(const std::string& part_name,
   stock_rep_->delete_(part_name, worker_id, quantity);
 }
 
-details_quantities_t DetailsFacade::get_details_in_stock() {
-  return stock_rep_->read_current();
+StockDetails DetailsFacade::get_details_in_stock() {
+  return stock_controller_->get_details_in_stock();
 }
 
 details_names_t DetailsFacade::get_prev_details_in_stock() {
@@ -76,6 +77,11 @@ details_names_t DetailsFacade::get_prev_details_in_stock() {
 detail_quantity_t DetailsFacade::get_detail_in_stock(
     const std::string& part_name) {
   return stock_rep_->read(part_name);
+}
+
+stock_logs_t DetailsFacade::get_logs(const std::string& time_start,
+                                     const std::string& time_end) {
+  return stock_rep_->read_log(time_start, time_end);
 }
 
 size_t DetailsFacade::add_producer(const DetailsProducerData& producer) {
@@ -90,9 +96,7 @@ DetailsProducer DetailsFacade::get_producer(size_t id) {
   return producers_rep_->read(id);
 }
 
-void DetailsFacade::delete_producer(size_t id) {
-  producers_rep_->delete_(id);
-}
+void DetailsFacade::delete_producer(size_t id) { producers_rep_->delete_(id); }
 
 void DetailsFacade::update_producer(const DetailsProducer& producer) {
   producers_rep_->update(producer);

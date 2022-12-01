@@ -144,6 +144,6 @@ size_t WorkerGet::worker_id() const {
   return worker_id_;
 }
 
-void WorkerGet::setWorker_id(const size_t& worker_id) {
+void WorkerGet::setWorkerId(const size_t& worker_id) {
   worker_id_ = worker_id;
 }

@@ -1,7 +1,7 @@
 #include "echo_session.h"
+#include <time.h>
 #include <boost/bind.hpp>
 #include <memory>
-#include <time.h>
 
 #include "read_awaiter.h"
 #include "std_future.hpp"

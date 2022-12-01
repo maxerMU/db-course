@@ -1,27 +1,34 @@
 #include "client_server_connection.h"
-#include "base_sections.h"
+
+#include <boost/thread.hpp>
 #include <chrono>
 #include <iostream>
 
-ClientServerConnection::ClientServerConnection(
-    net::io_context &context,
-    const std::shared_ptr<ClientServerSessionCreator> &creator,
-    const std::shared_ptr<BaseConfig> &config)
-    : session_creator_(creator), acceptor_(context), context_(context) {
+#include "base_sections.h"
 
-  connet_client_sockets(config);
+ClientServerConnection::ClientServerConnection(
+    net::io_context& context,
+    const std::shared_ptr<ClientServerSessionCreator>& creator,
+    const std::shared_ptr<BaseConfig>& config)
+    : session_creator_(creator),
+      acceptor_(context),
+      context_(context),
+      config_(config) {
+  // connet_client_sockets(config);
   connect_server_socket(config);
 }
 
-void ClientServerConnection::connet_client_sockets(
-    const std::shared_ptr<BaseConfig> &config) {
+std::vector<std::shared_ptr<tcp::socket>>
+ClientServerConnection::connet_client_sockets(
+    const std::shared_ptr<BaseConfig>& config) {
+  std::vector<std::shared_ptr<tcp::socket>> client_sockets;
   std::vector<std::string> clients = config->get_string_array({ClientsSection});
 
   for (auto client : clients) {
     std::cout << "Connecting to " << client << "..." << std::endl;
     std::string host = config->get_string_field({client, ClientHostSection});
     int port = config->get_int_field({client, ClientPortSection});
-    tcp::endpoint ep(net::ip::address::from_string(host), port); // TODO
+    tcp::endpoint ep(net::ip::address::from_string(host), port);  // TODO
 
     std::shared_ptr<tcp::socket> client_sock(new tcp::socket(context_));
     client_sock->connect(ep);
@@ -29,10 +36,12 @@ void ClientServerConnection::connet_client_sockets(
     client_sockets.push_back(client_sock);
     std::cout << "Connected" << std::endl;
   }
+
+  return client_sockets;
 }
 
 void ClientServerConnection::connect_server_socket(
-    const std::shared_ptr<BaseConfig> &config) {
+    const std::shared_ptr<BaseConfig>& config) {
   error_code ec;
 
   int port = config->get_int_field({ServerSection, PortSection});
@@ -70,6 +79,7 @@ void ClientServerConnection::clear_expired_connections() {
   for (size_t i = 0; i < coroutine_sessions_.size(); i++) {
     if (coroutine_sessions_[i].second.wait_for(0s) ==
         std::future_status::ready) {
+      std::cout << "erase session" << std::endl;
       coroutine_sessions_.erase(coroutine_sessions_.begin() + i);
     }
   }
@@ -78,12 +88,22 @@ void ClientServerConnection::clear_expired_connections() {
 void ClientServerConnection::run() {
   accept_new();
   context_.run();
+  // boost::thread_group tg;
+  // accept_new();
+  // for (size_t i = 0; i < 12; i++) {
+  //   tg.create_thread([&]() { context_.run(); });
+  // }
+  // // context_.run();
+  // tg.join_all();
 }
 
 void ClientServerConnection::accept_new() {
   clear_expired_connections();
 
   acceptor_.async_accept([this](error_code ec, tcp::socket sock) {
+    std::cout << "Thread: " << boost::this_thread::get_id() << std::endl;
+    client_sockets = connet_client_sockets(config_);
+
     if (ec) {
       fail(ec, "accept");
       return;
@@ -98,8 +118,8 @@ void ClientServerConnection::accept_new() {
   });
 }
 
-void ClientServerConnection::fail(const error_code &ec,
-                                  const std::string &desc) {
+void ClientServerConnection::fail(const error_code& ec,
+                                  const std::string& desc) {
   std::cerr << "error code: " << ec.message() << " description: " << desc
             << std::endl;
 }

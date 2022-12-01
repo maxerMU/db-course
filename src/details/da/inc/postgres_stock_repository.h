@@ -15,6 +15,8 @@ class PostgresStockRepository : public BaseStockRepository {
                       size_t quantity) override;
   virtual detail_quantity_t read(const std::string& part_name) override;
   virtual details_quantities_t read_current() override;
+  virtual stock_logs_t read_log(const std::string& time_start,
+                                const std::string& time_end) override;
   virtual details_names_t read_prev() override;
   virtual void delete_(const std::string& part_name,
                        size_t worker_id,
@@ -35,13 +37,14 @@ class PostgresStockRepository : public BaseStockRepository {
   std::string host_;
   size_t port_;
 
-  enum PreparedRequests { READ_CURR, READ_PREV, READ_BY_ID, UPDATE };
+  enum PreparedRequests { READ_CURR, READ_PREV, READ_BY_ID, READ_LOG, UPDATE };
 
   std::map<PreparedRequests, std::string> requests_names = {
       {UPDATE, "add_remove_details"},
       {READ_CURR, "read_current_details"},
       {READ_PREV, "read_previuos_details"},
       {READ_BY_ID, "read_detail_by_name"},
+      {READ_LOG, "read_log"},
   };
 };
 
