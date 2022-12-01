@@ -1,4 +1,5 @@
 #include "http_client_server_session.h"
+
 #include "beast_req.h"
 #include "beast_resp.h"
 #include "http_read_awaiter.h"
@@ -17,8 +18,12 @@ std::future<void> HttpClientServerSession::run(
     tcp::socket server_sock,
     const std::vector<std::shared_ptr<tcp::socket>>& clients_sock) {
   while (true) {
-    http::request<http::string_body> req =
+    std::pair<http::request<http::string_body>, size_t> read_res =
         co_await HttpAsyncReadRequest(server_sock);
+    if (read_res.second == 0) {
+      break;
+    }
+    http::request<http::string_body> req = read_res.first;
     std::cout << "read from socket" << std::endl;
 
     auto handler_ = handler_creator_->create_handler();
@@ -30,7 +35,13 @@ std::future<void> HttpClientServerSession::run(
       std::shared_ptr<Request> server_req(new BeastReq());
       size_t next_client;
 
-      handler_->get_next_request(server_req, next_client);
+      state = handler_->get_next_request(server_req, next_client);
+      if (state == RES_REPEAT) {
+        state = RES_CONTINUE;
+        continue;
+      } else if (state == RES_END) {
+        break;
+      }
 
       auto beast_req = make_beast_req(server_req);
       std::cout << "next client: " << next_client << std::endl;
@@ -56,6 +67,7 @@ std::future<void> HttpClientServerSession::run(
     size_t bytes_read = co_await HttpAsyncWriteResponse(server_sock, res);
     std::cout << "write to socket" << std::endl;
   }
+  server_sock.close();
   for (auto sock : clients_sock) {
     sock->close();
   }

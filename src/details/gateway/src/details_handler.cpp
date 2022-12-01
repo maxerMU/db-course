@@ -1,5 +1,7 @@
 #include "details_handler.h"
+
 #include <iostream>
+
 #include "base_exception.h"
 #include "database_exceptions.h"
 #include "details_clients.h"
@@ -66,13 +68,15 @@ state_t DetailsAuthHandler::handle_request(
   return RES_CONTINUE;
 }
 
-void DetailsAuthHandler::get_next_request(std::shared_ptr<Request>& req,
-                                          size_t& client_index) {
+state_t DetailsAuthHandler::get_next_request(std::shared_ptr<Request>& req,
+                                             size_t& client_index) {
   req->copy(cur_request_);
   req->set_target(AuthTarget);
   req->set_method(AuthMethod);
   req->set_body(make_privilege_json(command_->get_min_privilege_level()));
   client_index = client_indexes[AuthServerName];
+
+  return RES_CONTINUE;
 }
 
 state_t DetailsAuthHandler::handle_response(

@@ -2,6 +2,7 @@
 #define CONVERTERS_H
 
 #include "detail.h"
+#include "stock_detail.h"
 #include "stock_log.h"
 
 class DetailsArrayConverter {
@@ -47,6 +48,11 @@ class DetailsQuantitiesArrayConverter {
 class StockLogsConverter {
  public:
   std::string to_json(const stock_logs_t& stock_logs);
+};
+
+class StockDetailsConverter {
+ public:
+  std::string to_json(const StockDetails& stock_details);
 };
 
 #endif  // CONVERTERS_H

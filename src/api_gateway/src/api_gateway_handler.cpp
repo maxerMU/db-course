@@ -1,4 +1,5 @@
 #include "api_gateway_handler.h"
+
 #include <iostream>
 
 ApiGatewayHandler::ApiGatewayHandler(const std::shared_ptr<BaseConfig>& config)
@@ -19,10 +20,20 @@ state_t ApiGatewayHandler::handle_request(const std::shared_ptr<Request>& req) {
   return RES_CONTINUE;
 }
 
-void ApiGatewayHandler::get_next_request(std::shared_ptr<Request>& req,
-                                         size_t& client_index) {
-  cur_adapters_[cur_adapter_index_]->init(cur_request_, client_indexes);
-  cur_adapters_[cur_adapter_index_]->make_request(req, client_index);
+state_t ApiGatewayHandler::get_next_request(std::shared_ptr<Request>& req,
+                                            size_t& client_index) {
+  cur_adapters_[cur_adapter_index_]->init(cur_request_, client_indexes,
+                                          cur_response_);
+  auto state =
+      cur_adapters_[cur_adapter_index_]->make_request(req, client_index);
+
+  if (state == RES_END) {
+    if (++cur_adapter_index_ < cur_adapters_.size()) {
+      state = RES_REPEAT;
+    }
+  }
+
+  return state;
 }
 
 state_t ApiGatewayHandler::handle_response(
@@ -34,8 +45,13 @@ state_t ApiGatewayHandler::handle_response(
   auto state =
       cur_adapters_[cur_adapter_index_]->handle_response(cur_response_, resp);
 
-  if (++cur_adapter_index_ >= cur_adapters_.size())
-    return RES_END;
+  if (state == RES_CONTINUE) {
+    cur_adapter_index_++;
+  } else if (state == RES_REPEAT) {
+    state = RES_CONTINUE;
+  }
+
+  if (cur_adapter_index_ >= cur_adapters_.size()) return RES_END;
 
   return state;
 }

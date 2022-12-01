@@ -11,68 +11,72 @@
 <app-stock-detail [detail]="selectedDetail"></app-stock-detail>
 
 -->
-<div class="head_bar">
-  <app-header-bar></app-header-bar>
-</div>
+<!--
 <div class="columns">
     <div class="column is-1">
         <app-left-bar [label]="label"></app-left-bar>
     </div>
     <div class="column">
-        <section class="hero is-primary">
-          <div class="hero-body">
-            <p class="title">
-              Stock
-            </p>
-            <p class="subtitle">
-              Details in Stock
-            </p>
-          </div>
-        </section>
-        <div class="block table_field">
-            <table class="table is-fullwidth">
-              <thead>
-                <tr>
-                  <th><abbr title="Detail Id">Detail id</abbr></th>
-                  <th><abbr title="Detail name">Detail name</abbr></th>
-                  <th><abbr title="Producer name">Producer name</abbr></th>
-                  <th><abbr title="Producer country">Producer country</abbr></th>
-                  <th><abbr title="Amount">Amount</abbr></th>
-                  <th><abbr title="Action">Action</abbr></th>
-                </tr>
-              </thead>
-              <tbody *ngFor="let detail of details">
-                <tr>
-                  <td>{{detail.part_number}}</td>
-                  <td>{{detail.part_name}}</td>
-                  <td>{{detail.producer_name}}</td>
-                  <td>{{detail.producer_country}}</td>
-                  <td>{{detail.amount}}</td>
-                  <td>
-                        <div class="field is-grouped">
-                            <p class="control">
-                                <button class="button is-success" (click)="put(detail.part_number)">Put</button>
-                            </p>
-                            <p class="control">
-                                <button class="button is-danger" (click)="take(detail.part_number)">Take</button>
-                            </p>
 
-                        </div>
-                  </td>
-                </tr>
-        
-              </tbody>
-            </table>
-        </div>
-        <div class="columns">
-          <div class="column is-flex is-justify-content-end">
-            <p class="control p-5">
-                <button class="button is-primary is-medium" (click)="newOrder()">New order</button>
-            </p>
+-->
+<section class="hero is-primary">
+  <div class="hero-body">
+    <p class="title">
+      Stock
+    </p>
+    <p class="subtitle">
+      Details in Stock
+    </p>
+  </div>
+</section>
+<div class="block table_field">
+    <table class="table is-fullwidth">
+      <thead>
+        <tr>
+          <th><abbr title="Detail Id">Detail id</abbr></th>
+          <th><abbr title="Detail name">Detail name</abbr></th>
+          <th><abbr title="Producer name">Producer name</abbr></th>
+          <th><abbr title="Producer country">Producer country</abbr></th>
+          <th><abbr title="Amount">Amount</abbr></th>
+          <th><abbr title="Action">Action</abbr></th>
+        </tr>
+      </thead>
+      <tbody *ngFor="let detail of details">
+        <tr>
+          <td>{{detail.part_number}}</td>
+          <td>{{detail.part_name}}</td>
+          <td>{{detail.producer_name}}</td>
+          <td>{{detail.producer_country}}</td>
+          <td>{{detail.amount}}</td>
+          <td>
+                <div class="field is-grouped">
+                    <p class="control">
+                        <button class="button is-success" (click)="put(detail.part_number)">Put</button>
+                    </p>
+                    <p class="control">
+                        <button class="button is-danger" (click)="take(detail.part_number)">Take</button>
+                    </p>
 
-          </div>
+                </div>
+          </td>
+        </tr>
 
-        </div>
+      </tbody>
 
+    </table>
+</div>
+<div class="columns">
+  <div class="column is-flex is-justify-content-end new_order_button">
+    <p class="control">
+        <button class="button is-success is-medium" (click)="newOrder()">New order</button>
+    </p>
+
+  </div>
+
+</div>
+
+<!--
     </div>
 </div>
+
+-->

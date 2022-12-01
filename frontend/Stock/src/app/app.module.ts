@@ -15,6 +15,8 @@ import { OrdersComponent } from './orders/orders.component';
 import { OrderFormComponent } from './order-form/order-form.component';
 import { WorkersComponent } from './workers/workers.component';
 import { SignupComponent } from './signup/signup.component';
+import { BaseLayoutComponent } from './base-layout/base-layout.component';
+import { SiteLayoutComponent } from './site-layout/site-layout.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,9 @@ import { SignupComponent } from './signup/signup.component';
     OrdersComponent,
     OrderFormComponent,
     WorkersComponent,
-    SignupComponent
+    SignupComponent,
+    BaseLayoutComponent,
+    SiteLayoutComponent
   ],
   imports: [
     BrowserModule,

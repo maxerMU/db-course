@@ -16,11 +16,13 @@ void DummyServerHandler::handle_request(const std::shared_ptr<Request>& req) {
   if (req->get_target() == "/test1") {
     res = req_body + append_string;
   } else if (req->get_target() == "/test2") {
-    res = req_body + append_string;
-    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    for (size_t i = 0; i < 200000; i++) {
+      res += append_string;
+    }
   }
 }
 
 void DummyServerHandler::make_response(const std::shared_ptr<Response>& resp) {
   resp->set_body(res);
+  resp->set_status(RESP_OK);
 }

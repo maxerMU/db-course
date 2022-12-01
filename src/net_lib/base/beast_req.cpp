@@ -32,22 +32,19 @@ BeastReq::BeastReq(const http::request<http::string_body>& req)
     : req_(req), is_from_req(true) {}
 
 std::string BeastReq::get_body() {
-  if (is_from_req)
-    return req_.body();
+  if (is_from_req) return req_.body();
 
   return body_;
 }
 
 std::string BeastReq::get_target() {
-  if (!is_from_req)
-    return target_;
+  if (!is_from_req) return target_;
   std::string res(req_.target());
   return res;
 }
 
 headers_t BeastReq::get_headers() {
-  if (!is_from_req)
-    return headers_;
+  if (!is_from_req) return headers_;
 
   headers_t res;
 
@@ -59,36 +56,24 @@ headers_t BeastReq::get_headers() {
 }
 
 method_t BeastReq::get_method() {
-  if (!is_from_req)
-    return method_;
+  if (!is_from_req) return method_;
 
   std::string method(req_.method_string());
 
-  if (methods_from.contains(method))
-    return methods_from[method];
+  if (methods_from.contains(method)) return methods_from[method];
 
   return UNDEFINED;
 }
 
-void BeastReq::set_body(const std::string& body) {
-  body_ = body;
-}
+void BeastReq::set_body(const std::string& body) { body_ = body; }
 
-void BeastReq::set_headers(const headers_t& headers) {
-  headers_ = headers;
-}
+void BeastReq::set_headers(const headers_t& headers) { headers_ = headers; }
 
-void BeastReq::set_method(const method_t& method) {
-  method_ = method;
-}
+void BeastReq::set_method(const method_t& method) { method_ = method; }
 
-void BeastReq::set_target(const std::string& target) {
-  target_ = target;
-}
+void BeastReq::set_target(const std::string& target) { target_ = target; }
 
-ExtraData BeastReq::get_extra_data() {
-  return extra_data_;
-}
+ExtraData BeastReq::get_extra_data() { return extra_data_; }
 
 void BeastReq::set_extra_data(const ExtraData& extra_data) {
   extra_data_ = extra_data;

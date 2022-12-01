@@ -1,11 +1,11 @@
-<div class="head_bar">
-  <app-header-bar></app-header-bar>
-</div>
+<!--
 <div class="columns">
     <div class="column is-1">
         <app-left-bar [label]="label"></app-left-bar>
     </div>
     <div class="column">
+
+-->
         <section class="hero is-primary">
           <div class="hero-body">
             <p class="title">
@@ -22,7 +22,7 @@
                     <div class="column">
                         <div class="field">
                             <label class="label">Enter start date</label>
-                            <input class="input" type="date" [(ngModel)]="start_date" [ngModelOptions]="{standalone: true}" placeholder="Enter start date">
+                            <input class="input" type="date" [(ngModel)]="start_date" [ngModelOptions]="{standalone: true}" placeholder="11/11/2022">
                         </div>
                     </div>
                     <div class="column">
@@ -52,7 +52,7 @@
 
             </form>
         </div>
-        <div *ngIf="orders.length != 0" class="block">
+        <div *ngIf="orders.length != 0" class="block table_field">
             <table class="table is-fullwidth">
               <thead>
                 <tr>
@@ -64,15 +64,18 @@
               </thead>
               <tbody *ngFor="let order of orders">
                 <tr>
-                  <td>{{order.detail}}</td>
+                  <td>{{order.detail_id}}</td>
                   <td>{{order.worker}}</td>
                   <td>{{order.change}}</td>
-                  <td>{{order.date}}</td>
+                  <td>{{order.time_change}}</td>
                 </tr>
               </tbody>
         
             </table>
         </div>
 
+<!--
     </div>
 </div>
+
+-->

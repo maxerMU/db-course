@@ -1,0 +1,11 @@
+FROM maxermu/stock_build_env
+
+WORKDIR /
+RUN mkdir app
+COPY ./ /app
+WORKDIR /app
+RUN mkdir /app/build
+WORKDIR /app/build
+RUN cmake ../
+RUN make -j4
+WORKDIR /app

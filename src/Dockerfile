@@ -10,6 +10,14 @@ RUN apt install -y libssl-dev
 RUN apt install -y python3-pytest
 RUN apt install -y python3-requests
 
+RUN git clone https://github.com/oatpp/oatpp
+WORKDIR /oatpp
+RUN git checkout 4cd37af26ffa55231f11649106a1bb33a3244cd1
+RUN mkdir build
+WORKDIR /oatpp/build
+RUN cmake -DOATPP_DISABLE_ENV_OBJECT_COUNTERS=ON -DCMAKE_BUILD_TYPE=Release -DOATPP_BUILD_TESTS=OFF ..
+RUN make install
+
 RUN apt install -y libgtest-dev
 RUN apt install -y libgmock-dev
 WORKDIR "/usr/src/googletest/googletest"

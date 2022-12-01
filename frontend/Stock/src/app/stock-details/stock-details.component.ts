@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DetailWithQuantity, StockDetailService } from '../stock-detail.service';
+import { StockDetailService } from '../stock-detail.service';
 import { DetailInStock } from '../stock-detail';
 import { StockDetail } from '../stock-detail';
 import { Label } from '../left-bar/left-bar.component';

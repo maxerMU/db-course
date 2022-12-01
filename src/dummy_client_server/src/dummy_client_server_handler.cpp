@@ -4,8 +4,8 @@ DummyClientServerHandler::DummyClientServerHandler(
     const std::shared_ptr<BaseConfig> &config)
     : config_(config) {}
 
-state_t
-DummyClientServerHandler::handle_request(const std::shared_ptr<Request> &req) {
+state_t DummyClientServerHandler::handle_request(
+    const std::shared_ptr<Request> &req) {
   cur_body = req->get_body();
 
   state_ = REQ_HANDLED;
@@ -13,8 +13,8 @@ DummyClientServerHandler::handle_request(const std::shared_ptr<Request> &req) {
   return RES_CONTINUE;
 }
 
-void DummyClientServerHandler::get_next_request(std::shared_ptr<Request> &req,
-                                                size_t &client_index) {
+state_t DummyClientServerHandler::get_next_request(
+    std::shared_ptr<Request> &req, size_t &client_index) {
   req->set_body(cur_body);
   req->set_method(GET);
   req->set_target("/test");
@@ -26,6 +26,8 @@ void DummyClientServerHandler::get_next_request(std::shared_ptr<Request> &req,
   } else {
     throw std::exception();
   }
+
+  return RES_CONTINUE;
 }
 
 state_t DummyClientServerHandler::handle_response(
@@ -45,7 +47,6 @@ state_t DummyClientServerHandler::handle_response(
 
 void DummyClientServerHandler::make_response(
     const std::shared_ptr<Response> &resp) {
-
   resp->set_body(cur_body);
   resp->set_status(200);
 }

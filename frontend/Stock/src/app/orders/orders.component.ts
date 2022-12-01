@@ -12,7 +12,7 @@ import { Label } from '../left-bar/left-bar.component';
 export class OrdersComponent implements OnInit {
   label: Label = Label.ORDERS
   orders: Order[] = [];
-  start_date: string = '';
+  start_date: string = '2022-11-11';
   end_date: string = '';
 
   constructor(private stockService: StockDetailService,
@@ -20,6 +20,8 @@ export class OrdersComponent implements OnInit {
               }
 
   ngOnInit(): void {
+    this.start_date = new Date().toISOString().split('T')[0];
+    this.end_date = new Date().toISOString().split('T')[0];
   }
 
   findOrders() {

@@ -3,9 +3,11 @@
 
 #include <functional>
 #include <regex>
+
 #include "details_facade.h"
 #include "privilege_level.h"
 #include "reqresp.h"
+#include "stock_detail.h"
 
 class BaseCommand {
  public:
@@ -266,13 +268,12 @@ class DetailsInStockCommand : public BaseCommand {
   virtual PrivilegeLevel get_min_privilege_level() override;
 
  private:
-  details_quantities_t details_quantities_;
+  StockDetails details;
 };
 
 class StockLogsCommand : public BaseCommand {
  public:
-  StockLogsCommand(const std::regex& expr,
-                   size_t time_start_group_index,
+  StockLogsCommand(const std::regex& expr, size_t time_start_group_index,
                    size_t time_end_group_index)
       : regexpr_(expr),
         time_start_group_index_(time_start_group_index),

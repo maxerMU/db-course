@@ -1,6 +1,10 @@
 export interface Order {
-    detail: string;
+    detail_id: string;
     worker: string;
     change: number;
-    date: string;
+    time_change: string;
+}
+
+export interface Orders {
+    logs: Order[]
 }

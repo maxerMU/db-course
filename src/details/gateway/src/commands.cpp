@@ -1,8 +1,11 @@
 #include "commands.h"
+
 #include <jsoncpp/json/reader.h>
 #include <jsoncpp/json/value.h>
 #include <jsoncpp/json/writer.h>
+
 #include <iostream>
+
 #include "converters.h"
 #include "detail_dto.h"
 #include "detail_to_stock_dto.h"
@@ -65,13 +68,12 @@ PrivilegeLevel DetailsForAllTimeCommand::get_min_privilege_level() {
 
 void DetailsInStockCommand::handle_request(
     const std::shared_ptr<Request>& req) {
-  details_quantities_ = DetailsFacade::instanse().get_details_in_stock();
+  details = DetailsFacade::instanse().get_details_in_stock();
 }
 
 void DetailsInStockCommand::get_response(
     const std::shared_ptr<Response>& resp) {
-  resp->set_body(
-      DetailsQuantitiesArrayConverter().to_json(details_quantities_));
+  resp->set_body(StockDetailsConverter().to_json(details));
   resp->set_status(RESP_OK);
 }
 
@@ -291,29 +293,19 @@ PrivilegeLevel DetailQuantityCommand::get_min_privilege_level() {
   return STOREKEEPER;
 }
 
-PrivilegeLevel GetDetailsCommand::get_min_privilege_level() {
-  return GUEST;
-}
+PrivilegeLevel GetDetailsCommand::get_min_privilege_level() { return GUEST; }
 
 PrivilegeLevel GetDetailByNameCommand::get_min_privilege_level() {
   return GUEST;
 }
 
-PrivilegeLevel AddDetailCommand::get_min_privilege_level() {
-  return SELLER;
-}
+PrivilegeLevel AddDetailCommand::get_min_privilege_level() { return SELLER; }
 
-PrivilegeLevel UpdateDetailCommand::get_min_privilege_level() {
-  return SELLER;
-}
+PrivilegeLevel UpdateDetailCommand::get_min_privilege_level() { return SELLER; }
 
-PrivilegeLevel DeleteDetailCommand::get_min_privilege_level() {
-  return SELLER;
-}
+PrivilegeLevel DeleteDetailCommand::get_min_privilege_level() { return SELLER; }
 
-PrivilegeLevel GetProducersCommand::get_min_privilege_level() {
-  return GUEST;
-}
+PrivilegeLevel GetProducersCommand::get_min_privilege_level() { return GUEST; }
 
 PrivilegeLevel GetProducerByIdCommand::get_min_privilege_level() {
   return GUEST;
@@ -327,9 +319,7 @@ PrivilegeLevel UpdateProducerCommand::get_min_privilege_level() {
   return SELLER;
 }
 
-PrivilegeLevel AddProducerCommand::get_min_privilege_level() {
-  return SELLER;
-}
+PrivilegeLevel AddProducerCommand::get_min_privilege_level() { return SELLER; }
 
 PrivilegeLevel AddDetailSwapCommand::get_min_privilege_level() {
   return SELLER;
@@ -365,6 +355,4 @@ void StockLogsCommand::get_response(const std::shared_ptr<Response>& resp) {
   resp->set_status(RESP_OK);
 }
 
-PrivilegeLevel StockLogsCommand::get_min_privilege_level() {
-  return ADMIN;
-}
+PrivilegeLevel StockLogsCommand::get_min_privilege_level() { return ADMIN; }

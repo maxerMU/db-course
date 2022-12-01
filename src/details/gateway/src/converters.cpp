@@ -1,4 +1,5 @@
 #include "converters.h"
+
 #include <jsoncpp/json/reader.h>
 #include <jsoncpp/json/value.h>
 #include <jsoncpp/json/writer.h>
@@ -135,6 +136,27 @@ std::string StockLogsConverter::to_json(const stock_logs_t& stock_logs) {
 
   Json::Value root;
   root["logs"] = arr;
+
+  Json::FastWriter writer;
+
+  return writer.write(root);
+}
+
+std::string StockDetailsConverter::to_json(const StockDetails& stock_details) {
+  Json::Value arr = Json::arrayValue;
+
+  for (auto detail : stock_details) {
+    Json::Value root;
+    root["part_number"] = detail.get_part_number();
+    root["part_name"] = detail.get_part_name();
+    root["producer_name"] = detail.get_producer_name();
+    root["producer_country"] = detail.get_producer_country();
+    root["amount"] = (unsigned long long)detail.get_amount();
+    arr.append(root);
+  }
+
+  Json::Value root;
+  root["details"] = arr;
 
   Json::FastWriter writer;
 

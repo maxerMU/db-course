@@ -7,16 +7,16 @@
 #include "yamlcpp_config.h"
 
 class ApiGatewayHandler : public ClientServerReqHandler {
-public:
+ public:
   ApiGatewayHandler(const std::shared_ptr<BaseConfig> &config);
   virtual state_t handle_request(const std::shared_ptr<Request> &req) override;
-  virtual void get_next_request(std::shared_ptr<Request> &req,
-                                size_t &client_index) override;
-  virtual state_t
-  handle_response(const std::shared_ptr<Response> &resp) override;
+  virtual state_t get_next_request(std::shared_ptr<Request> &req,
+                                   size_t &client_index) override;
+  virtual state_t handle_response(
+      const std::shared_ptr<Response> &resp) override;
   virtual void make_response(const std::shared_ptr<Response> &resp) override;
 
-private:
+ private:
   int cur_status = RESP_OK;
   std::shared_ptr<Response> cur_response_;
   std::shared_ptr<Request> cur_request_;
@@ -25,4 +25,4 @@ private:
   size_t cur_adapter_index_;
 };
 
-#endif // APIGATEWAYHANDLER_H
+#endif  // APIGATEWAYHANDLER_H

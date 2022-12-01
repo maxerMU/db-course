@@ -1,7 +1,9 @@
 #include "client_server_connection.h"
+
 #include <boost/thread.hpp>
 #include <chrono>
 #include <iostream>
+
 #include "base_sections.h"
 
 ClientServerConnection::ClientServerConnection(
@@ -84,15 +86,15 @@ void ClientServerConnection::clear_expired_connections() {
 }
 
 void ClientServerConnection::run() {
-  // accept_new();
-  // context_.run();
-  boost::thread_group tg;
   accept_new();
-  for (size_t i = 0; i < 12; i++) {
-    tg.create_thread([&]() { context_.run(); });
-  }
-  // context_.run();
-  tg.join_all();
+  context_.run();
+  // boost::thread_group tg;
+  // accept_new();
+  // for (size_t i = 0; i < 12; i++) {
+  //   tg.create_thread([&]() { context_.run(); });
+  // }
+  // // context_.run();
+  // tg.join_all();
 }
 
 void ClientServerConnection::accept_new() {

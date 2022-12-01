@@ -27,8 +27,8 @@ class DetailsAuthHandler : public ClientServerReqHandler {
  public:
   DetailsAuthHandler(const std::shared_ptr<BaseConfig>& config);
   virtual state_t handle_request(const std::shared_ptr<Request>& req) override;
-  virtual void get_next_request(std::shared_ptr<Request>& req,
-                                size_t& client_index) override;
+  virtual state_t get_next_request(std::shared_ptr<Request>& req,
+                                   size_t& client_index) override;
   virtual state_t handle_response(
       const std::shared_ptr<Response>& resp) override;
   virtual void make_response(const std::shared_ptr<Response>& resp) override;

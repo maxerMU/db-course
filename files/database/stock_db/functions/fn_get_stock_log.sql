@@ -10,7 +10,7 @@ BEGIN
     RETURN QUERY
         SELECT sl.fk_worker as fk_worker, sl.fk_detail as fk_detail, sl.change as change, sl.change_time as change_time
         FROM t_stock_log sl
-        WHERE sl.change_time >= time_start and sl.change_time <= time_end;
+        WHERE cast(sl.change_time as DATE) >= time_start and cast(sl.change_time as DATE) <= time_end;
 END
 $$ LANGUAGE PLPGSQL;
 

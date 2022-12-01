@@ -6,15 +6,13 @@ BeastResp::BeastResp(const http::response<http::string_body>& resp)
 }
 
 std::string BeastResp::get_body() const {
-  if (is_from_resp)
-    return resp_.body();
+  if (is_from_resp) return resp_.body();
 
   return body_;
 }
 
 headers_t BeastResp::get_headers() const {
-  if (!is_from_resp)
-    return headers_;
+  if (!is_from_resp) return headers_;
 
   headers_t res;
 
@@ -26,23 +24,30 @@ headers_t BeastResp::get_headers() const {
 }
 
 int BeastResp::get_status() const {
-  if (!is_from_resp)
-    return status_;
+  if (!is_from_resp) return status_;
 
   return resp_.result_int();
 }
 
 void BeastResp::set_body(const std::string& body) {
-  body_ = body;
+  if (!is_from_resp) {
+    body_ = body;
+  } else {
+    resp_.body() = body;
+  }
 }
 
 void BeastResp::set_headers(const headers_t& headers) {
-  headers_ = headers;
+  if (!is_from_resp) {
+    headers_ = headers;
+  } else {
+    for (auto header : headers) {
+      resp_.set(header.first, header.second);
+    }
+  }
 }
 
-void BeastResp::set_status(int status) {
-  status_ = status;
-}
+void BeastResp::set_status(int status) { status_ = status; }
 
 http::response<http::string_body> make_beast_resp(
     const std::shared_ptr<Response>& resp) {
